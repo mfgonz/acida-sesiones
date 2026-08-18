@@ -3,6 +3,7 @@ import { addDays, endOfMonth, startOfMonth } from "date-fns";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { getBusyIntervals } from "@/lib/google";
 import { computeAvailableSlots } from "@/lib/availability";
+import { clientIp, isRateLimited } from "@/lib/rate-limit";
 import type { AvailabilityRule, DateOverride } from "@/lib/types";
 
 export async function GET(request: NextRequest) {
@@ -13,6 +14,10 @@ export async function GET(request: NextRequest) {
 
   if (!username || !slug || !month) {
     return NextResponse.json({ error: "Missing username, slug, or month" }, { status: 400 });
+  }
+
+  if (await isRateLimited("availability:ip", clientIp(request), 60, 10)) {
+    return NextResponse.json({ error: "Too many requests" }, { status: 429 });
   }
 
   const admin = supabaseAdmin();

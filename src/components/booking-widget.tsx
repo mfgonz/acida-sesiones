@@ -23,6 +23,7 @@ export function BookingWidget({ username, slug, durationMinutes }: Props) {
   const [submitting, setSubmitting] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [confirmation, setConfirmation] = useState<{ meetLink: string | null; cancelToken: string } | null>(null);
+  const [formShownAt, setFormShownAt] = useState<number | null>(null);
 
   useEffect(() => {
     setLoading(true);
@@ -48,7 +49,8 @@ export function BookingWidget({ username, slug, durationMinutes }: Props) {
     const year = month.getFullYear();
     const m = month.getMonth();
     const numDays = new Date(year, m + 1, 0).getDate();
-    const firstDayOffset = new Date(year, m, 1).getDay();
+    // getDay() is 0=Sunday..6=Saturday; shift so the grid starts on Monday.
+    const firstDayOffset = (new Date(year, m, 1).getDay() + 6) % 7;
     const days: (string | null)[] = Array(firstDayOffset).fill(null);
     for (let d = 1; d <= numDays; d++) {
       days.push(format(new Date(year, m, d), "yyyy-MM-dd"));
@@ -74,6 +76,8 @@ export function BookingWidget({ username, slug, durationMinutes }: Props) {
         inviteeEmail: formData.get("email"),
         inviteeNotes: formData.get("notes") ?? "",
         inviteeTimezone: timezone,
+        website: formData.get("website") ?? "",
+        formShownAt,
       }),
     });
 
@@ -144,6 +148,11 @@ export function BookingWidget({ username, slug, durationMinutes }: Props) {
           }).format(new Date(selectedSlot))}
         </p>
         <form onSubmit={handleSubmit} className="space-y-4">
+          {/* Honeypot: hidden from real users, often auto-filled by bots. */}
+          <div className="absolute left-[-9999px] top-auto h-px w-px overflow-hidden" aria-hidden="true">
+            <label htmlFor="website">Leave this field empty</label>
+            <input id="website" name="website" type="text" tabIndex={-1} autoComplete="off" />
+          </div>
           <div>
             <label className="mb-1 block text-sm text-neutral-300">Name</label>
             <input
@@ -206,7 +215,7 @@ export function BookingWidget({ username, slug, durationMinutes }: Props) {
           </div>
         </div>
         <div className="grid grid-cols-7 gap-1 text-center text-xs text-neutral-500">
-          {["S", "M", "T", "W", "T", "F", "S"].map((d, i) => (
+          {["M", "T", "W", "T", "F", "S", "S"].map((d, i) => (
             <div key={i}>{d}</div>
           ))}
         </div>
@@ -251,6 +260,7 @@ export function BookingWidget({ username, slug, durationMinutes }: Props) {
               key={iso}
               onClick={() => {
                 setSelectedSlot(iso);
+                setFormShownAt(Date.now());
                 setStep("form");
               }}
               className="block w-full rounded-lg border border-base-600 py-2 text-sm text-white hover:border-accent hover:bg-accent/10"

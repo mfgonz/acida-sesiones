@@ -4,6 +4,7 @@ import { addMinutes } from "date-fns";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { getBusyIntervals, createCalendarEvent } from "@/lib/google";
 import { computeAvailableSlots } from "@/lib/availability";
+import { clientIp, isRateLimited } from "@/lib/rate-limit";
 import type { AvailabilityRule, DateOverride } from "@/lib/types";
 
 const bookingSchema = z.object({
@@ -14,6 +15,10 @@ const bookingSchema = z.object({
   inviteeEmail: z.string().email(),
   inviteeNotes: z.string().max(2000).optional().default(""),
   inviteeTimezone: z.string().min(1),
+  // Honeypot: real users never see or fill this field.
+  website: z.string().max(0).optional().default(""),
+  // Timestamp (ms) the booking form was shown; bots that submit instantly get rejected.
+  formShownAt: z.number().optional(),
 });
 
 export async function POST(request: NextRequest) {
@@ -22,7 +27,22 @@ export async function POST(request: NextRequest) {
   if (!parsed.success) {
     return NextResponse.json({ error: "Invalid request", details: parsed.error.flatten() }, { status: 400 });
   }
-  const { username, slug, startTime, inviteeName, inviteeEmail, inviteeNotes, inviteeTimezone } = parsed.data;
+  const { username, slug, startTime, inviteeName, inviteeEmail, inviteeNotes, inviteeTimezone, formShownAt } =
+    parsed.data;
+
+  // Silently accept-looking-but-drop honeypot/instant-submit hits instead of
+  // telling the bot what tripped it.
+  if (formShownAt && Date.now() - formShownAt < 1500) {
+    return NextResponse.json({ error: "Please try again" }, { status: 400 });
+  }
+
+  const ip = clientIp(request);
+  if (
+    (await isRateLimited("booking:ip", ip, 8, 10)) ||
+    (await isRateLimited("booking:email", inviteeEmail.toLowerCase(), 5, 60))
+  ) {
+    return NextResponse.json({ error: "Too many booking attempts. Please try again later." }, { status: 429 });
+  }
 
   const admin = supabaseAdmin();
 

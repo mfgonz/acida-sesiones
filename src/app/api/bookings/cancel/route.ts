@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { deleteCalendarEvent } from "@/lib/google";
+import { clientIp, isRateLimited } from "@/lib/rate-limit";
 
 const schema = z.object({ token: z.string().uuid() });
 
@@ -9,6 +10,10 @@ export async function POST(request: NextRequest) {
   const body = await request.json().catch(() => null);
   const parsed = schema.safeParse(body);
   if (!parsed.success) return NextResponse.json({ error: "Invalid request" }, { status: 400 });
+
+  if (await isRateLimited("cancel:ip", clientIp(request), 15, 10)) {
+    return NextResponse.json({ error: "Too many attempts. Please try again later." }, { status: 429 });
+  }
 
   const admin = supabaseAdmin();
   const { data: booking } = await admin

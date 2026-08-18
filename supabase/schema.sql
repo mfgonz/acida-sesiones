@@ -88,12 +88,24 @@ create index if not exists bookings_user_start_idx on bookings (user_id, start_t
 create index if not exists event_types_user_idx on event_types (user_id);
 create index if not exists availability_rules_schedule_idx on availability_rules (schedule_id);
 
+-- Fixed-window rate limiting for public endpoints (see src/lib/rate-limit.ts).
+-- Rows self-prune (see isRateLimited); short-lived by design.
+create table if not exists rate_limit_hits (
+  id bigint generated always as identity primary key,
+  bucket text not null,
+  key text not null,
+  created_at timestamptz not null default now()
+);
+
+create index if not exists rate_limit_hits_lookup_idx on rate_limit_hits (bucket, key, created_at);
+
 alter table profiles enable row level security;
 alter table availability_schedules enable row level security;
 alter table availability_rules enable row level security;
 alter table date_overrides enable row level security;
 alter table event_types enable row level security;
 alter table bookings enable row level security;
+alter table rate_limit_hits enable row level security;
 
 -- No policies are created intentionally: all application access goes through
 -- server-side route handlers using the service_role key, which bypasses RLS.
