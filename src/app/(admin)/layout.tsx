@@ -4,6 +4,8 @@ import { getOrCreateProfile } from "@/lib/profile";
 import { Sidebar } from "@/components/sidebar";
 import { Topbar } from "@/components/topbar";
 
+export const dynamic = "force-dynamic";
+
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const user = await getAuthUser();
   if (!user) redirect("/login");

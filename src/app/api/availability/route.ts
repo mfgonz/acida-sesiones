@@ -6,6 +6,8 @@ import { computeAvailableSlots } from "@/lib/availability";
 import { clientIp, isRateLimited } from "@/lib/rate-limit";
 import type { AvailabilityRule, DateOverride } from "@/lib/types";
 
+export const dynamic = "force-dynamic";
+
 export async function GET(request: NextRequest) {
   const { searchParams } = request.nextUrl;
   const username = searchParams.get("username");

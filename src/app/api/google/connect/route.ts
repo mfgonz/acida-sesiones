@@ -3,6 +3,8 @@ import { randomBytes } from "crypto";
 import { getAuthUser } from "@/lib/supabase/server-auth";
 import { getGoogleAuthUrl } from "@/lib/google";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   const user = await getAuthUser();
   if (!user) return NextResponse.redirect(new URL("/login", process.env.NEXT_PUBLIC_APP_URL));

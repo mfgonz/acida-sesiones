@@ -3,6 +3,8 @@ import { getAuthUser } from "@/lib/supabase/server-auth";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { getOAuthClient, getGoogleEmail } from "@/lib/google";
 
+export const dynamic = "force-dynamic";
+
 export async function GET(request: NextRequest) {
   const appUrl = process.env.NEXT_PUBLIC_APP_URL!;
   const user = await getAuthUser();

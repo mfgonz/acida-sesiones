@@ -4,6 +4,8 @@ import { supabaseAdmin } from "@/lib/supabase/admin";
 import { BookingRow } from "./booking-row";
 import type { Booking, EventType } from "@/lib/types";
 
+export const dynamic = "force-dynamic";
+
 export default async function CalendarPage() {
   const user = await getAuthUser();
   const profile = await getOrCreateProfile(user!);

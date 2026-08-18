@@ -4,6 +4,8 @@ import { supabaseAdmin } from "@/lib/supabase/admin";
 import { deleteCalendarEvent } from "@/lib/google";
 import { clientIp, isRateLimited } from "@/lib/rate-limit";
 
+export const dynamic = "force-dynamic";
+
 const schema = z.object({ token: z.string().uuid() });
 
 export async function POST(request: NextRequest) {

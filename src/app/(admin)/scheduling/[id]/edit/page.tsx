@@ -5,6 +5,8 @@ import { updateEventType } from "../../actions";
 import { EventTypeForm } from "../../event-type-form";
 import type { EventType } from "@/lib/types";
 
+export const dynamic = "force-dynamic";
+
 export default async function EditEventTypePage({ params }: { params: { id: string } }) {
   const user = await getAuthUser();
   const admin = supabaseAdmin();

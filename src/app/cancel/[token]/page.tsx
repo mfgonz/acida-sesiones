@@ -3,6 +3,8 @@ import { supabaseAdmin } from "@/lib/supabase/admin";
 import { PublicFooter } from "@/components/public-footer";
 import { CancelButton } from "./cancel-button";
 
+export const dynamic = "force-dynamic";
+
 export default async function CancelPage({ params }: { params: { token: string } }) {
   const admin = supabaseAdmin();
   const { data: booking } = await admin

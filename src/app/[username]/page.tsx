@@ -4,6 +4,8 @@ import { supabaseAdmin } from "@/lib/supabase/admin";
 import { PublicFooter } from "@/components/public-footer";
 import { LOCATION_LABELS, type EventType } from "@/lib/types";
 
+export const dynamic = "force-dynamic";
+
 export default async function PublicLandingPage({ params }: { params: { username: string } }) {
   const admin = supabaseAdmin();
 

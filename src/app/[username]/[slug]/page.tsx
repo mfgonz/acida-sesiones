@@ -6,6 +6,8 @@ import { BookingWidget } from "@/components/booking-widget";
 import { PublicFooter } from "@/components/public-footer";
 import { LOCATION_LABELS, type EventType } from "@/lib/types";
 
+export const dynamic = "force-dynamic";
+
 export default async function BookingPage({ params }: { params: { username: string; slug: string } }) {
   const admin = supabaseAdmin();
 

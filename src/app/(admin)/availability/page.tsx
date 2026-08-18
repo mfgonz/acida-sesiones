@@ -6,6 +6,8 @@ import { saveWeeklyHours, disconnectGoogle } from "./actions";
 import { WeeklyHoursEditor } from "./weekly-hours-editor";
 import type { AvailabilityRule } from "@/lib/types";
 
+export const dynamic = "force-dynamic";
+
 export default async function AvailabilityPage() {
   const user = await getAuthUser();
   const profile = await getOrCreateProfile(user!);

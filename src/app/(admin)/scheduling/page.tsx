@@ -6,6 +6,8 @@ import { supabaseAdmin } from "@/lib/supabase/admin";
 import { EventTypeRow } from "./event-type-row";
 import type { EventType } from "@/lib/types";
 
+export const dynamic = "force-dynamic";
+
 export default async function SchedulingPage() {
   const user = await getAuthUser();
   const profile = await getOrCreateProfile(user!);
