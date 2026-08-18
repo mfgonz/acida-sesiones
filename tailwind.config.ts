@@ -14,9 +14,12 @@ const config: Config = {
           600: "#343c46",
         },
         accent: {
-          DEFAULT: "#4f6bff",
+          DEFAULT: "#635EF2",
+          dark: "#595FD9",
           purple: "#8b5cf6",
+          red: "#F25757",
         },
+        cream: "#F1E8E5",
       },
       borderRadius: {
         xl: "0.875rem",

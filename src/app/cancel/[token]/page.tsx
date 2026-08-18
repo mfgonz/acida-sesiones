@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { supabaseAdmin } from "@/lib/supabase/admin";
+import { PublicFooter } from "@/components/public-footer";
 import { CancelButton } from "./cancel-button";
 
 export default async function CancelPage({ params }: { params: { token: string } }) {
@@ -33,6 +34,7 @@ export default async function CancelPage({ params }: { params: { token: string }
         </p>
         {booking.status !== "canceled" && <CancelButton token={params.token} />}
       </div>
+      <PublicFooter />
     </div>
   );
 }

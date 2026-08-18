@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import Link from "next/link";
 import { addMonths, format, startOfMonth } from "date-fns";
 import { ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
 
@@ -125,6 +126,9 @@ export function BookingWidget({ username, slug, durationMinutes }: Props) {
             Need to cancel?
           </a>
         )}
+        <Link href={`/${username}`} className="mt-6 inline-block text-sm text-accent hover:underline">
+          Book another session
+        </Link>
       </div>
     );
   }
@@ -230,7 +234,7 @@ export function BookingWidget({ username, slug, durationMinutes }: Props) {
                 key={dateKey}
                 disabled={!hasSlots}
                 onClick={() => setSelectedDate(dateKey)}
-                className={`aspect-square rounded-lg text-sm transition ${
+                className={`relative flex aspect-square flex-col items-center justify-center gap-0.5 rounded-lg text-sm transition ${
                   isSelected
                     ? "bg-accent text-white"
                     : hasSlots
@@ -239,6 +243,12 @@ export function BookingWidget({ username, slug, durationMinutes }: Props) {
                 }`}
               >
                 {dayNum}
+                {hasSlots && (
+                  <span
+                    className={`h-1.5 w-1.5 rounded-full ${isSelected ? "bg-white" : "bg-accent"}`}
+                    aria-hidden="true"
+                  />
+                )}
               </button>
             );
           })}

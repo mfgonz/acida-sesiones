@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { supabaseAdmin } from "@/lib/supabase/admin";
+import { PublicFooter } from "@/components/public-footer";
 import { LOCATION_LABELS, type EventType } from "@/lib/types";
 
 export default async function PublicLandingPage({ params }: { params: { username: string } }) {
@@ -54,6 +55,8 @@ export default async function PublicLandingPage({ params }: { params: { username
           ))
         )}
       </div>
+
+      <PublicFooter />
     </div>
   );
 }
