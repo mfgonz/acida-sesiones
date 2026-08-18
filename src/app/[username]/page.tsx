@@ -3,7 +3,7 @@ import Link from "next/link";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { PublicFooter } from "@/components/public-footer";
 import { LocationIcon } from "@/components/location-icon";
-import { BRAND_NAME, BRAND_DESCRIPTION } from "@/lib/brand";
+import { BRAND_NAME, BRAND_HANDLE, BRAND_DESCRIPTION } from "@/lib/brand";
 import { LOCATION_LABELS, type EventType } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
@@ -33,7 +33,9 @@ export default async function PublicLandingPage({ params }: { params: { username
           {BRAND_NAME.slice(0, 1)}
         </div>
         <div>
-          <h1 className="text-xl font-semibold text-white">{BRAND_NAME}</h1>
+          <h1 className="text-xl font-semibold text-white">
+            {BRAND_NAME} - {BRAND_HANDLE}
+          </h1>
           <p className="text-sm text-neutral-400">{BRAND_DESCRIPTION}</p>
         </div>
       </div>
