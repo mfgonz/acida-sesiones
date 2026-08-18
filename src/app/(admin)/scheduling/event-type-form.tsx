@@ -13,6 +13,7 @@ export function EventTypeForm({
   eventType?: EventType;
 }) {
   const [locationType, setLocationType] = useState(eventType?.location_type ?? "google_meet");
+  const [color, setColor] = useState(eventType?.color ?? "#635EF2");
 
   return (
     <form action={action} className="max-w-xl space-y-5">
@@ -65,6 +66,32 @@ export function EventTypeForm({
           <option value="phone">Phone call</option>
           <option value="custom">Custom</option>
         </select>
+      </div>
+
+      <div>
+        <label className="mb-1 block text-sm text-neutral-300">Color</label>
+        <div className="flex items-center gap-2">
+          {["#635EF2", "#595FD9", "#F25757", "#22c55e", "#f59e0b", "#06b6d4"].map((swatch) => (
+            <button
+              key={swatch}
+              type="button"
+              onClick={() => setColor(swatch)}
+              style={{ backgroundColor: swatch }}
+              className={`h-7 w-7 rounded-full transition ${
+                color === swatch ? "ring-2 ring-white ring-offset-2 ring-offset-base-900" : ""
+              }`}
+              aria-label={`Use color ${swatch}`}
+            />
+          ))}
+          <input
+            type="color"
+            value={color}
+            onChange={(e) => setColor(e.target.value)}
+            className="h-7 w-9 cursor-pointer rounded border border-base-600 bg-base-850 p-0.5"
+            aria-label="Custom color"
+          />
+        </div>
+        <input type="hidden" name="color" value={color} />
       </div>
 
       {locationType !== "google_meet" && (

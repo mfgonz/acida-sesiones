@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { PublicFooter } from "@/components/public-footer";
+import { LocationIcon } from "@/components/location-icon";
 import { BRAND_NAME, BRAND_DESCRIPTION } from "@/lib/brand";
 import { LOCATION_LABELS, type EventType } from "@/lib/types";
 
@@ -45,15 +46,18 @@ export default async function PublicLandingPage({ params }: { params: { username
             <Link
               key={eventType.id}
               href={`/${profile.username}/${eventType.slug}`}
-              className="block rounded-xl border border-base-700 bg-base-900 px-6 py-5 transition hover:border-accent"
+              className="flex items-start gap-4 rounded-xl border border-base-700 bg-base-900 px-6 py-5 transition hover:border-accent"
             >
-              <p className="font-medium text-white">{eventType.name}</p>
-              <p className="mt-1 text-sm text-neutral-400">
-                {eventType.duration_minutes} min · {LOCATION_LABELS[eventType.location_type]}
-              </p>
-              {eventType.description && (
-                <p className="mt-2 text-sm text-neutral-500">{eventType.description}</p>
-              )}
+              <LocationIcon locationType={eventType.location_type} color={eventType.color} />
+              <div>
+                <p className="font-medium text-white">{eventType.name}</p>
+                <p className="mt-1 text-sm text-neutral-400">
+                  {eventType.duration_minutes} min · {LOCATION_LABELS[eventType.location_type]}
+                </p>
+                {eventType.description && (
+                  <p className="mt-2 text-sm text-neutral-500">{eventType.description}</p>
+                )}
+              </div>
             </Link>
           ))
         )}

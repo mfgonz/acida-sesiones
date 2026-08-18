@@ -30,11 +30,18 @@ export function EventTypeRow({ eventType, bookingUrl }: { eventType: EventType; 
         isActive ? "border-l-accent-purple" : "border-l-transparent"
       }`}
     >
-      <div>
-        <p className="font-medium text-white">{eventType.name}</p>
-        <p className="mt-0.5 text-sm text-neutral-400">
-          {eventType.duration_minutes} min · {LOCATION_LABELS[eventType.location_type]} · One-on-One
-        </p>
+      <div className="flex items-center gap-3">
+        <span
+          className="h-2.5 w-2.5 shrink-0 rounded-full"
+          style={{ backgroundColor: eventType.color }}
+          aria-hidden="true"
+        />
+        <div>
+          <p className="font-medium text-white">{eventType.name}</p>
+          <p className="mt-0.5 text-sm text-neutral-400">
+            {eventType.duration_minutes} min · {LOCATION_LABELS[eventType.location_type]} · One-on-One
+          </p>
+        </div>
       </div>
 
       <div className="flex items-center gap-2">
