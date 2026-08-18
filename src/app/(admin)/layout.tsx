@@ -4,35 +4,11 @@ import { getOrCreateProfile } from "@/lib/profile";
 import { Sidebar } from "@/components/sidebar";
 import { Topbar } from "@/components/topbar";
 
-function DiagnosticError({ label, err }: { label: string; err: unknown }) {
-  // Temporary diagnostic: Next.js redacts thrown Server Component errors in
-  // production, so render the real message directly instead of throwing.
-  const e = err as Error;
-  return (
-    <div style={{ padding: 24, fontFamily: "monospace", whiteSpace: "pre-wrap" }}>
-      <h1>{label} failed</h1>
-      <p>{e?.message}</p>
-      <pre>{JSON.stringify(err, Object.getOwnPropertyNames(err ?? {}), 2)}</pre>
-      <pre>{e?.stack}</pre>
-    </div>
-  );
-}
-
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
-  let user;
-  try {
-    user = await getAuthUser();
-  } catch (err) {
-    return <DiagnosticError label="getAuthUser" err={err} />;
-  }
+  const user = await getAuthUser();
   if (!user) redirect("/login");
 
-  let profile;
-  try {
-    profile = await getOrCreateProfile(user);
-  } catch (err) {
-    return <DiagnosticError label="getOrCreateProfile" err={err} />;
-  }
+  const profile = await getOrCreateProfile(user);
 
   return (
     <div className="flex min-h-screen">

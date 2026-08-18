@@ -1,19 +1,17 @@
 "use client";
 
-// Catches errors thrown anywhere below the root layout (all routes except
-// the root layout itself). Shows the raw message so we can diagnose
-// production issues without needing server log access.
 export default function Error({
   error,
 }: {
   error: Error & { digest?: string };
 }) {
   return (
-    <div style={{ padding: 24, fontFamily: "monospace", whiteSpace: "pre-wrap" }}>
-      <h1>Error</h1>
-      <p>{error.message}</p>
-      {error.digest && <p>Digest: {error.digest}</p>}
-      <pre>{error.stack}</pre>
+    <div className="flex min-h-screen flex-col items-center justify-center gap-2 px-4 text-center">
+      <h1 className="text-xl font-semibold text-white">Something went wrong</h1>
+      <p className="text-sm text-neutral-400">
+        Please try again. If this keeps happening, contact support.
+      </p>
+      {error.digest && <p className="text-xs text-neutral-600">Reference: {error.digest}</p>}
     </div>
   );
 }
