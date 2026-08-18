@@ -4,6 +4,7 @@ import { ArrowLeft } from "lucide-react";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { BookingWidget } from "@/components/booking-widget";
 import { PublicFooter } from "@/components/public-footer";
+import { BRAND_NAME } from "@/lib/brand";
 import { LOCATION_LABELS, type EventType } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
@@ -13,7 +14,7 @@ export default async function BookingPage({ params }: { params: { username: stri
 
   const { data: profile } = await admin
     .from("profiles")
-    .select("id, username, full_name")
+    .select("id, username")
     .eq("username", params.username)
     .maybeSingle();
   if (!profile) notFound();
@@ -38,7 +39,7 @@ export default async function BookingPage({ params }: { params: { username: stri
       </Link>
 
       <div className="mb-8">
-        <p className="text-sm text-neutral-400">{profile.full_name}</p>
+        <p className="text-sm text-neutral-400">{BRAND_NAME}</p>
         <h1 className="mt-1 text-2xl font-semibold text-white">{eventType.name}</h1>
         <p className="mt-2 text-sm text-neutral-400">
           {eventType.duration_minutes} min · {LOCATION_LABELS[eventType.location_type]}

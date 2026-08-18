@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { PublicFooter } from "@/components/public-footer";
+import { BRAND_NAME, BRAND_DESCRIPTION } from "@/lib/brand";
 import { LOCATION_LABELS, type EventType } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
@@ -28,11 +29,11 @@ export default async function PublicLandingPage({ params }: { params: { username
     <div className="mx-auto min-h-screen max-w-2xl px-4 py-16">
       <div className="mb-10 flex items-center gap-3">
         <div className="flex h-12 w-12 items-center justify-center rounded-full bg-blue-900 text-lg font-semibold text-white">
-          {profile.full_name.slice(0, 1).toUpperCase()}
+          {BRAND_NAME.slice(0, 1)}
         </div>
         <div>
-          <h1 className="text-xl font-semibold text-white">{profile.full_name}</h1>
-          <p className="text-sm text-neutral-400">@{profile.username}</p>
+          <h1 className="text-xl font-semibold text-white">{BRAND_NAME}</h1>
+          <p className="text-sm text-neutral-400">{BRAND_DESCRIPTION}</p>
         </div>
       </div>
 

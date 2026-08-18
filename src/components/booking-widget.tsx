@@ -234,20 +234,23 @@ export function BookingWidget({ username, slug, durationMinutes }: Props) {
                 key={dateKey}
                 disabled={!hasSlots}
                 onClick={() => setSelectedDate(dateKey)}
-                className={`relative flex aspect-square flex-col items-center justify-center gap-0.5 rounded-lg text-sm transition ${
-                  isSelected
-                    ? "bg-accent text-white"
-                    : hasSlots
-                    ? "text-white hover:bg-base-850"
-                    : "text-neutral-700"
+                className={`group flex aspect-square flex-col items-center justify-center gap-1 text-sm transition ${
+                  hasSlots ? "text-white" : "text-neutral-700"
                 }`}
               >
-                {dayNum}
+                <span
+                  className={`flex h-8 w-8 items-center justify-center rounded-full transition ${
+                    isSelected
+                      ? "bg-accent text-white"
+                      : hasSlots
+                      ? "group-hover:bg-base-850"
+                      : ""
+                  }`}
+                >
+                  {dayNum}
+                </span>
                 {hasSlots && (
-                  <span
-                    className={`h-1.5 w-1.5 rounded-full ${isSelected ? "bg-white" : "bg-accent"}`}
-                    aria-hidden="true"
-                  />
+                  <span className="h-1.5 w-1.5 rounded-full bg-accent" aria-hidden="true" />
                 )}
               </button>
             );
