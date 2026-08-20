@@ -3,7 +3,13 @@
 import { useState } from "react";
 import type { EventType } from "@/lib/types";
 
-const DURATIONS = [15, 30, 45, 60, 90];
+const DURATION_PRESETS = [15, 30, 45, 60, 90, 120, 240];
+
+function formatDuration(minutes: number) {
+  if (minutes < 60) return `${minutes} min`;
+  const hours = minutes / 60;
+  return Number.isInteger(hours) ? `${hours} hr` : `${Math.floor(hours)}h${minutes % 60}`;
+}
 
 export function EventTypeForm({
   action,
@@ -14,6 +20,7 @@ export function EventTypeForm({
 }) {
   const [locationType, setLocationType] = useState(eventType?.location_type ?? "google_meet");
   const [color, setColor] = useState(eventType?.color ?? "#635EF2");
+  const [duration, setDuration] = useState(eventType?.duration_minutes ?? 30);
 
   return (
     <form action={action} className="max-w-xl space-y-5">
@@ -40,17 +47,34 @@ export function EventTypeForm({
 
       <div>
         <label className="mb-1 block text-sm text-neutral-300">Duration</label>
-        <select
-          name="duration_minutes"
-          defaultValue={eventType?.duration_minutes ?? 30}
-          className="w-full rounded-lg border border-base-600 bg-base-850 px-3 py-2 text-sm text-white outline-none focus:border-accent"
-        >
-          {DURATIONS.map((d) => (
-            <option key={d} value={d}>
-              {d} min
-            </option>
+        <div className="mb-2 flex flex-wrap gap-2">
+          {DURATION_PRESETS.map((d) => (
+            <button
+              key={d}
+              type="button"
+              onClick={() => setDuration(d)}
+              className={`rounded-lg border px-3 py-1.5 text-sm transition ${
+                duration === d
+                  ? "border-accent bg-accent/10 text-white"
+                  : "border-base-600 text-neutral-300 hover:border-base-500"
+              }`}
+            >
+              {formatDuration(d)}
+            </button>
           ))}
-        </select>
+        </div>
+        <div className="flex items-center gap-2">
+          <input
+            type="number"
+            min={5}
+            step={5}
+            name="duration_minutes"
+            value={duration}
+            onChange={(e) => setDuration(Number(e.target.value) || 0)}
+            className="w-32 rounded-lg border border-base-600 bg-base-850 px-3 py-2 text-sm text-white outline-none focus:border-accent"
+          />
+          <span className="text-sm text-neutral-500">minutes ({formatDuration(duration)})</span>
+        </div>
       </div>
 
       <div>
