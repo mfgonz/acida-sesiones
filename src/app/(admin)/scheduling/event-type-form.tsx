@@ -11,6 +11,15 @@ function formatDuration(minutes: number) {
   return Number.isInteger(hours) ? `${hours} hr` : `${Math.floor(hours)}h${minutes % 60}`;
 }
 
+const NOTICE_UNIT_MINUTES = { minutes: 1, hours: 60, days: 1440 } as const;
+type NoticeUnit = keyof typeof NOTICE_UNIT_MINUTES;
+
+function inferNoticeUnit(totalMinutes: number): NoticeUnit {
+  if (totalMinutes >= 1440 && totalMinutes % 1440 === 0) return "days";
+  if (totalMinutes >= 60 && totalMinutes % 60 === 0) return "hours";
+  return "minutes";
+}
+
 export function EventTypeForm({
   action,
   eventType,
@@ -21,6 +30,12 @@ export function EventTypeForm({
   const [locationType, setLocationType] = useState(eventType?.location_type ?? "google_meet");
   const [color, setColor] = useState(eventType?.color ?? "#635EF2");
   const [duration, setDuration] = useState(eventType?.duration_minutes ?? 30);
+
+  const initialNoticeMinutes = eventType?.min_notice_minutes ?? 60;
+  const initialNoticeUnit = inferNoticeUnit(initialNoticeMinutes);
+  const [noticeUnit, setNoticeUnit] = useState<NoticeUnit>(initialNoticeUnit);
+  const [noticeValue, setNoticeValue] = useState(initialNoticeMinutes / NOTICE_UNIT_MINUTES[initialNoticeUnit]);
+  const noticeMinutes = noticeValue * NOTICE_UNIT_MINUTES[noticeUnit];
 
   return (
     <form action={action} className="max-w-xl space-y-5">
@@ -152,14 +167,26 @@ export function EventTypeForm({
           />
         </div>
         <div>
-          <label className="mb-1 block text-sm text-neutral-300">Minimum notice (min)</label>
-          <input
-            type="number"
-            min={0}
-            name="min_notice_minutes"
-            defaultValue={eventType?.min_notice_minutes ?? 60}
-            className="w-full rounded-lg border border-base-600 bg-base-850 px-3 py-2 text-sm text-white outline-none focus:border-accent"
-          />
+          <label className="mb-1 block text-sm text-neutral-300">Minimum notice</label>
+          <div className="flex items-center gap-2">
+            <input
+              type="number"
+              min={0}
+              value={noticeValue}
+              onChange={(e) => setNoticeValue(Number(e.target.value) || 0)}
+              className="w-full rounded-lg border border-base-600 bg-base-850 px-3 py-2 text-sm text-white outline-none focus:border-accent"
+            />
+            <select
+              value={noticeUnit}
+              onChange={(e) => setNoticeUnit(e.target.value as NoticeUnit)}
+              className="rounded-lg border border-base-600 bg-base-850 px-2 py-2 text-sm text-white outline-none focus:border-accent"
+            >
+              <option value="minutes">min</option>
+              <option value="hours">hr</option>
+              <option value="days">days</option>
+            </select>
+          </div>
+          <input type="hidden" name="min_notice_minutes" value={noticeMinutes} />
         </div>
         <div>
           <label className="mb-1 block text-sm text-neutral-300">Booking horizon (days)</label>
