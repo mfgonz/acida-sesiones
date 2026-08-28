@@ -30,26 +30,28 @@ export default async function BookingPage({ params }: { params: { username: stri
   const eventType = eventTypeRow as EventType;
 
   return (
-    <div className="mx-auto min-h-screen max-w-3xl px-4 py-16">
-      <Link
-        href={`/${profile.username}`}
-        className="mb-6 inline-flex items-center gap-1.5 text-sm text-neutral-400 transition hover:text-white"
-      >
-        <ArrowLeft size={15} /> All session types
-      </Link>
+    <div className="min-h-screen bg-cream">
+      <div className="mx-auto max-w-3xl px-4 py-16">
+        <Link
+          href={`/${profile.username}`}
+          className="mb-6 inline-flex items-center gap-1.5 font-label text-xs uppercase tracking-wide text-ink/60 transition hover:text-terracotta"
+        >
+          <ArrowLeft size={15} /> All session types
+        </Link>
 
-      <div className="mb-8">
-        <p className="text-sm text-neutral-400">{BRAND_NAME}</p>
-        <h1 className="mt-1 text-2xl font-semibold text-white">{eventType.name}</h1>
-        <p className="mt-2 text-sm text-neutral-400">
-          {eventType.duration_minutes} min · {LOCATION_LABELS[eventType.location_type]}
-        </p>
-        {eventType.description && <p className="mt-3 max-w-xl text-neutral-300">{eventType.description}</p>}
+        <div className="mb-8">
+          <p className="font-label text-xs uppercase tracking-wide text-ink/50">{BRAND_NAME}</p>
+          <h1 className="mt-1 font-display text-2xl font-black text-ink">{eventType.name}</h1>
+          <p className="mt-2 font-label text-xs uppercase tracking-wide text-ink/50">
+            {eventType.duration_minutes} min · {LOCATION_LABELS[eventType.location_type]}
+          </p>
+          {eventType.description && <p className="mt-3 max-w-xl text-ink/70">{eventType.description}</p>}
+        </div>
+
+        <BookingWidget username={profile.username} slug={eventType.slug} durationMinutes={eventType.duration_minutes} />
+
+        <PublicFooter />
       </div>
-
-      <BookingWidget username={profile.username} slug={eventType.slug} durationMinutes={eventType.duration_minutes} />
-
-      <PublicFooter />
     </div>
   );
 }

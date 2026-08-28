@@ -16,7 +16,7 @@ export function CancelButton({ token }: { token: string }) {
   }
 
   if (state === "done") {
-    return <p className="mt-4 text-sm text-green-400">Your booking has been canceled.</p>;
+    return <p className="mt-4 text-sm text-green-600">Your booking has been canceled.</p>;
   }
 
   return (
@@ -24,11 +24,11 @@ export function CancelButton({ token }: { token: string }) {
       <button
         onClick={handleCancel}
         disabled={state === "loading"}
-        className="rounded-lg border border-red-500/50 px-4 py-2 text-sm text-red-400 hover:bg-red-500/10 disabled:opacity-60"
+        className="rounded-lg border border-red-500/40 px-4 py-2 text-sm text-red-600 hover:bg-red-500/10 disabled:opacity-60"
       >
         {state === "loading" ? "Canceling…" : "Cancel this booking"}
       </button>
-      {state === "error" && <p className="mt-2 text-sm text-red-400">Something went wrong. Please try again.</p>}
+      {state === "error" && <p className="mt-2 text-sm text-red-600">Something went wrong. Please try again.</p>}
     </div>
   );
 }

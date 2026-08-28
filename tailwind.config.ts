@@ -20,6 +20,18 @@ const config: Config = {
           red: "#F25757",
         },
         cream: "#F1E8E5",
+        ink: "#211F16",
+        terracotta: "#C15130",
+        mustard: "#D3C36A",
+        olive: "#2B2A18",
+        dusty: {
+          blue: "#5C6B96",
+          pink: "#D9BEC0",
+        },
+      },
+      fontFamily: {
+        display: ["var(--font-display)", "sans-serif"],
+        label: ["var(--font-mono-ui)", "monospace"],
       },
       borderRadius: {
         xl: "0.875rem",

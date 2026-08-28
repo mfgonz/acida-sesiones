@@ -26,17 +26,19 @@ export default async function CancelPage({ params }: { params: { token: string }
   }).format(start);
 
   return (
-    <div className="mx-auto flex min-h-screen max-w-md flex-col justify-center px-4 py-16">
-      <div className="rounded-xl border border-base-700 bg-base-900 p-8 text-center">
-        <h1 className="text-lg font-semibold text-white">
-          {booking.status === "canceled" ? "Booking canceled" : "Cancel booking?"}
-        </h1>
-        <p className="mt-2 text-sm text-neutral-400">
-          {(booking as any).event_types?.name} — {formatted}
-        </p>
-        {booking.status !== "canceled" && <CancelButton token={params.token} />}
+    <div className="min-h-screen bg-cream">
+      <div className="mx-auto flex min-h-screen max-w-md flex-col justify-center px-4 py-16">
+        <div className="rounded-xl border border-ink/10 bg-white p-8 text-center">
+          <h1 className="font-display text-lg font-black text-ink">
+            {booking.status === "canceled" ? "Booking canceled" : "Cancel booking?"}
+          </h1>
+          <p className="mt-2 text-sm text-ink/60">
+            {(booking as any).event_types?.name} — {formatted}
+          </p>
+          {booking.status !== "canceled" && <CancelButton token={params.token} />}
+        </div>
+        <PublicFooter />
       </div>
-      <PublicFooter />
     </div>
   );
 }

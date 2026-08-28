@@ -27,45 +27,45 @@ export default async function PublicLandingPage({ params }: { params: { username
     .order("created_at", { ascending: true });
 
   return (
-    <div className="mx-auto min-h-screen max-w-2xl px-4 py-16">
-      <div className="mb-10 flex items-center gap-3">
-        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-blue-900 text-lg font-semibold text-white">
-          {BRAND_NAME.slice(0, 1)}
-        </div>
-        <div>
-          <h1 className="text-xl font-semibold text-white">
-            {BRAND_NAME} - {BRAND_HANDLE}
+    <div className="min-h-screen bg-cream">
+      <div className="mx-auto max-w-2xl px-4 py-16">
+        <div className="mb-10">
+          <h1 className="font-display text-3xl font-black tracking-tight text-ink">
+            {BRAND_NAME.toLowerCase()}
+            <span className="ml-2 font-label text-sm font-normal tracking-normal text-ink/50">
+              {BRAND_HANDLE}
+            </span>
           </h1>
-          <p className="text-sm text-neutral-400">{BRAND_DESCRIPTION}</p>
+          <p className="mt-2 max-w-md text-sm text-ink/70">{BRAND_DESCRIPTION}</p>
         </div>
-      </div>
 
-      <div className="space-y-3">
-        {!eventTypes?.length ? (
-          <p className="text-neutral-400">No sessions are open for booking right now.</p>
-        ) : (
-          (eventTypes as EventType[]).map((eventType) => (
-            <Link
-              key={eventType.id}
-              href={`/${profile.username}/${eventType.slug}`}
-              className="flex items-start gap-4 rounded-xl border border-base-700 bg-base-900 px-6 py-5 transition hover:border-accent"
-            >
-              <LocationIcon locationType={eventType.location_type} color={eventType.color} />
-              <div>
-                <p className="font-medium text-white">{eventType.name}</p>
-                <p className="mt-1 text-sm text-neutral-400">
-                  {eventType.duration_minutes} min · {LOCATION_LABELS[eventType.location_type]}
-                </p>
-                {eventType.description && (
-                  <p className="mt-2 text-sm text-neutral-500">{eventType.description}</p>
-                )}
-              </div>
-            </Link>
-          ))
-        )}
-      </div>
+        <div className="space-y-3">
+          {!eventTypes?.length ? (
+            <p className="text-ink/60">No sessions are open for booking right now.</p>
+          ) : (
+            (eventTypes as EventType[]).map((eventType) => (
+              <Link
+                key={eventType.id}
+                href={`/${profile.username}/${eventType.slug}`}
+                className="flex items-start gap-4 rounded-xl border border-ink/10 bg-white/60 px-6 py-5 transition hover:border-terracotta hover:bg-white"
+              >
+                <LocationIcon locationType={eventType.location_type} color={eventType.color} />
+                <div>
+                  <p className="font-display font-bold text-ink">{eventType.name}</p>
+                  <p className="mt-1 font-label text-xs uppercase tracking-wide text-ink/50">
+                    {eventType.duration_minutes} min · {LOCATION_LABELS[eventType.location_type]}
+                  </p>
+                  {eventType.description && (
+                    <p className="mt-2 text-sm text-ink/70">{eventType.description}</p>
+                  )}
+                </div>
+              </Link>
+            ))
+          )}
+        </div>
 
-      <PublicFooter />
+        <PublicFooter />
+      </div>
     </div>
   );
 }

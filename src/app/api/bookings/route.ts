@@ -5,6 +5,7 @@ import { supabaseAdmin } from "@/lib/supabase/admin";
 import { getBusyIntervals, createCalendarEvent } from "@/lib/google";
 import { computeAvailableSlots } from "@/lib/availability";
 import { clientIp, isRateLimited } from "@/lib/rate-limit";
+import { sendBookingNotification } from "@/lib/email";
 import type { AvailabilityRule, DateOverride } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
@@ -154,6 +155,17 @@ export async function POST(request: NextRequest) {
     console.error("Failed to save booking", error);
     return NextResponse.json({ error: "Could not save booking" }, { status: 500 });
   }
+
+  await sendBookingNotification({
+    eventTypeName: eventType.name,
+    inviteeName,
+    inviteeEmail,
+    inviteeNotes,
+    inviteeTimezone,
+    startTime: requestedStart,
+    endTime: requestedEnd,
+    meetLink,
+  });
 
   return NextResponse.json({ bookingId: booking.id, cancelToken: booking.cancel_token, meetLink });
 }

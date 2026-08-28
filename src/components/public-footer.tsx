@@ -13,7 +13,7 @@ export function PublicFooter() {
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Website"
-          className="flex h-9 w-9 items-center justify-center rounded-full border border-base-700 text-neutral-400 transition hover:border-accent hover:text-accent"
+          className="flex h-9 w-9 items-center justify-center rounded-full border border-ink/15 text-ink/60 transition hover:border-terracotta hover:text-terracotta"
         >
           <Globe size={16} />
         </a>
@@ -21,7 +21,7 @@ export function PublicFooter() {
         <span
           aria-hidden="true"
           title="Website link coming soon"
-          className="flex h-9 w-9 items-center justify-center rounded-full border border-base-800 text-neutral-700"
+          className="flex h-9 w-9 items-center justify-center rounded-full border border-ink/10 text-ink/25"
         >
           <Globe size={16} />
         </span>
@@ -31,7 +31,7 @@ export function PublicFooter() {
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Instagram @somos.acida"
-        className="flex h-9 w-9 items-center justify-center rounded-full border border-base-700 text-neutral-400 transition hover:border-accent hover:text-accent"
+        className="flex h-9 w-9 items-center justify-center rounded-full border border-ink/15 text-ink/60 transition hover:border-terracotta hover:text-terracotta"
       >
         <Instagram size={16} />
       </a>
