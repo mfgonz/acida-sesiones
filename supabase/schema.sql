@@ -63,6 +63,9 @@ create table if not exists event_types (
   buffer_after_minutes int not null default 0,
   min_notice_minutes int not null default 60,
   booking_horizon_days int not null default 60,
+  -- When true, the booking form asks for project/business name + a summary
+  -- of what the invitee wants to work on (e.g. a first exploratory call).
+  collect_project_details boolean not null default false,
   created_at timestamptz not null default now(),
   unique (user_id, slug)
 );
@@ -75,6 +78,9 @@ create table if not exists bookings (
   invitee_email text not null,
   invitee_notes text not null default '',
   invitee_timezone text not null default 'UTC',
+  -- Set only when the event type has collect_project_details enabled.
+  project_name text,
+  project_summary text,
   start_time timestamptz not null,
   end_time timestamptz not null,
   status text not null default 'confirmed' check (status in ('confirmed', 'canceled')),

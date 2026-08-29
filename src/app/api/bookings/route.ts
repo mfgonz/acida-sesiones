@@ -18,6 +18,10 @@ const bookingSchema = z.object({
   inviteeEmail: z.string().email(),
   inviteeNotes: z.string().max(2000).optional().default(""),
   inviteeTimezone: z.string().min(1),
+  // Only required when the event type has collect_project_details enabled
+  // (validated below once we know the event type).
+  projectName: z.string().max(300).optional().default(""),
+  projectSummary: z.string().max(3000).optional().default(""),
   // Honeypot: real users never see or fill this field.
   website: z.string().max(0).optional().default(""),
   // Timestamp (ms) the booking form was shown; bots that submit instantly get rejected.
@@ -30,8 +34,18 @@ export async function POST(request: NextRequest) {
   if (!parsed.success) {
     return NextResponse.json({ error: "Invalid request", details: parsed.error.flatten() }, { status: 400 });
   }
-  const { username, slug, startTime, inviteeName, inviteeEmail, inviteeNotes, inviteeTimezone, formShownAt } =
-    parsed.data;
+  const {
+    username,
+    slug,
+    startTime,
+    inviteeName,
+    inviteeEmail,
+    inviteeNotes,
+    inviteeTimezone,
+    projectName,
+    projectSummary,
+    formShownAt,
+  } = parsed.data;
 
   // Silently accept-looking-but-drop honeypot/instant-submit hits instead of
   // telling the bot what tripped it.
@@ -64,6 +78,10 @@ export async function POST(request: NextRequest) {
     .eq("is_active", true)
     .maybeSingle();
   if (!eventType) return NextResponse.json({ error: "Not found" }, { status: 404 });
+
+  if (eventType.collect_project_details && (!projectName.trim() || !projectSummary.trim())) {
+    return NextResponse.json({ error: "Project name and summary are required" }, { status: 400 });
+  }
 
   const { data: schedule } = eventType.schedule_id
     ? await admin.from("availability_schedules").select("*").eq("id", eventType.schedule_id).maybeSingle()
@@ -143,6 +161,8 @@ export async function POST(request: NextRequest) {
       invitee_email: inviteeEmail,
       invitee_notes: inviteeNotes,
       invitee_timezone: inviteeTimezone,
+      project_name: eventType.collect_project_details ? projectName : null,
+      project_summary: eventType.collect_project_details ? projectSummary : null,
       start_time: requestedStart.toISOString(),
       end_time: requestedEnd.toISOString(),
       google_event_id: googleEventId,
@@ -162,6 +182,8 @@ export async function POST(request: NextRequest) {
     inviteeEmail,
     inviteeNotes,
     inviteeTimezone,
+    projectName: eventType.collect_project_details ? projectName : null,
+    projectSummary: eventType.collect_project_details ? projectSummary : null,
     startTime: requestedStart,
     endTime: requestedEnd,
     meetLink,

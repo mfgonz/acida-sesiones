@@ -9,11 +9,12 @@ interface Props {
   username: string;
   slug: string;
   durationMinutes: number;
+  collectProjectDetails?: boolean;
 }
 
 type Step = "pick" | "form" | "done";
 
-export function BookingWidget({ username, slug, durationMinutes }: Props) {
+export function BookingWidget({ username, slug, durationMinutes, collectProjectDetails }: Props) {
   const timezone = useMemo(() => Intl.DateTimeFormat().resolvedOptions().timeZone, []);
   const [month, setMonth] = useState(() => startOfMonth(new Date()));
   const [slots, setSlots] = useState<string[]>([]);
@@ -77,6 +78,8 @@ export function BookingWidget({ username, slug, durationMinutes }: Props) {
         inviteeEmail: formData.get("email"),
         inviteeNotes: formData.get("notes") ?? "",
         inviteeTimezone: timezone,
+        projectName: formData.get("projectName") ?? "",
+        projectSummary: formData.get("projectSummary") ?? "",
         website: formData.get("website") ?? "",
         formShownAt,
       }),
@@ -174,6 +177,29 @@ export function BookingWidget({ username, slug, durationMinutes }: Props) {
               className="w-full rounded-lg border border-ink/15 bg-cream/40 px-3 py-2 text-sm text-ink outline-none focus:border-terracotta"
             />
           </div>
+          {collectProjectDetails && (
+            <>
+              <div>
+                <label className="mb-1 block text-sm text-ink/70">Nombre de tu proyecto o negocio</label>
+                <input
+                  name="projectName"
+                  required
+                  className="w-full rounded-lg border border-ink/15 bg-cream/40 px-3 py-2 text-sm text-ink outline-none focus:border-terracotta"
+                />
+              </div>
+              <div>
+                <label className="mb-1 block text-sm text-ink/70">
+                  ¿Qué están buscando trabajar junto a ÁCIDA?
+                </label>
+                <textarea
+                  name="projectSummary"
+                  required
+                  rows={3}
+                  className="w-full rounded-lg border border-ink/15 bg-cream/40 px-3 py-2 text-sm text-ink outline-none focus:border-terracotta"
+                />
+              </div>
+            </>
+          )}
           <div>
             <label className="mb-1 block text-sm text-ink/70">Notes (optional)</label>
             <textarea

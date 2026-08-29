@@ -51,6 +51,7 @@ export interface EventType {
   buffer_after_minutes: number;
   min_notice_minutes: number;
   booking_horizon_days: number;
+  collect_project_details: boolean;
   created_at: string;
 }
 
@@ -62,6 +63,8 @@ export interface Booking {
   invitee_email: string;
   invitee_notes: string;
   invitee_timezone: string;
+  project_name: string | null;
+  project_summary: string | null;
   start_time: string;
   end_time: string;
   status: "confirmed" | "canceled";

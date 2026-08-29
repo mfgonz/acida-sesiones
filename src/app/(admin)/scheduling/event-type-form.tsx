@@ -133,6 +133,21 @@ export function EventTypeForm({
         <input type="hidden" name="color" value={color} />
       </div>
 
+      <div>
+        <label className="flex items-center gap-2 text-sm text-neutral-300">
+          <input
+            type="checkbox"
+            name="collect_project_details"
+            defaultChecked={eventType?.collect_project_details ?? false}
+            className="h-4 w-4 rounded border-base-600 bg-base-850"
+          />
+          Ask for project/business name + summary
+        </label>
+        <p className="ml-6 mt-1 text-xs text-neutral-500">
+          Adds two extra fields to this booking form — good for a first exploratory call with new clients.
+        </p>
+      </div>
+
       {locationType !== "google_meet" && (
         <div>
           <label className="mb-1 block text-sm text-neutral-300">Location details</label>

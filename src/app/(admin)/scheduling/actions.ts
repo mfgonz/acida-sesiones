@@ -63,6 +63,7 @@ export async function createEventType(formData: FormData) {
     buffer_after_minutes: Number(formData.get("buffer_after_minutes") ?? 0),
     min_notice_minutes: Number(formData.get("min_notice_minutes") ?? 60),
     booking_horizon_days: Number(formData.get("booking_horizon_days") ?? 60),
+    collect_project_details: formData.get("collect_project_details") === "on",
     is_active: false,
   });
 
@@ -87,6 +88,7 @@ export async function updateEventType(id: string, formData: FormData) {
       buffer_after_minutes: Number(formData.get("buffer_after_minutes") ?? 0),
       min_notice_minutes: Number(formData.get("min_notice_minutes") ?? 60),
       booking_horizon_days: Number(formData.get("booking_horizon_days") ?? 60),
+      collect_project_details: formData.get("collect_project_details") === "on",
     })
     .eq("id", id)
     .eq("user_id", userId);

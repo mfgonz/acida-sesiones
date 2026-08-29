@@ -6,6 +6,8 @@ interface BookingNotification {
   inviteeEmail: string;
   inviteeNotes: string;
   inviteeTimezone: string;
+  projectName: string | null;
+  projectSummary: string | null;
   startTime: Date;
   endTime: Date;
   meetLink: string | null;
@@ -36,6 +38,8 @@ export async function sendBookingNotification(booking: BookingNotification) {
     ["Nombre", booking.inviteeName],
     ["Email", booking.inviteeEmail],
     ["Fecha y hora", `${when} (${booking.inviteeTimezone})`],
+    ...(booking.projectName ? ([["Proyecto/negocio", booking.projectName]] as [string, string][]) : []),
+    ...(booking.projectSummary ? ([["Qué buscan trabajar", booking.projectSummary]] as [string, string][]) : []),
     ["Notas", booking.inviteeNotes || "—"],
     ["Google Meet", booking.meetLink ?? "—"],
   ];

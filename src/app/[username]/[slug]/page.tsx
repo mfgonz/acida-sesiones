@@ -48,7 +48,12 @@ export default async function BookingPage({ params }: { params: { username: stri
           {eventType.description && <p className="mt-3 max-w-xl text-ink/70">{eventType.description}</p>}
         </div>
 
-        <BookingWidget username={profile.username} slug={eventType.slug} durationMinutes={eventType.duration_minutes} />
+        <BookingWidget
+          username={profile.username}
+          slug={eventType.slug}
+          durationMinutes={eventType.duration_minutes}
+          collectProjectDetails={eventType.collect_project_details}
+        />
 
         <PublicFooter />
       </div>
