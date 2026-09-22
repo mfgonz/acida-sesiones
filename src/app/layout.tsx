@@ -28,7 +28,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${archivo.variable} ${ppNeue.variable}`}>
-      <body className="min-h-screen antialiased">{children}</body>
+      <body className="min-h-screen bg-cream bg-noise font-body text-ink antialiased">{children}</body>
     </html>
   );
 }

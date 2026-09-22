@@ -76,11 +76,11 @@ export function WeeklyHoursEditor({
   return (
     <form action={action} className="max-w-xl space-y-5">
       <div>
-        <label className="mb-1 block text-sm text-neutral-300">Timezone</label>
+        <label className="mb-1 block text-sm text-ink/70">Timezone</label>
         <select
           name="timezone"
           defaultValue={timezone}
-          className="w-full rounded-lg border border-base-600 bg-base-850 px-3 py-2 text-sm text-white outline-none focus:border-accent"
+          className="w-full rounded-lg border border-ink/15 bg-cream/40 px-3 py-2 text-sm text-ink outline-none focus:border-terracotta"
         >
           {COMMON_TIMEZONES.map((tz) => (
             <option key={tz} value={tz}>
@@ -94,21 +94,21 @@ export function WeeklyHoursEditor({
         <button
           type="button"
           onClick={setWeekdaysOnly}
-          className="rounded-lg border border-base-600 px-3 py-1.5 text-neutral-300 hover:border-base-500 hover:text-white"
+          className="rounded-lg border border-ink/15 px-3 py-1.5 text-ink/70 transition hover:border-terracotta hover:text-ink"
         >
           Weekdays only
         </button>
         <button
           type="button"
           onClick={() => setAll({ enabled: true })}
-          className="rounded-lg border border-base-600 px-3 py-1.5 text-neutral-300 hover:border-base-500 hover:text-white"
+          className="rounded-lg border border-ink/15 px-3 py-1.5 text-ink/70 transition hover:border-terracotta hover:text-ink"
         >
           Mark all available
         </button>
         <button
           type="button"
           onClick={() => setAll({ enabled: false })}
-          className="rounded-lg border border-base-600 px-3 py-1.5 text-neutral-300 hover:border-base-500 hover:text-white"
+          className="rounded-lg border border-ink/15 px-3 py-1.5 text-ink/70 transition hover:border-terracotta hover:text-ink"
         >
           Mark all unavailable
         </button>
@@ -116,14 +116,14 @@ export function WeeklyHoursEditor({
 
       <div className="space-y-2">
         {DISPLAY_ORDER.map((day) => (
-          <div key={day} className="flex items-center gap-3 rounded-lg border border-base-700 px-3 py-2">
-            <label className="flex w-32 items-center gap-2 text-sm text-neutral-200">
+          <div key={day} className="flex items-center gap-3 rounded-lg border border-ink/10 px-3 py-2">
+            <label className="flex w-32 items-center gap-2 text-sm text-ink/80">
               <input
                 type="checkbox"
                 name={`day_${day}_enabled`}
                 checked={days[day].enabled}
                 onChange={(e) => update(day, { enabled: e.target.checked })}
-                className="h-4 w-4 rounded border-base-600 bg-base-850"
+                className="h-4 w-4 rounded border-ink/20 bg-cream/40"
               />
               {WEEKDAY_LABELS[day]}
             </label>
@@ -134,27 +134,27 @@ export function WeeklyHoursEditor({
                   name={`day_${day}_start`}
                   value={days[day].start}
                   onChange={(e) => update(day, { start: e.target.value })}
-                  className="rounded-lg border border-base-600 bg-base-850 px-2 py-1 text-sm text-white outline-none focus:border-accent"
+                  className="rounded-lg border border-ink/15 bg-cream/40 px-2 py-1 text-sm text-ink outline-none focus:border-terracotta"
                 />
-                <span className="text-neutral-500">–</span>
+                <span className="text-ink/50">–</span>
                 <input
                   type="time"
                   name={`day_${day}_end`}
                   value={days[day].end}
                   onChange={(e) => update(day, { end: e.target.value })}
-                  className="rounded-lg border border-base-600 bg-base-850 px-2 py-1 text-sm text-white outline-none focus:border-accent"
+                  className="rounded-lg border border-ink/15 bg-cream/40 px-2 py-1 text-sm text-ink outline-none focus:border-terracotta"
                 />
                 <button
                   type="button"
                   onClick={() => applyToAllEnabled(day)}
                   title="Copy this time to every available day"
-                  className="ml-auto rounded-lg p-1.5 text-neutral-500 hover:bg-base-850 hover:text-white"
+                  className="ml-auto rounded-lg p-1.5 text-ink/50 transition hover:bg-ink/5 hover:text-ink"
                 >
                   <Copy size={14} />
                 </button>
               </div>
             ) : (
-              <span className="text-sm text-neutral-500">Unavailable</span>
+              <span className="text-sm text-ink/50">Unavailable</span>
             )}
           </div>
         ))}
@@ -162,7 +162,7 @@ export function WeeklyHoursEditor({
 
       <button
         type="submit"
-        className="rounded-lg bg-accent px-5 py-2.5 text-sm font-medium text-white hover:bg-accent/90"
+        className="rounded-lg bg-ink px-5 py-2.5 text-sm font-medium text-cream transition hover:bg-terracotta"
       >
         Save hours
       </button>

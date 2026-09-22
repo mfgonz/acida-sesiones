@@ -25,18 +25,18 @@ export default async function SchedulingPage() {
     <div>
       <div className="mb-6 flex items-center justify-between">
         <div>
-          <p className="text-sm text-neutral-400">Event types</p>
+          <p className="text-sm text-ink/60">Event types</p>
         </div>
         <Link
           href="/scheduling/new"
-          className="flex items-center gap-2 rounded-lg bg-accent px-4 py-2 text-sm font-medium text-white hover:bg-accent/90"
+          className="flex items-center gap-2 rounded-lg bg-ink px-4 py-2 text-sm font-medium text-cream transition hover:bg-terracotta"
         >
           <Plus size={16} /> Create
         </Link>
       </div>
 
       {!eventTypes?.length ? (
-        <div className="rounded-xl border border-dashed border-base-700 py-16 text-center text-neutral-400">
+        <div className="rounded-xl border border-dashed border-ink/20 py-16 text-center text-ink/60">
           No event types yet. Create your first one to start accepting bookings.
         </div>
       ) : (

@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 body {
-  background-color: #0b0d10;
-  color: #e6e8eb;
+  background-color: #e8e6d2;
+  color: #262623;
 }
 
 /* Subtle noise texture for the public (light/cream) pages. */

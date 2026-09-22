@@ -26,8 +26,8 @@ export function EventTypeRow({ eventType, bookingUrl }: { eventType: EventType; 
 
   return (
     <div
-      className={`flex items-center justify-between rounded-lg border-l-4 bg-base-900 px-5 py-4 ${
-        isActive ? "border-l-accent-purple" : "border-l-transparent"
+      className={`flex items-center justify-between rounded-lg border-l-4 border border-ink/10 bg-white/60 px-5 py-4 ${
+        isActive ? "border-l-terracotta" : "border-l-transparent"
       }`}
     >
       <div className="flex items-center gap-3">
@@ -37,8 +37,8 @@ export function EventTypeRow({ eventType, bookingUrl }: { eventType: EventType; 
           aria-hidden="true"
         />
         <div>
-          <p className="font-medium text-white">{eventType.name}</p>
-          <p className="mt-0.5 text-sm text-neutral-400">
+          <p className="font-medium text-ink">{eventType.name}</p>
+          <p className="mt-0.5 text-sm text-ink/60">
             {eventType.duration_minutes} min · {LOCATION_LABELS[eventType.location_type]} · One-on-One
           </p>
         </div>
@@ -48,7 +48,7 @@ export function EventTypeRow({ eventType, bookingUrl }: { eventType: EventType; 
         {isActive ? (
           <button
             onClick={handleCopy}
-            className="flex items-center gap-1.5 rounded-lg border border-base-600 px-3 py-1.5 text-sm text-neutral-200 hover:border-base-500"
+            className="flex items-center gap-1.5 rounded-lg border border-ink/15 px-3 py-1.5 text-sm text-ink/70 transition hover:border-terracotta hover:text-ink"
           >
             {copied ? <Check size={14} /> : <Copy size={14} />}
             {copied ? "Copied" : "Copy link"}
@@ -57,7 +57,7 @@ export function EventTypeRow({ eventType, bookingUrl }: { eventType: EventType; 
           <button
             onClick={handleToggle}
             disabled={isPending}
-            className="rounded-lg border border-base-600 px-3 py-1.5 text-sm text-neutral-200 hover:border-base-500 disabled:opacity-60"
+            className="rounded-lg border border-ink/15 px-3 py-1.5 text-sm text-ink/70 transition hover:border-terracotta hover:text-ink disabled:opacity-60"
           >
             Turn On
           </button>
@@ -66,32 +66,32 @@ export function EventTypeRow({ eventType, bookingUrl }: { eventType: EventType; 
         <div className="relative">
           <button
             onClick={() => setMenuOpen((v) => !v)}
-            className="rounded-lg p-2 text-neutral-400 hover:bg-base-850 hover:text-white"
+            className="rounded-lg p-2 text-ink/60 transition hover:bg-ink/5 hover:text-ink"
           >
             <MoreVertical size={16} />
           </button>
           {menuOpen && (
             <div
-              className="absolute right-0 z-10 mt-1 w-40 rounded-lg border border-base-700 bg-base-850 py-1 shadow-lg"
+              className="absolute right-0 z-10 mt-1 w-40 rounded-lg border border-ink/10 bg-white py-1 shadow-lg"
               onMouseLeave={() => setMenuOpen(false)}
             >
               <Link
                 href={`/scheduling/${eventType.id}/edit`}
-                className="flex items-center gap-2 px-3 py-2 text-sm text-neutral-200 hover:bg-base-800"
+                className="flex items-center gap-2 px-3 py-2 text-sm text-ink/70 hover:bg-ink/5"
               >
                 <Pencil size={14} /> Edit
               </Link>
               {isActive && (
                 <button
                   onClick={handleToggle}
-                  className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm text-neutral-200 hover:bg-base-800"
+                  className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm text-ink/70 hover:bg-ink/5"
                 >
                   Turn Off
                 </button>
               )}
               <button
                 onClick={() => startTransition(() => deleteEventType(eventType.id))}
-                className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm text-red-400 hover:bg-base-800"
+                className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm text-red-600 hover:bg-ink/5"
               >
                 <Trash2 size={14} /> Delete
               </button>

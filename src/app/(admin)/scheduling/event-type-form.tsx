@@ -28,7 +28,7 @@ export function EventTypeForm({
   eventType?: EventType;
 }) {
   const [locationType, setLocationType] = useState(eventType?.location_type ?? "google_meet");
-  const [color, setColor] = useState(eventType?.color ?? "#635EF2");
+  const [color, setColor] = useState(eventType?.color ?? "#D4682B");
   const [duration, setDuration] = useState(eventType?.duration_minutes ?? 30);
 
   const initialNoticeMinutes = eventType?.min_notice_minutes ?? 60;
@@ -40,28 +40,28 @@ export function EventTypeForm({
   return (
     <form action={action} className="max-w-xl space-y-5">
       <div>
-        <label className="mb-1 block text-sm text-neutral-300">Name</label>
+        <label className="mb-1 block text-sm text-ink/70">Name</label>
         <input
           name="name"
           required
           defaultValue={eventType?.name}
           placeholder="e.g. Client Brainstorming Session"
-          className="w-full rounded-lg border border-base-600 bg-base-850 px-3 py-2 text-sm text-white outline-none focus:border-accent"
+          className="w-full rounded-lg border border-ink/15 bg-cream/40 px-3 py-2 text-sm text-ink outline-none focus:border-terracotta"
         />
       </div>
 
       <div>
-        <label className="mb-1 block text-sm text-neutral-300">Description</label>
+        <label className="mb-1 block text-sm text-ink/70">Description</label>
         <textarea
           name="description"
           rows={3}
           defaultValue={eventType?.description}
-          className="w-full rounded-lg border border-base-600 bg-base-850 px-3 py-2 text-sm text-white outline-none focus:border-accent"
+          className="w-full rounded-lg border border-ink/15 bg-cream/40 px-3 py-2 text-sm text-ink outline-none focus:border-terracotta"
         />
       </div>
 
       <div>
-        <label className="mb-1 block text-sm text-neutral-300">Duration</label>
+        <label className="mb-1 block text-sm text-ink/70">Duration</label>
         <div className="mb-2 flex flex-wrap gap-2">
           {DURATION_PRESETS.map((d) => (
             <button
@@ -70,8 +70,8 @@ export function EventTypeForm({
               onClick={() => setDuration(d)}
               className={`rounded-lg border px-3 py-1.5 text-sm transition ${
                 duration === d
-                  ? "border-accent bg-accent/10 text-white"
-                  : "border-base-600 text-neutral-300 hover:border-base-500"
+                  ? "border-terracotta bg-terracotta/10 text-ink"
+                  : "border-ink/15 text-ink/70 hover:border-terracotta"
               }`}
             >
               {formatDuration(d)}
@@ -86,19 +86,19 @@ export function EventTypeForm({
             name="duration_minutes"
             value={duration}
             onChange={(e) => setDuration(Number(e.target.value) || 0)}
-            className="w-32 rounded-lg border border-base-600 bg-base-850 px-3 py-2 text-sm text-white outline-none focus:border-accent"
+            className="w-32 rounded-lg border border-ink/15 bg-cream/40 px-3 py-2 text-sm text-ink outline-none focus:border-terracotta"
           />
-          <span className="text-sm text-neutral-500">minutes ({formatDuration(duration)})</span>
+          <span className="text-sm text-ink/50">minutes ({formatDuration(duration)})</span>
         </div>
       </div>
 
       <div>
-        <label className="mb-1 block text-sm text-neutral-300">Location</label>
+        <label className="mb-1 block text-sm text-ink/70">Location</label>
         <select
           name="location_type"
           value={locationType}
           onChange={(e) => setLocationType(e.target.value as typeof locationType)}
-          className="w-full rounded-lg border border-base-600 bg-base-850 px-3 py-2 text-sm text-white outline-none focus:border-accent"
+          className="w-full rounded-lg border border-ink/15 bg-cream/40 px-3 py-2 text-sm text-ink outline-none focus:border-terracotta"
         >
           <option value="google_meet">Google Meet</option>
           <option value="in_person">In person</option>
@@ -108,7 +108,7 @@ export function EventTypeForm({
       </div>
 
       <div>
-        <label className="mb-1 block text-sm text-neutral-300">Color</label>
+        <label className="mb-1 block text-sm text-ink/70">Color</label>
         <div className="flex items-center gap-2">
           {["#D4682B", "#475881", "#383510", "#EFE29C", "#A6CBCD", "#E5BEE3"].map((swatch) => (
             <button
@@ -117,7 +117,7 @@ export function EventTypeForm({
               onClick={() => setColor(swatch)}
               style={{ backgroundColor: swatch }}
               className={`h-7 w-7 rounded-full transition ${
-                color === swatch ? "ring-2 ring-white ring-offset-2 ring-offset-base-900" : ""
+                color === swatch ? "ring-2 ring-ink ring-offset-2 ring-offset-cream" : ""
               }`}
               aria-label={`Use color ${swatch}`}
             />
@@ -126,7 +126,7 @@ export function EventTypeForm({
             type="color"
             value={color}
             onChange={(e) => setColor(e.target.value)}
-            className="h-7 w-9 cursor-pointer rounded border border-base-600 bg-base-850 p-0.5"
+            className="h-7 w-9 cursor-pointer rounded border border-ink/15 bg-cream/40 p-0.5"
             aria-label="Custom color"
           />
         </div>
@@ -134,26 +134,26 @@ export function EventTypeForm({
       </div>
 
       <div>
-        <label className="flex items-center gap-2 text-sm text-neutral-300">
+        <label className="flex items-center gap-2 text-sm text-ink/70">
           <input
             type="checkbox"
             name="collect_project_details"
             defaultChecked={eventType?.collect_project_details ?? false}
-            className="h-4 w-4 rounded border-base-600 bg-base-850"
+            className="h-4 w-4 rounded border-ink/20 bg-cream/40"
           />
           Ask for project/business name + summary
         </label>
-        <p className="ml-6 mt-1 text-xs text-neutral-500">
+        <p className="ml-6 mt-1 text-xs text-ink/50">
           Adds two extra fields to this booking form — good for a first exploratory call with new clients.
         </p>
       </div>
 
       <div>
-        <label className="mb-1 block text-sm text-neutral-300">Shown on landing page under</label>
+        <label className="mb-1 block text-sm text-ink/70">Shown on landing page under</label>
         <select
           name="audience"
           defaultValue={eventType?.audience ?? "new"}
-          className="w-full rounded-lg border border-base-600 bg-base-850 px-3 py-2 text-sm text-white outline-none focus:border-accent"
+          className="w-full rounded-lg border border-ink/15 bg-cream/40 px-3 py-2 text-sm text-ink outline-none focus:border-terracotta"
         >
           <option value="new">&quot;Si quieres trabajar con nosotras&quot; (new/potential clients)</option>
           <option value="existing">&quot;Si ya trabajas con nosotras&quot; (existing clients)</option>
@@ -162,51 +162,51 @@ export function EventTypeForm({
 
       {locationType !== "google_meet" && (
         <div>
-          <label className="mb-1 block text-sm text-neutral-300">Location details</label>
+          <label className="mb-1 block text-sm text-ink/70">Location details</label>
           <input
             name="location_details"
             defaultValue={eventType?.location_details}
             placeholder={locationType === "phone" ? "Who calls whom?" : "Address or details"}
-            className="w-full rounded-lg border border-base-600 bg-base-850 px-3 py-2 text-sm text-white outline-none focus:border-accent"
+            className="w-full rounded-lg border border-ink/15 bg-cream/40 px-3 py-2 text-sm text-ink outline-none focus:border-terracotta"
           />
         </div>
       )}
 
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label className="mb-1 block text-sm text-neutral-300">Buffer before (min)</label>
+          <label className="mb-1 block text-sm text-ink/70">Buffer before (min)</label>
           <input
             type="number"
             min={0}
             name="buffer_before_minutes"
             defaultValue={eventType?.buffer_before_minutes ?? 0}
-            className="w-full rounded-lg border border-base-600 bg-base-850 px-3 py-2 text-sm text-white outline-none focus:border-accent"
+            className="w-full rounded-lg border border-ink/15 bg-cream/40 px-3 py-2 text-sm text-ink outline-none focus:border-terracotta"
           />
         </div>
         <div>
-          <label className="mb-1 block text-sm text-neutral-300">Buffer after (min)</label>
+          <label className="mb-1 block text-sm text-ink/70">Buffer after (min)</label>
           <input
             type="number"
             min={0}
             name="buffer_after_minutes"
             defaultValue={eventType?.buffer_after_minutes ?? 0}
-            className="w-full rounded-lg border border-base-600 bg-base-850 px-3 py-2 text-sm text-white outline-none focus:border-accent"
+            className="w-full rounded-lg border border-ink/15 bg-cream/40 px-3 py-2 text-sm text-ink outline-none focus:border-terracotta"
           />
         </div>
         <div>
-          <label className="mb-1 block text-sm text-neutral-300">Minimum notice</label>
+          <label className="mb-1 block text-sm text-ink/70">Minimum notice</label>
           <div className="flex items-center gap-2">
             <input
               type="number"
               min={0}
               value={noticeValue}
               onChange={(e) => setNoticeValue(Number(e.target.value) || 0)}
-              className="w-full rounded-lg border border-base-600 bg-base-850 px-3 py-2 text-sm text-white outline-none focus:border-accent"
+              className="w-full rounded-lg border border-ink/15 bg-cream/40 px-3 py-2 text-sm text-ink outline-none focus:border-terracotta"
             />
             <select
               value={noticeUnit}
               onChange={(e) => setNoticeUnit(e.target.value as NoticeUnit)}
-              className="rounded-lg border border-base-600 bg-base-850 px-2 py-2 text-sm text-white outline-none focus:border-accent"
+              className="rounded-lg border border-ink/15 bg-cream/40 px-2 py-2 text-sm text-ink outline-none focus:border-terracotta"
             >
               <option value="minutes">min</option>
               <option value="hours">hr</option>
@@ -216,20 +216,20 @@ export function EventTypeForm({
           <input type="hidden" name="min_notice_minutes" value={noticeMinutes} />
         </div>
         <div>
-          <label className="mb-1 block text-sm text-neutral-300">Booking horizon (days)</label>
+          <label className="mb-1 block text-sm text-ink/70">Booking horizon (days)</label>
           <input
             type="number"
             min={1}
             name="booking_horizon_days"
             defaultValue={eventType?.booking_horizon_days ?? 60}
-            className="w-full rounded-lg border border-base-600 bg-base-850 px-3 py-2 text-sm text-white outline-none focus:border-accent"
+            className="w-full rounded-lg border border-ink/15 bg-cream/40 px-3 py-2 text-sm text-ink outline-none focus:border-terracotta"
           />
         </div>
       </div>
 
       <button
         type="submit"
-        className="rounded-lg bg-accent px-5 py-2.5 text-sm font-medium text-white hover:bg-accent/90"
+        className="rounded-lg bg-ink px-5 py-2.5 text-sm font-medium text-cream transition hover:bg-terracotta"
       >
         {eventType ? "Save changes" : "Create event type"}
       </button>
