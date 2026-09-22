@@ -54,9 +54,12 @@ export default async function PublicLandingPage({ params }: { params: { username
           <div className="space-y-10">
             {newClientTypes.length > 0 && (
               <section>
-                <h2 className="mb-4 font-display text-lg font-black text-ink">
-                  si quieres trabajar con nosotras
-                </h2>
+                <div className="mb-4 flex items-center gap-2">
+                  <span className="font-label text-xs font-medium text-terracotta">01</span>
+                  <h2 className="font-display text-xl font-black uppercase tracking-wide text-ink">
+                    si quieres trabajar con nosotras
+                  </h2>
+                </div>
                 <div className="space-y-3">
                   {newClientTypes.map((eventType) => (
                     <EventCard
@@ -70,10 +73,13 @@ export default async function PublicLandingPage({ params }: { params: { username
             )}
 
             {existingClientTypes.length > 0 && (
-              <section>
-                <h2 className="mb-4 font-display text-lg font-black text-ink">
-                  si ya trabajas con nosotras
-                </h2>
+              <section className="border-t border-ink/10 pt-10">
+                <div className="mb-4 flex items-center gap-2">
+                  <span className="font-label text-xs font-medium text-terracotta">02</span>
+                  <h2 className="font-display text-xl font-black uppercase tracking-wide text-ink">
+                    si ya trabajas con nosotras
+                  </h2>
+                </div>
                 <div className="space-y-3">
                   {existingClientTypes.map((eventType) => (
                     <EventCard
