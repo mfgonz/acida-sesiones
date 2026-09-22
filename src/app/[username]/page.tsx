@@ -1,8 +1,9 @@
 import { notFound } from "next/navigation";
+import Image from "next/image";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { PublicFooter } from "@/components/public-footer";
 import { EventCard } from "@/components/event-card";
-import { BRAND_NAME, BRAND_HANDLE, BRAND_DESCRIPTION } from "@/lib/brand";
+import { BRAND_HANDLE, BRAND_DESCRIPTION } from "@/lib/brand";
 import type { EventType } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
@@ -33,12 +34,17 @@ export default async function PublicLandingPage({ params }: { params: { username
     <div className="min-h-screen bg-cream font-body">
       <div className="mx-auto max-w-2xl px-4 py-16">
         <div className="mb-10">
-          <h1 className="font-display text-3xl font-black tracking-tight text-ink">
-            {BRAND_NAME.toLowerCase()}
-            <span className="ml-2 font-label text-sm font-normal tracking-normal text-ink/50">
-              {BRAND_HANDLE}
-            </span>
-          </h1>
+          <div className="flex items-end gap-2">
+            <Image
+              src="/logo-acida.webp"
+              alt="ÁCIDA"
+              width={1500}
+              height={498}
+              priority
+              className="h-9 w-auto sm:h-11"
+            />
+            <span className="mb-0.5 font-label text-sm font-normal text-ink/50">{BRAND_HANDLE}</span>
+          </div>
           <p className="mt-2 max-w-md text-sm text-ink/70">{BRAND_DESCRIPTION}</p>
         </div>
 
