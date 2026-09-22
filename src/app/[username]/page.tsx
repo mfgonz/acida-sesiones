@@ -3,7 +3,9 @@ import Image from "next/image";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { PublicFooter } from "@/components/public-footer";
 import { EventCard } from "@/components/event-card";
+import { PanamaWidget } from "@/components/panama-widget";
 import { BRAND_HANDLE, BRAND_DESCRIPTION } from "@/lib/brand";
+import { getPanamaWeather } from "@/lib/weather";
 import type { EventType } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
@@ -29,9 +31,11 @@ export default async function PublicLandingPage({ params }: { params: { username
   const all = (eventTypes ?? []) as EventType[];
   const newClientTypes = all.filter((e) => e.audience !== "existing");
   const existingClientTypes = all.filter((e) => e.audience === "existing");
+  const weather = await getPanamaWeather();
 
   return (
     <div className="min-h-screen bg-cream bg-noise font-body">
+      <PanamaWidget weather={weather} />
       <div className="mx-auto max-w-2xl px-4 py-16">
         <div className="mb-10">
           <div className="flex items-end gap-2">
