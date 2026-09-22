@@ -1,10 +1,18 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Clock3 } from "lucide-react";
+import { Clock3, ArrowRight } from "lucide-react";
 import { BRAND_NAME } from "@/lib/brand";
 import { isLand } from "@/lib/land-mask";
 import type { PanamaWeather } from "@/lib/weather";
+
+/** Thermal-sensation (feels-like, not raw temperature) copy, coldest to hottest. */
+function thermalMessage(feelsLike: number): string {
+  if (feelsLike <= 25) return "Básicamente, invierno";
+  if (feelsLike <= 29) return "Hace calorcito, pero ahí vamos";
+  if (feelsLike <= 34) return "Clima de playa, find us somewhere with a breeze";
+  return "Este calor no está para humanos";
+}
 
 const PANAMA_TZ = "America/Panama";
 const PANAMA_LAT = 8.9824;
@@ -107,19 +115,33 @@ function GlobeCanvas() {
         ctx!.fill();
       }
 
-      // Pulsing marker for Panama.
+      // Pulsing, glowing marker for Panama — sized to stay clearly visible.
       const marker = project(rot, cosT, sinT, PANAMA_VECTOR);
       if (marker.depth > -0.15) {
         const pulse = (Math.sin(elapsed / 450) + 1) / 2; // 0..1
-        const haloR = 4 + pulse * 5;
+        const dotR = 10.5;
+        const haloR = dotR + 3 + pulse * 8;
+
+        const glow = ctx!.createRadialGradient(marker.sx, marker.sy, 0, marker.sx, marker.sy, haloR * 1.8);
+        glow.addColorStop(0, `rgba(212, 43, 43, ${0.5 * (1 - pulse * 0.5)})`);
+        glow.addColorStop(1, "rgba(212, 43, 43, 0)");
+        ctx!.beginPath();
+        ctx!.arc(marker.sx, marker.sy, haloR * 1.8, 0, Math.PI * 2);
+        ctx!.fillStyle = glow;
+        ctx!.fill();
+
         ctx!.beginPath();
         ctx!.arc(marker.sx, marker.sy, haloR, 0, Math.PI * 2);
-        ctx!.fillStyle = `rgba(212, 43, 43, ${0.35 * (1 - pulse)})`;
+        ctx!.fillStyle = `rgba(212, 43, 43, ${0.4 * (1 - pulse)})`;
         ctx!.fill();
+
         ctx!.beginPath();
-        ctx!.arc(marker.sx, marker.sy, 2.5, 0, Math.PI * 2);
+        ctx!.arc(marker.sx, marker.sy, dotR, 0, Math.PI * 2);
         ctx!.fillStyle = "#D42B2B";
+        ctx!.shadowColor = "rgba(212, 43, 43, 0.9)";
+        ctx!.shadowBlur = 14;
         ctx!.fill();
+        ctx!.shadowBlur = 0;
       }
 
       frame = requestAnimationFrame(draw);
@@ -186,8 +208,10 @@ function PanamaClock() {
 }
 
 export function PanamaWidget({ weather }: { weather: PanamaWeather | null }) {
+  const vibe = weather ? thermalMessage(weather.feelsLike) : null;
+
   return (
-    <div className="fixed right-16 top-1/2 z-10 hidden w-64 -translate-y-1/2 rounded-2xl border border-ink/10 bg-white/80 p-4 shadow-lg backdrop-blur xl:block">
+    <div className="fixed right-32 top-1/2 z-10 hidden w-64 -translate-y-1/2 rounded-2xl border border-ink/10 bg-white/80 p-4 shadow-lg backdrop-blur xl:block">
       <div className="mb-3 flex items-center justify-between">
         <span className="flex h-6 w-6 items-center justify-center rounded-full bg-ink text-xs font-bold text-cream">
           {BRAND_NAME.slice(0, 1)}
@@ -203,6 +227,12 @@ export function PanamaWidget({ weather }: { weather: PanamaWeather | null }) {
           ? `${weather.temperature}°C · Se siente ${weather.feelsLike}° · ${weather.description}`
           : "Ciudad de Panamá"}
       </p>
+      {vibe && (
+        <p className="mt-1.5 flex items-center gap-1 font-label text-xs font-medium text-terracotta">
+          <span>{vibe}</span>
+          <ArrowRight size={12} className="animate-arrow-nudge shrink-0" />
+        </p>
+      )}
     </div>
   );
 }
