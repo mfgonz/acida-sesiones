@@ -148,6 +148,18 @@ export function EventTypeForm({
         </p>
       </div>
 
+      <div>
+        <label className="mb-1 block text-sm text-neutral-300">Shown on landing page under</label>
+        <select
+          name="audience"
+          defaultValue={eventType?.audience ?? "new"}
+          className="w-full rounded-lg border border-base-600 bg-base-850 px-3 py-2 text-sm text-white outline-none focus:border-accent"
+        >
+          <option value="new">&quot;Si quieres trabajar con nosotras&quot; (new/potential clients)</option>
+          <option value="existing">&quot;Si ya trabajas con nosotras&quot; (existing clients)</option>
+        </select>
+      </div>
+
       {locationType !== "google_meet" && (
         <div>
           <label className="mb-1 block text-sm text-neutral-300">Location details</label>

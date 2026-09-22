@@ -1,7 +1,6 @@
 import { Globe, Instagram } from "lucide-react";
 
-// TODO: fill in once the main ACIDA site URL is decided.
-const WEBSITE_URL = "";
+const WEBSITE_URL = "https://www.somosacida.com";
 const INSTAGRAM_URL = "https://instagram.com/somos.acida";
 
 export function PublicFooter() {

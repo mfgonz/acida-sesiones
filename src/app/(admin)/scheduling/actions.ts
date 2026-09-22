@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { getAuthUser } from "@/lib/supabase/server-auth";
 import { supabaseAdmin } from "@/lib/supabase/admin";
-import type { LocationType } from "@/lib/types";
+import type { AudienceGroup, LocationType } from "@/lib/types";
 
 function slugify(name: string) {
   return name
@@ -64,6 +64,7 @@ export async function createEventType(formData: FormData) {
     min_notice_minutes: Number(formData.get("min_notice_minutes") ?? 60),
     booking_horizon_days: Number(formData.get("booking_horizon_days") ?? 60),
     collect_project_details: formData.get("collect_project_details") === "on",
+    audience: String(formData.get("audience") ?? "new") as AudienceGroup,
     is_active: false,
   });
 
@@ -89,6 +90,7 @@ export async function updateEventType(id: string, formData: FormData) {
       min_notice_minutes: Number(formData.get("min_notice_minutes") ?? 60),
       booking_horizon_days: Number(formData.get("booking_horizon_days") ?? 60),
       collect_project_details: formData.get("collect_project_details") === "on",
+      audience: String(formData.get("audience") ?? "new") as AudienceGroup,
     })
     .eq("id", id)
     .eq("user_id", userId);

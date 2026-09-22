@@ -31,7 +31,8 @@ const config: Config = {
       },
       fontFamily: {
         display: ["var(--font-display)", "sans-serif"],
-        label: ["var(--font-mono-ui)", "monospace"],
+        body: ["var(--font-body)", "sans-serif"],
+        label: ["var(--font-body)", "sans-serif"],
       },
       borderRadius: {
         xl: "0.875rem",

@@ -66,6 +66,10 @@ create table if not exists event_types (
   -- When true, the booking form asks for project/business name + a summary
   -- of what the invitee wants to work on (e.g. a first exploratory call).
   collect_project_details boolean not null default false,
+  -- Which section of the public landing page this event type is grouped
+  -- under: "new" ("si quieres trabajar con nosotras") or "existing"
+  -- ("si ya trabajas con nosotras").
+  audience text not null default 'new' check (audience in ('new', 'existing')),
   created_at timestamptz not null default now(),
   unique (user_id, slug)
 );

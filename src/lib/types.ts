@@ -1,4 +1,5 @@
 export type LocationType = "google_meet" | "in_person" | "phone" | "custom";
+export type AudienceGroup = "new" | "existing";
 
 export interface Profile {
   id: string;
@@ -52,6 +53,7 @@ export interface EventType {
   min_notice_minutes: number;
   booking_horizon_days: number;
   collect_project_details: boolean;
+  audience: AudienceGroup;
   created_at: string;
 }
 
@@ -79,6 +81,11 @@ export const LOCATION_LABELS: Record<LocationType, string> = {
   in_person: "In person",
   phone: "Phone call",
   custom: "Custom",
+};
+
+export const AUDIENCE_LABELS: Record<AudienceGroup, string> = {
+  new: "New / potential clients",
+  existing: "Existing clients",
 };
 
 export const WEEKDAY_LABELS = [
