@@ -34,7 +34,7 @@ export default async function PublicLandingPage({ params }: { params: { username
   const weather = await getPanamaWeather();
 
   return (
-    <div className="min-h-screen bg-cream bg-noise font-body">
+    <div className="min-h-screen font-body">
       <PanamaWidget weather={weather} />
       <div className="mx-auto max-w-2xl px-4 py-16">
         <div className="mb-10">

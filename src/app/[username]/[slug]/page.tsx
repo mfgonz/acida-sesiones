@@ -30,7 +30,7 @@ export default async function BookingPage({ params }: { params: { username: stri
   const eventType = eventTypeRow as EventType;
 
   return (
-    <div className="min-h-screen bg-cream bg-noise font-body">
+    <div className="min-h-screen font-body">
       <div className="mx-auto max-w-3xl px-4 py-16">
         <Link
           href={`/${profile.username}`}

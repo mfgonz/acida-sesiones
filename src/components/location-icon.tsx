@@ -25,7 +25,7 @@ export function LocationIcon({
   size?: number;
 }) {
   const Icon = ICONS[locationType];
-  const iconColor = relativeLuminance(color) > 0.5 ? "#262623" : "#ffffff";
+  const iconColor = relativeLuminance(color) > 0.5 ? "#191919" : "#ffffff";
   return (
     <div
       className="flex shrink-0 items-center justify-center rounded-full"

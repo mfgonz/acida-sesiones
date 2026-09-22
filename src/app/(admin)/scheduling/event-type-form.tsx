@@ -28,7 +28,7 @@ export function EventTypeForm({
   eventType?: EventType;
 }) {
   const [locationType, setLocationType] = useState(eventType?.location_type ?? "google_meet");
-  const [color, setColor] = useState(eventType?.color ?? "#D4682B");
+  const [color, setColor] = useState(eventType?.color ?? "#C4522D");
   const [duration, setDuration] = useState(eventType?.duration_minutes ?? 30);
 
   const initialNoticeMinutes = eventType?.min_notice_minutes ?? 60;
@@ -110,7 +110,7 @@ export function EventTypeForm({
       <div>
         <label className="mb-1 block text-sm text-ink/70">Color</label>
         <div className="flex items-center gap-2">
-          {["#D4682B", "#475881", "#383510", "#EFE29C", "#A6CBCD", "#E5BEE3"].map((swatch) => (
+          {["#C4522D", "#495A8A", "#333311", "#DBC772", "#E2BBBE"].map((swatch) => (
             <button
               key={swatch}
               type="button"
