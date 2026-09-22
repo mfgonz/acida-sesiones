@@ -31,7 +31,7 @@ export default async function PublicLandingPage({ params }: { params: { username
   const existingClientTypes = all.filter((e) => e.audience === "existing");
 
   return (
-    <div className="min-h-screen bg-cream font-body">
+    <div className="min-h-screen bg-cream bg-noise font-body">
       <div className="mx-auto max-w-2xl px-4 py-16">
         <div className="mb-10">
           <div className="flex items-end gap-2">

@@ -110,7 +110,7 @@ export function EventTypeForm({
       <div>
         <label className="mb-1 block text-sm text-neutral-300">Color</label>
         <div className="flex items-center gap-2">
-          {["#635EF2", "#595FD9", "#F25757", "#22c55e", "#f59e0b", "#06b6d4"].map((swatch) => (
+          {["#D4682B", "#475881", "#383510", "#EFE29C", "#A6CBCD", "#E5BEE3"].map((swatch) => (
             <button
               key={swatch}
               type="button"

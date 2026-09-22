@@ -26,7 +26,7 @@ export default async function CancelPage({ params }: { params: { token: string }
   }).format(start);
 
   return (
-    <div className="min-h-screen bg-cream font-body">
+    <div className="min-h-screen bg-cream bg-noise font-body">
       <div className="mx-auto flex min-h-screen max-w-md flex-col justify-center px-4 py-16">
         <div className="rounded-xl border border-ink/10 bg-white p-8 text-center">
           <h1 className="font-display text-lg font-black text-ink">
