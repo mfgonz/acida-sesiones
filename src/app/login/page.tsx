@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { signIn } from "./actions";
 
 export default function LoginPage({ searchParams }: { searchParams: { error?: string } }) {
@@ -23,7 +24,12 @@ export default function LoginPage({ searchParams }: { searchParams: { error?: st
             />
           </div>
           <div>
-            <label className="mb-1 block text-sm text-ink/70">Password</label>
+            <div className="mb-1 flex items-center justify-between">
+              <label className="block text-sm text-ink/70">Password</label>
+              <Link href="/login/forgot-password" className="text-xs text-ink/50 hover:text-terracotta">
+                ¿Olvidaste tu contraseña?
+              </Link>
+            </div>
             <input
               name="password"
               type="password"
