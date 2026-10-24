@@ -1,9 +1,10 @@
-import { redirect } from "next/navigation";
-import { getAuthUser } from "@/lib/supabase/server-auth";
+import { PublicLandingPage } from "@/components/public-landing-page";
+import { BRAND_USERNAME } from "@/lib/brand";
 
 export const dynamic = "force-dynamic";
+export const fetchCache = "force-no-store";
+export const revalidate = 0;
 
-export default async function Home() {
-  const user = await getAuthUser();
-  redirect(user ? "/scheduling" : "/login");
+export default function Home() {
+  return <PublicLandingPage username={BRAND_USERNAME} />;
 }
