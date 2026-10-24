@@ -11,3 +11,11 @@
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+
+# Belt-and-suspenders against any edge/CDN caching of live availability data,
+# on top of the route-level force-dynamic + force-no-store directives.
+[[headers]]
+  for = "/api/availability"
+  [headers.values]
+    Cache-Control = "no-store, must-revalidate"
+    Netlify-CDN-Cache-Control = "no-store"

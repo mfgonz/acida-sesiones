@@ -9,6 +9,8 @@ import { getPanamaWeather } from "@/lib/weather";
 import type { EventType } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
+export const fetchCache = "force-no-store";
+export const revalidate = 0;
 
 export default async function PublicLandingPage({ params }: { params: { username: string } }) {
   const admin = supabaseAdmin();

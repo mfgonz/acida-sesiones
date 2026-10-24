@@ -7,6 +7,8 @@ import { clientIp, isRateLimited } from "@/lib/rate-limit";
 import type { AvailabilityRule, DateOverride } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
+export const fetchCache = "force-no-store";
+export const revalidate = 0;
 
 export async function GET(request: NextRequest) {
   const { searchParams } = request.nextUrl;
@@ -91,8 +93,11 @@ export async function GET(request: NextRequest) {
     busyIntervals: [...busyFromBookings, ...busyFromGoogle],
   });
 
-  return NextResponse.json({
-    timezone: schedule.timezone,
-    slots: slots.map((s) => s.start.toISOString()),
-  });
+  return NextResponse.json(
+    {
+      timezone: schedule.timezone,
+      slots: slots.map((s) => s.start.toISOString()),
+    },
+    { headers: { "Cache-Control": "no-store, must-revalidate" } }
+  );
 }

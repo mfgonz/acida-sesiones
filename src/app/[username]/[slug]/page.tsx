@@ -8,6 +8,8 @@ import { BRAND_NAME } from "@/lib/brand";
 import { LOCATION_LABELS, type EventType } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
+export const fetchCache = "force-no-store";
+export const revalidate = 0;
 
 export default async function BookingPage({ params }: { params: { username: string; slug: string } }) {
   const admin = supabaseAdmin();
