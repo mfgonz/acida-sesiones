@@ -48,7 +48,7 @@ export function EventTypeRow({ eventType, bookingUrl }: { eventType: EventType; 
         {isActive ? (
           <button
             onClick={handleCopy}
-            className="flex items-center gap-1.5 rounded-lg border border-ink/15 px-3 py-1.5 text-sm text-ink/70 transition hover:border-terracotta hover:text-ink"
+            className="flex items-center gap-1.5 rounded-[6px] border border-ink/15 px-3 py-1.5 text-sm text-ink/70 transition hover:border-terracotta hover:text-ink"
           >
             {copied ? <Check size={14} /> : <Copy size={14} />}
             {copied ? "Copied" : "Copy link"}
@@ -57,7 +57,7 @@ export function EventTypeRow({ eventType, bookingUrl }: { eventType: EventType; 
           <button
             onClick={handleToggle}
             disabled={isPending}
-            className="rounded-lg border border-ink/15 px-3 py-1.5 text-sm text-ink/70 transition hover:border-terracotta hover:text-ink disabled:opacity-60"
+            className="rounded-[6px] border border-ink/15 px-3 py-1.5 text-sm text-ink/70 transition hover:border-terracotta hover:text-ink disabled:opacity-60"
           >
             Turn On
           </button>

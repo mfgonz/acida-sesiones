@@ -51,7 +51,7 @@ export default async function AvailabilityPage() {
             <form action={disconnectGoogle}>
               <button
                 type="submit"
-                className="flex items-center gap-2 rounded-lg border border-ink/15 px-3 py-1.5 text-sm text-ink/70 transition hover:border-terracotta hover:text-ink"
+                className="flex items-center gap-2 rounded-[6px] border border-ink/15 px-3 py-1.5 text-sm text-ink/70 transition hover:border-terracotta hover:text-ink"
               >
                 <Unplug size={14} /> Disconnect
               </button>
@@ -59,7 +59,7 @@ export default async function AvailabilityPage() {
           ) : (
             <a
               href="/api/google/connect"
-              className="rounded-lg bg-ink px-4 py-2 text-sm font-medium text-cream transition hover:bg-terracotta"
+              className="rounded-[6px] bg-ink px-4 py-2 text-sm font-medium text-cream transition hover:bg-terracotta"
             >
               Connect Google Calendar
             </a>

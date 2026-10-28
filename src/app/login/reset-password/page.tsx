@@ -51,7 +51,7 @@ export default async function ResetPasswordPage({ searchParams }: { searchParams
           )}
           <button
             type="submit"
-            className="w-full rounded-lg bg-ink px-4 py-2.5 font-medium text-cream transition hover:bg-terracotta"
+            className="w-full rounded-[6px] bg-ink px-4 py-2.5 font-medium text-cream transition hover:bg-terracotta"
           >
             Guardar contraseña
           </button>

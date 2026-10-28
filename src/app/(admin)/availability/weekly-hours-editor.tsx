@@ -94,21 +94,21 @@ export function WeeklyHoursEditor({
         <button
           type="button"
           onClick={setWeekdaysOnly}
-          className="rounded-lg border border-ink/15 px-3 py-1.5 text-ink/70 transition hover:border-terracotta hover:text-ink"
+          className="rounded-[6px] border border-ink/15 px-3 py-1.5 text-ink/70 transition hover:border-terracotta hover:text-ink"
         >
           Weekdays only
         </button>
         <button
           type="button"
           onClick={() => setAll({ enabled: true })}
-          className="rounded-lg border border-ink/15 px-3 py-1.5 text-ink/70 transition hover:border-terracotta hover:text-ink"
+          className="rounded-[6px] border border-ink/15 px-3 py-1.5 text-ink/70 transition hover:border-terracotta hover:text-ink"
         >
           Mark all available
         </button>
         <button
           type="button"
           onClick={() => setAll({ enabled: false })}
-          className="rounded-lg border border-ink/15 px-3 py-1.5 text-ink/70 transition hover:border-terracotta hover:text-ink"
+          className="rounded-[6px] border border-ink/15 px-3 py-1.5 text-ink/70 transition hover:border-terracotta hover:text-ink"
         >
           Mark all unavailable
         </button>
@@ -162,7 +162,7 @@ export function WeeklyHoursEditor({
 
       <button
         type="submit"
-        className="rounded-lg bg-ink px-5 py-2.5 text-sm font-medium text-cream transition hover:bg-terracotta"
+        className="rounded-[6px] bg-ink px-5 py-2.5 text-sm font-medium text-cream transition hover:bg-terracotta"
       >
         Save hours
       </button>

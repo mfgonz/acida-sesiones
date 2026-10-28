@@ -40,9 +40,10 @@ export async function PublicLandingPage({ username }: { username: string }) {
             <Image
               src="/logo-acida.webp"
               alt="ÁCIDA"
-              width={1500}
-              height={498}
+              width={480}
+              height={186}
               priority
+              unoptimized
               className="h-9 w-auto sm:h-11"
             />
             <span className="mb-0.5 font-label text-sm font-normal text-ink/50">{BRAND_HANDLE}</span>
@@ -57,8 +58,10 @@ export async function PublicLandingPage({ username }: { username: string }) {
             {newClientTypes.length > 0 && (
               <section>
                 <div className="mb-4 flex items-center gap-2">
-                  <span className="font-label text-xs font-medium text-terracotta">01</span>
-                  <h2 className="font-display text-xl font-black uppercase tracking-wide text-ink">
+                  <span className="flex h-6 min-w-6 items-center justify-center bg-ink px-1 font-label text-xs text-cream">
+                    01
+                  </span>
+                  <h2 className="font-display text-xl font-normal tracking-tight text-ink">
                     si quieres trabajar con nosotras
                   </h2>
                 </div>
@@ -77,8 +80,10 @@ export async function PublicLandingPage({ username }: { username: string }) {
             {existingClientTypes.length > 0 && (
               <section className="border-t border-ink/10 pt-10">
                 <div className="mb-4 flex items-center gap-2">
-                  <span className="font-label text-xs font-medium text-terracotta">02</span>
-                  <h2 className="font-display text-xl font-black uppercase tracking-wide text-ink">
+                  <span className="flex h-6 min-w-6 items-center justify-center bg-ink px-1 font-label text-xs text-cream">
+                    02
+                  </span>
+                  <h2 className="font-display text-xl font-normal tracking-tight text-ink">
                     si ya trabajas con nosotras
                   </h2>
                 </div>

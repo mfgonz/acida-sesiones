@@ -29,7 +29,7 @@ export default async function CancelPage({ params }: { params: { token: string }
     <div className="min-h-screen font-body">
       <div className="mx-auto flex min-h-screen max-w-md flex-col justify-center px-4 py-16">
         <div className="rounded-xl border border-ink/10 bg-white p-8 text-center">
-          <h1 className="font-display text-lg font-black text-ink">
+          <h1 className="font-display text-lg font-normal text-ink">
             {booking.status === "canceled" ? "Booking canceled" : "Cancel booking?"}
           </h1>
           <p className="mt-2 text-sm text-ink/60">

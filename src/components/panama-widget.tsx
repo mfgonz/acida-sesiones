@@ -200,7 +200,7 @@ function PanamaClock() {
   }, []);
 
   return (
-    <span className="flex items-center gap-1 rounded-full border border-ink/10 bg-white px-2.5 py-1 font-label text-xs text-ink/70">
+    <span className="flex items-center gap-1 rounded-[6px] border border-ink/10 bg-white px-2.5 py-1 font-label text-xs uppercase tracking-wide text-ink/70">
       <Clock3 size={12} />
       {time ?? "--:--"}
     </span>
@@ -221,7 +221,7 @@ export function PanamaWidget({ weather }: { weather: PanamaWeather | null }) {
 
       <GlobeCanvas />
 
-      <p className="mt-3 font-display text-sm font-bold text-ink">En vivo desde Panamá</p>
+      <p className="mt-3 font-display text-sm font-normal text-ink">En vivo desde Panamá</p>
       <p className="mt-1 font-label text-xs text-ink/60">
         {weather
           ? `${weather.temperature}°C · Se siente ${weather.feelsLike}° · ${weather.description}`

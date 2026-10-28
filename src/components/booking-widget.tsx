@@ -100,7 +100,7 @@ export function BookingWidget({ username, slug, durationMinutes, collectProjectD
   if (step === "done") {
     return (
       <div className="rounded-xl border border-ink/10 bg-white p-8 text-center">
-        <h2 className="font-display text-lg font-black text-ink">You&apos;re booked!</h2>
+        <h2 className="font-display text-lg font-normal text-ink">You&apos;re booked!</h2>
         <p className="mt-2 text-sm text-ink/60">
           A calendar invite is on its way to your email
           {selectedSlot && (
@@ -143,7 +143,7 @@ export function BookingWidget({ username, slug, durationMinutes, collectProjectD
           <ChevronLeft size={16} /> Back
         </button>
         <p className="mb-1 font-label text-xs uppercase tracking-wide text-ink/50">{durationMinutes} min</p>
-        <p className="mb-6 font-display font-bold text-ink">
+        <p className="mb-6 font-display font-normal text-ink">
           {new Intl.DateTimeFormat("en-US", {
             weekday: "long",
             month: "long",
@@ -212,7 +212,7 @@ export function BookingWidget({ username, slug, durationMinutes, collectProjectD
           <button
             type="submit"
             disabled={submitting}
-            className="flex w-full items-center justify-center gap-2 rounded-lg bg-ink px-4 py-2.5 text-sm font-medium text-cream transition hover:bg-terracotta disabled:opacity-60"
+            className="flex w-full items-center justify-center gap-2 rounded-[6px] bg-ink px-4 py-2.5 text-sm font-medium text-cream transition hover:bg-terracotta disabled:opacity-60"
           >
             {submitting && <Loader2 size={16} className="animate-spin" />}
             Confirm booking
@@ -228,7 +228,7 @@ export function BookingWidget({ username, slug, durationMinutes, collectProjectD
     <div className="grid gap-6 rounded-xl border border-ink/10 bg-white p-6 sm:grid-cols-2">
       <div>
         <div className="mb-3 flex items-center justify-between">
-          <p className="font-display font-bold text-ink">{format(month, "MMMM yyyy")}</p>
+          <p className="font-display font-normal text-ink">{format(month, "MMMM yyyy")}</p>
           <div className="flex gap-1">
             <button
               onClick={() => setMonth((m) => addMonths(m, -1))}
@@ -302,7 +302,7 @@ export function BookingWidget({ username, slug, durationMinutes, collectProjectD
                 setFormShownAt(Date.now());
                 setStep("form");
               }}
-              className="block w-full rounded-lg border border-ink/15 py-2 text-sm text-ink hover:border-terracotta hover:bg-terracotta/10"
+              className="block w-full rounded-[6px] border border-ink/15 py-2 text-sm text-ink hover:border-terracotta hover:bg-terracotta/10"
             >
               {new Intl.DateTimeFormat("en-US", { hour: "numeric", minute: "2-digit", timeZone: timezone }).format(
                 new Date(iso)

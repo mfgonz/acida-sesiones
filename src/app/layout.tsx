@@ -1,23 +1,23 @@
 import type { Metadata } from "next";
-import { Archivo } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
 
-const archivo = Archivo({
-  subsets: ["latin"],
-  weight: ["400", "500", "700", "900"],
+const apfelGrotezk = localFont({
+  src: [
+    { path: "../fonts/apfelgrotezk/ApfelGrotezk-Regular.woff2", weight: "400", style: "normal" },
+    { path: "../fonts/apfelgrotezk/ApfelGrotezk-Mittel.woff2", weight: "500", style: "normal" },
+    { path: "../fonts/apfelgrotezk/ApfelGrotezk-Satt.woff2", weight: "700", style: "normal" },
+    { path: "../fonts/apfelgrotezk/ApfelGrotezk-Fett.woff2", weight: "900", style: "normal" },
+  ],
   variable: "--font-display",
 });
 
-const ppNeue = localFont({
+const ibmPlexMono = localFont({
   src: [
-    { path: "../fonts/ppneuemontreal/ppneuemontreal-book.otf", weight: "400", style: "normal" },
-    { path: "../fonts/ppneuemontreal/ppneuemontreal-italic.otf", weight: "400", style: "italic" },
-    { path: "../fonts/ppneuemontreal/ppneuemontreal-medium.otf", weight: "500", style: "normal" },
-    { path: "../fonts/ppneuemontreal/ppneuemontreal-semibolditalic.otf", weight: "600", style: "italic" },
-    { path: "../fonts/ppneuemontreal/ppneuemontreal-bold.otf", weight: "700", style: "normal" },
+    { path: "../fonts/ibmplexmono/IBMPlexMono-Regular.woff2", weight: "400", style: "normal" },
+    { path: "../fonts/ibmplexmono/IBMPlexMono-Medium.ttf", weight: "500", style: "normal" },
   ],
-  variable: "--font-body",
+  variable: "--font-mono",
 });
 
 export const metadata: Metadata = {
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${archivo.variable} ${ppNeue.variable}`}>
+    <html lang="en" className={`${apfelGrotezk.variable} ${ibmPlexMono.variable}`}>
       <body className="min-h-screen font-body antialiased">{children}</body>
     </html>
   );

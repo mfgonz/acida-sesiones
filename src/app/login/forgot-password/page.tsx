@@ -24,7 +24,7 @@ export default function ForgotPasswordPage({
             </p>
             <Link
               href="/login"
-              className="block w-full rounded-lg bg-ink px-4 py-2.5 text-center font-medium text-cream transition hover:bg-terracotta"
+              className="block w-full rounded-[6px] bg-ink px-4 py-2.5 text-center font-medium text-cream transition hover:bg-terracotta"
             >
               Volver a iniciar sesión
             </Link>
@@ -52,7 +52,7 @@ export default function ForgotPasswordPage({
               </div>
               <button
                 type="submit"
-                className="w-full rounded-lg bg-ink px-4 py-2.5 font-medium text-cream transition hover:bg-terracotta"
+                className="w-full rounded-[6px] bg-ink px-4 py-2.5 font-medium text-cream transition hover:bg-terracotta"
               >
                 Enviar link
               </button>

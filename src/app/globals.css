@@ -11,12 +11,12 @@
 }
 
 body {
-  background-color: #f2ece0;
-  color: #191919;
+  background-color: #f7f7ef;
+  color: #2b2b27;
   position: relative;
   background-image:
-    radial-gradient(circle at 18% 12%, rgb(219 199 114 / 16%), transparent 42%),
-    radial-gradient(circle at 82% 68%, rgb(226 187 190 / 18%), transparent 46%),
+    radial-gradient(circle at 18% 12%, rgb(245 239 167 / 16%), transparent 42%),
+    radial-gradient(circle at 82% 68%, rgb(234 197 230 / 18%), transparent 46%),
     var(--paper-fibers);
   background-attachment: fixed;
 }

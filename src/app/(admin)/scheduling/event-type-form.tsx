@@ -28,7 +28,7 @@ export function EventTypeForm({
   eventType?: EventType;
 }) {
   const [locationType, setLocationType] = useState(eventType?.location_type ?? "google_meet");
-  const [color, setColor] = useState(eventType?.color ?? "#C4522D");
+  const [color, setColor] = useState(eventType?.color ?? "#DD7130");
   const [duration, setDuration] = useState(eventType?.duration_minutes ?? 30);
 
   const initialNoticeMinutes = eventType?.min_notice_minutes ?? 60;
@@ -68,7 +68,7 @@ export function EventTypeForm({
               key={d}
               type="button"
               onClick={() => setDuration(d)}
-              className={`rounded-lg border px-3 py-1.5 text-sm transition ${
+              className={`rounded-[6px] border px-3 py-1.5 text-sm transition ${
                 duration === d
                   ? "border-terracotta bg-terracotta/10 text-ink"
                   : "border-ink/15 text-ink/70 hover:border-terracotta"
@@ -110,7 +110,7 @@ export function EventTypeForm({
       <div>
         <label className="mb-1 block text-sm text-ink/70">Color</label>
         <div className="flex items-center gap-2">
-          {["#C4522D", "#495A8A", "#333311", "#DBC772", "#E2BBBE"].map((swatch) => (
+          {["#DD7130", "#4E628D", "#403F0E", "#F5EFA7", "#EAC5E6", "#AED2D3"].map((swatch) => (
             <button
               key={swatch}
               type="button"
@@ -229,7 +229,7 @@ export function EventTypeForm({
 
       <button
         type="submit"
-        className="rounded-lg bg-ink px-5 py-2.5 text-sm font-medium text-cream transition hover:bg-terracotta"
+        className="rounded-[6px] bg-ink px-5 py-2.5 text-sm font-medium text-cream transition hover:bg-terracotta"
       >
         {eventType ? "Save changes" : "Create event type"}
       </button>

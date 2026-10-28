@@ -35,7 +35,7 @@ export function BookingRow({ booking, eventType, timezone }: { booking: Booking;
         <button
           onClick={() => startTransition(() => cancelBooking(booking.id))}
           disabled={isPending}
-          className="rounded-lg border border-ink/15 px-3 py-1.5 text-sm text-ink/70 transition hover:border-red-500 hover:text-red-600 disabled:opacity-60"
+          className="rounded-[6px] border border-ink/15 px-3 py-1.5 text-sm text-ink/70 transition hover:border-red-500 hover:text-red-600 disabled:opacity-60"
         >
           Cancel
         </button>

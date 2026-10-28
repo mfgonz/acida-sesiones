@@ -11,7 +11,7 @@ export function EventCard({ eventType, href }: { eventType: EventType; href: str
     >
       <LocationIcon locationType={eventType.location_type} color={eventType.color} />
       <div className="flex-1">
-        <p className="font-display font-bold text-ink">{eventType.name}</p>
+        <p className="font-display font-normal text-ink">{eventType.name}</p>
         <p className="mt-1 font-label text-xs uppercase tracking-wide text-ink/50">
           {eventType.duration_minutes} min · {LOCATION_LABELS[eventType.location_type]}
         </p>

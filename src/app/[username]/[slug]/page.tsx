@@ -43,7 +43,7 @@ export default async function BookingPage({ params }: { params: { username: stri
 
         <div className="mb-8">
           <p className="font-label text-xs uppercase tracking-wide text-ink/50">{BRAND_NAME}</p>
-          <h1 className="mt-1 font-display text-2xl font-black text-ink">{eventType.name}</h1>
+          <h1 className="mt-1 font-display text-2xl font-normal text-ink">{eventType.name}</h1>
           <p className="mt-2 font-label text-xs uppercase tracking-wide text-ink/50">
             {eventType.duration_minutes} min · {LOCATION_LABELS[eventType.location_type]}
           </p>

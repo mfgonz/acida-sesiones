@@ -29,7 +29,7 @@ export default async function SchedulingPage() {
         </div>
         <Link
           href="/scheduling/new"
-          className="flex items-center gap-2 rounded-lg bg-ink px-4 py-2 text-sm font-medium text-cream transition hover:bg-terracotta"
+          className="flex items-center gap-2 rounded-[6px] bg-ink px-4 py-2 text-sm font-medium text-cream transition hover:bg-terracotta"
         >
           <Plus size={16} /> Create
         </Link>

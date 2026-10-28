@@ -24,7 +24,7 @@ export function CancelButton({ token }: { token: string }) {
       <button
         onClick={handleCancel}
         disabled={state === "loading"}
-        className="rounded-lg border border-red-500/40 px-4 py-2 text-sm text-red-600 hover:bg-red-500/10 disabled:opacity-60"
+        className="rounded-[6px] border border-red-500/40 px-4 py-2 text-sm text-red-600 hover:bg-red-500/10 disabled:opacity-60"
       >
         {state === "loading" ? "Canceling…" : "Cancel this booking"}
       </button>

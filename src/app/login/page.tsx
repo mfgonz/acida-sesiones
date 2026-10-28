@@ -40,7 +40,7 @@ export default function LoginPage({ searchParams }: { searchParams: { error?: st
           {searchParams.error && <p className="text-sm text-red-600">Invalid email or password.</p>}
           <button
             type="submit"
-            className="w-full rounded-lg bg-ink px-4 py-2.5 font-medium text-cream transition hover:bg-terracotta"
+            className="w-full rounded-[6px] bg-ink px-4 py-2.5 font-medium text-cream transition hover:bg-terracotta"
           >
             Sign in
           </button>
