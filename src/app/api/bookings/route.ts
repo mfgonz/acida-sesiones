@@ -5,7 +5,7 @@ import { supabaseAdmin } from "@/lib/supabase/admin";
 import { getBusyIntervals, createCalendarEvent } from "@/lib/google";
 import { computeAvailableSlots } from "@/lib/availability";
 import { clientIp, isRateLimited } from "@/lib/rate-limit";
-import { sendBookingNotification } from "@/lib/email";
+import { sendBookingNotification, sendBookingConfirmation } from "@/lib/email";
 import type { AvailabilityRule, DateOverride } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
@@ -176,18 +176,33 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Could not save booking" }, { status: 500 });
   }
 
-  await sendBookingNotification({
-    eventTypeName: eventType.name,
-    inviteeName,
-    inviteeEmail,
-    inviteeNotes,
-    inviteeTimezone,
-    projectName: eventType.collect_project_details ? projectName : null,
-    projectSummary: eventType.collect_project_details ? projectSummary : null,
-    startTime: requestedStart,
-    endTime: requestedEnd,
-    meetLink,
-  });
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "";
+
+  await Promise.all([
+    sendBookingNotification({
+      eventTypeName: eventType.name,
+      inviteeName,
+      inviteeEmail,
+      inviteeNotes,
+      inviteeTimezone,
+      projectName: eventType.collect_project_details ? projectName : null,
+      projectSummary: eventType.collect_project_details ? projectSummary : null,
+      startTime: requestedStart,
+      endTime: requestedEnd,
+      meetLink,
+    }),
+    sendBookingConfirmation({
+      eventTypeName: eventType.name,
+      inviteeName,
+      inviteeEmail,
+      inviteeTimezone,
+      startTime: requestedStart,
+      endTime: requestedEnd,
+      meetLink,
+      locationDetails: eventType.location_type !== "google_meet" ? eventType.location_details : null,
+      cancelUrl: `${appUrl}/cancel/${booking.cancel_token}`,
+    }),
+  ]);
 
   return NextResponse.json({ bookingId: booking.id, cancelToken: booking.cancel_token, meetLink });
 }

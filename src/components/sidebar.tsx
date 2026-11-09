@@ -15,9 +15,9 @@ export function Sidebar() {
 
   return (
     <aside className="flex w-56 shrink-0 flex-col gap-1 border-r border-ink/10 bg-white/60 px-3 py-4">
-      <div className="mb-4 px-2">
+      <Link href="/scheduling" className="mb-4 block px-2">
         <Image src="/logo-acida-ink.webp" alt="ÁCIDA" width={1426} height={474} priority className="h-7 w-auto" />
-      </div>
+      </Link>
 
       {NAV_ITEMS.map(({ href, label, icon: Icon }) => {
         const active = pathname === href || pathname.startsWith(`${href}/`);
