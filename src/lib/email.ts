@@ -128,7 +128,7 @@ export async function sendBookingConfirmation(booking: BookingConfirmation) {
           <p style="margin: 0 0 12px; font: 600 11px/1 'Helvetica Neue', Arial, sans-serif; letter-spacing: 0.08em; text-transform: uppercase; color: ${MUTED};">Google Meet</p>
           <table role="presentation" cellpadding="0" cellspacing="0" border="0">
             <tr>
-              <td style="background-color: ${INK};">
+              <td style="background-color: ${TERRACOTTA};">
                 <a href="${escapeHtml(booking.meetLink)}" style="display: inline-block; padding: 13px 24px; font: 600 13px/1 'Helvetica Neue', Arial, sans-serif; letter-spacing: 0.04em; color: ${CREAM}; text-decoration: none;">Unirse a la sesión</a>
               </td>
             </tr>
@@ -160,11 +160,12 @@ export async function sendBookingConfirmation(booking: BookingConfirmation) {
       <tr>
         <td style="padding: 28px 40px 0;">
           <h1 style="margin: 0 0 6px; font: 400 24px/1.2 'Helvetica Neue', Arial, sans-serif; color: ${INK};">Tu sesión está confirmada</h1>
-          <p style="margin: 0; font: 400 14px/1.5 'Helvetica Neue', Arial, sans-serif; color: ${MUTED};">Te esperamos — aquí están los detalles.</p>
+          <p style="margin: 0; font: 400 14px/1.5 'Helvetica Neue', Arial, sans-serif; color: ${MUTED};">Nos vemos pronto.</p>
         </td>
       </tr>
       <tr>
         <td style="padding: 20px 40px 0;">
+          <p style="margin: 0 0 14px; font: 400 14px/1.5 'Helvetica Neue', Arial, sans-serif; color: ${INK};">Aquí están los detalles de la llamada:</p>
           <p style="margin: 0 0 6px; font: 600 11px/1 'Helvetica Neue', Arial, sans-serif; letter-spacing: 0.08em; text-transform: uppercase; color: ${MUTED};">Sesión</p>
           <p style="margin: 0 0 18px; font: 400 15px/1.5 'Helvetica Neue', Arial, sans-serif; color: ${INK};">${escapeHtml(booking.eventTypeName)}</p>
           <p style="margin: 0 0 6px; font: 600 11px/1 'Helvetica Neue', Arial, sans-serif; letter-spacing: 0.08em; text-transform: uppercase; color: ${MUTED};">Fecha y hora</p>
@@ -176,10 +177,10 @@ export async function sendBookingConfirmation(booking: BookingConfirmation) {
       <tr>
         <td style="padding: 20px 40px 32px;">
           <p style="margin: 0 0 8px; font: 400 13px/1.5 'Helvetica Neue', Arial, sans-serif; color: ${MUTED};">
-            <a href="${escapeHtml(booking.cancelUrl)}" style="color: ${MUTED};">¿Necesitas cancelar?</a>
+            <a href="${escapeHtml(booking.cancelUrl)}" style="color: ${MUTED};">¿Necesitas cancelar o reprogramar?</a>
           </p>
           <p style="margin: 0; font: 600 10px/1 'Helvetica Neue', Arial, sans-serif; letter-spacing: 0.08em; text-transform: uppercase; color: ${MUTED};">
-            ácida — casa productora y creadora de proyectos con propósito
+            ÁCIDA // Casa productora y creadora de proyectos con propósito
           </p>
         </td>
       </tr>
