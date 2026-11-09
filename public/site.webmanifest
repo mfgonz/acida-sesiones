@@ -1,0 +1,11 @@
+{
+  "name": "ACIDA Sesiones",
+  "short_name": "ACIDA",
+  "icons": [
+    { "src": "/favicons/android-chrome-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/favicons/android-chrome-512.png", "sizes": "512x512", "type": "image/png" }
+  ],
+  "theme_color": "#2B2B27",
+  "background_color": "#F7F7EF",
+  "display": "standalone"
+}

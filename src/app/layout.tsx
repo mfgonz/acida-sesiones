@@ -23,6 +23,16 @@ const ibmPlexMono = localFont({
 export const metadata: Metadata = {
   title: "ACIDA Sesiones",
   description: "Schedule sessions with ACIDA",
+  manifest: "/site.webmanifest",
+  icons: {
+    icon: [
+      { url: "/favicons/favicon-16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicons/favicon-32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicons/favicon-48.png", sizes: "48x48", type: "image/png" },
+      { url: "/favicons/favicon.ico" },
+    ],
+    apple: [{ url: "/favicons/apple-touch-icon.png" }],
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
