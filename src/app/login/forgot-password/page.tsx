@@ -11,7 +11,7 @@ export default function ForgotPasswordPage({
     <div className="flex min-h-screen items-center justify-center px-4">
       <div className="w-full max-w-sm rounded-2xl border border-ink/10 bg-white/80 p-8 shadow-lg backdrop-blur">
         <div className="mb-6">
-          <Image src="/logo-acida-ink.webp" alt="ÁCIDA" width={1426} height={474} priority className="h-8 w-auto" />
+          <Image src="/logo-acida-ink.webp" alt="ÁCIDA" width={1426} height={474} priority className="h-12 w-auto" />
         </div>
 
         {searchParams.sent ? (

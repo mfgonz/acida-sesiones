@@ -7,7 +7,7 @@ export default function LoginPage({ searchParams }: { searchParams: { error?: st
     <div className="flex min-h-screen items-center justify-center px-4">
       <div className="w-full max-w-sm rounded-2xl border border-ink/10 bg-white/80 p-8 shadow-lg backdrop-blur">
         <div className="mb-6">
-          <Image src="/logo-acida-ink.webp" alt="ÁCIDA" width={1426} height={474} priority className="h-8 w-auto" />
+          <Image src="/logo-acida-ink.webp" alt="ÁCIDA" width={1426} height={474} priority className="h-12 w-auto" />
         </div>
         <h1 className="mb-1 text-xl font-semibold text-ink">Sign in</h1>
         <p className="mb-6 text-sm text-ink/60">Manage your sessions and availability.</p>

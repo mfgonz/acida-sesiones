@@ -104,53 +104,87 @@ export async function sendBookingConfirmation(booking: BookingConfirmation) {
     return;
   }
 
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "";
+  // PNG, not the site's webp — some email clients (notably Outlook desktop) don't render webp.
+  const logoUrl = `${appUrl}/logo-acida-ink-email.png`;
+
   const when = new Intl.DateTimeFormat("es", {
     dateStyle: "full",
     timeStyle: "short",
     timeZone: booking.inviteeTimezone,
   }).format(booking.startTime);
 
+  // Brand tokens (September 2026 manual): cream, ink, terracotta, bone.
+  const CREAM = "#F7F7EF";
+  const INK = "#2B2B27";
+  const TERRACOTTA = "#DD7130";
+  const BONE = "#EBE9D8";
+  const MUTED = "#6B6A5F";
+
   const joinSection = booking.meetLink
     ? `
       <tr>
-        <td style="padding: 6px 12px 6px 0; color: #666; vertical-align: top; white-space: nowrap;">Google Meet</td>
-        <td style="padding: 6px 0; word-break: break-all;">
-          <a href="${escapeHtml(booking.meetLink)}" style="color: #DD7130;">${escapeHtml(booking.meetLink)}</a>
+        <td style="padding: 28px 40px 4px;">
+          <p style="margin: 0 0 12px; font: 600 11px/1 'Helvetica Neue', Arial, sans-serif; letter-spacing: 0.08em; text-transform: uppercase; color: ${MUTED};">Google Meet</p>
+          <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+            <tr>
+              <td style="background-color: ${INK};">
+                <a href="${escapeHtml(booking.meetLink)}" style="display: inline-block; padding: 13px 24px; font: 600 13px/1 'Helvetica Neue', Arial, sans-serif; letter-spacing: 0.04em; color: ${CREAM}; text-decoration: none;">Unirse a la sesión</a>
+              </td>
+            </tr>
+          </table>
+          <p style="margin: 12px 0 0; font: 400 13px/1.5 'Helvetica Neue', Arial, sans-serif; color: ${MUTED}; word-break: break-all;">
+            O copia este link: <a href="${escapeHtml(booking.meetLink)}" style="color: ${TERRACOTTA};">${escapeHtml(booking.meetLink)}</a>
+          </p>
         </td>
       </tr>`
     : booking.locationDetails
       ? `
       <tr>
-        <td style="padding: 6px 12px 6px 0; color: #666; vertical-align: top; white-space: nowrap;">Lugar</td>
-        <td style="padding: 6px 0;">${escapeHtml(booking.locationDetails)}</td>
+        <td style="padding: 28px 40px 4px;">
+          <p style="margin: 0 0 6px; font: 600 11px/1 'Helvetica Neue', Arial, sans-serif; letter-spacing: 0.08em; text-transform: uppercase; color: ${MUTED};">Lugar</p>
+          <p style="margin: 0; font: 400 15px/1.5 'Helvetica Neue', Arial, sans-serif; color: ${INK};">${escapeHtml(booking.locationDetails)}</p>
+        </td>
       </tr>`
       : "";
 
-  const rows: [string, string][] = [
-    ["Sesión", booking.eventTypeName],
-    ["Fecha y hora", `${when} (${booking.inviteeTimezone})`],
-  ];
-
   const html = `
-    <div style="font-family: sans-serif; max-width: 480px;">
-      <h2 style="margin-bottom: 4px;">Tu sesión está confirmada</h2>
-      <p style="color: #666; margin-top: 0;">Te esperamos — aquí están los detalles.</p>
-      <table style="border-collapse: collapse; width: 100%;">
-        ${rows
-          .map(
-            ([label, value]) => `
-          <tr>
-            <td style="padding: 6px 12px 6px 0; color: #666; vertical-align: top; white-space: nowrap;">${label}</td>
-            <td style="padding: 6px 0;">${escapeHtml(value)}</td>
-          </tr>`
-          )
-          .join("")}
-        ${joinSection}
-      </table>
-      <p style="margin-top: 20px;">
-        <a href="${escapeHtml(booking.cancelUrl)}" style="color: #666; font-size: 13px;">¿Necesitas cancelar?</a>
-      </p>
-    </div>
+  <div style="background-color: ${CREAM}; padding: 40px 16px; font-family: 'Helvetica Neue', Arial, sans-serif;">
+    <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="max-width: 480px; margin: 0 auto; background-color: #FFFFFF; border: 1px solid ${BONE};">
+      <tr>
+        <td style="padding: 32px 40px 24px;">
+          <img src="${logoUrl}" alt="ÁCIDA" height="26" style="display: block; height: 26px; width: auto;" />
+        </td>
+      </tr>
+      <tr><td style="border-top: 1px solid ${BONE};"></td></tr>
+      <tr>
+        <td style="padding: 28px 40px 0;">
+          <h1 style="margin: 0 0 6px; font: 400 24px/1.2 'Helvetica Neue', Arial, sans-serif; color: ${INK};">Tu sesión está confirmada</h1>
+          <p style="margin: 0; font: 400 14px/1.5 'Helvetica Neue', Arial, sans-serif; color: ${MUTED};">Te esperamos — aquí están los detalles.</p>
+        </td>
+      </tr>
+      <tr>
+        <td style="padding: 20px 40px 0;">
+          <p style="margin: 0 0 6px; font: 600 11px/1 'Helvetica Neue', Arial, sans-serif; letter-spacing: 0.08em; text-transform: uppercase; color: ${MUTED};">Sesión</p>
+          <p style="margin: 0 0 18px; font: 400 15px/1.5 'Helvetica Neue', Arial, sans-serif; color: ${INK};">${escapeHtml(booking.eventTypeName)}</p>
+          <p style="margin: 0 0 6px; font: 600 11px/1 'Helvetica Neue', Arial, sans-serif; letter-spacing: 0.08em; text-transform: uppercase; color: ${MUTED};">Fecha y hora</p>
+          <p style="margin: 0; font: 400 15px/1.5 'Helvetica Neue', Arial, sans-serif; color: ${INK};">${escapeHtml(when)} (${escapeHtml(booking.inviteeTimezone)})</p>
+        </td>
+      </tr>
+      ${joinSection}
+      <tr><td style="padding-top: 28px; border-top: 1px solid ${BONE};"></td></tr>
+      <tr>
+        <td style="padding: 20px 40px 32px;">
+          <p style="margin: 0 0 8px; font: 400 13px/1.5 'Helvetica Neue', Arial, sans-serif; color: ${MUTED};">
+            <a href="${escapeHtml(booking.cancelUrl)}" style="color: ${MUTED};">¿Necesitas cancelar?</a>
+          </p>
+          <p style="margin: 0; font: 600 10px/1 'Helvetica Neue', Arial, sans-serif; letter-spacing: 0.08em; text-transform: uppercase; color: ${MUTED};">
+            ácida — casa productora y creadora de proyectos con propósito
+          </p>
+        </td>
+      </tr>
+    </table>
+  </div>
   `.trim();
 
   try {
