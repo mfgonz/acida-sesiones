@@ -76,11 +76,11 @@ export function WeeklyHoursEditor({
   return (
     <form action={action} className="max-w-xl space-y-5">
       <div>
-        <label className="mb-1 block text-sm text-ink/70">Timezone</label>
+        <label className="mb-1 block text-base text-ink/70">Timezone</label>
         <select
           name="timezone"
           defaultValue={timezone}
-          className="w-full rounded-lg border border-ink/15 bg-cream/40 px-3 py-2 text-sm text-ink outline-none focus:border-terracotta"
+          className="w-full rounded-lg border border-ink/15 bg-cream/40 px-3 py-2 text-base text-ink outline-none focus:border-terracotta"
         >
           {COMMON_TIMEZONES.map((tz) => (
             <option key={tz} value={tz}>
@@ -90,7 +90,7 @@ export function WeeklyHoursEditor({
         </select>
       </div>
 
-      <div className="flex flex-wrap gap-2 text-xs">
+      <div className="flex flex-wrap gap-2 text-sm">
         <button
           type="button"
           onClick={setWeekdaysOnly}
@@ -117,7 +117,7 @@ export function WeeklyHoursEditor({
       <div className="space-y-2">
         {DISPLAY_ORDER.map((day) => (
           <div key={day} className="flex items-center gap-3 rounded-lg border border-ink/10 px-3 py-2">
-            <label className="flex w-32 items-center gap-2 text-sm text-ink/80">
+            <label className="flex w-32 items-center gap-2 text-base text-ink/80">
               <input
                 type="checkbox"
                 name={`day_${day}_enabled`}
@@ -134,7 +134,7 @@ export function WeeklyHoursEditor({
                   name={`day_${day}_start`}
                   value={days[day].start}
                   onChange={(e) => update(day, { start: e.target.value })}
-                  className="rounded-lg border border-ink/15 bg-cream/40 px-2 py-1 text-sm text-ink outline-none focus:border-terracotta"
+                  className="rounded-lg border border-ink/15 bg-cream/40 px-2 py-1 text-base text-ink outline-none focus:border-terracotta"
                 />
                 <span className="text-ink/50">–</span>
                 <input
@@ -142,7 +142,7 @@ export function WeeklyHoursEditor({
                   name={`day_${day}_end`}
                   value={days[day].end}
                   onChange={(e) => update(day, { end: e.target.value })}
-                  className="rounded-lg border border-ink/15 bg-cream/40 px-2 py-1 text-sm text-ink outline-none focus:border-terracotta"
+                  className="rounded-lg border border-ink/15 bg-cream/40 px-2 py-1 text-base text-ink outline-none focus:border-terracotta"
                 />
                 <button
                   type="button"
@@ -154,7 +154,7 @@ export function WeeklyHoursEditor({
                 </button>
               </div>
             ) : (
-              <span className="text-sm text-ink/50">Unavailable</span>
+              <span className="text-base text-ink/50">Unavailable</span>
             )}
           </div>
         ))}
@@ -162,7 +162,7 @@ export function WeeklyHoursEditor({
 
       <button
         type="submit"
-        className="rounded-[6px] bg-ink px-5 py-2.5 text-sm font-medium text-cream transition hover:bg-terracotta"
+        className="rounded-[6px] bg-ink px-5 py-2.5 text-base font-medium text-cream transition hover:bg-terracotta"
       >
         Save hours
       </button>

@@ -38,7 +38,7 @@ export function EventTypeRow({ eventType, bookingUrl }: { eventType: EventType; 
         />
         <div>
           <p className="font-medium text-ink">{eventType.name}</p>
-          <p className="mt-0.5 text-sm text-ink/60">
+          <p className="mt-0.5 text-base text-ink/60">
             {eventType.duration_minutes} min · {LOCATION_LABELS[eventType.location_type]} · One-on-One
           </p>
         </div>
@@ -48,7 +48,7 @@ export function EventTypeRow({ eventType, bookingUrl }: { eventType: EventType; 
         {isActive ? (
           <button
             onClick={handleCopy}
-            className="flex items-center gap-1.5 rounded-[6px] border border-ink/15 px-3 py-1.5 text-sm text-ink/70 transition hover:border-terracotta hover:text-ink"
+            className="flex items-center gap-1.5 rounded-[6px] border border-ink/15 px-3 py-1.5 text-base text-ink/70 transition hover:border-terracotta hover:text-ink"
           >
             {copied ? <Check size={14} /> : <Copy size={14} />}
             {copied ? "Copied" : "Copy link"}
@@ -57,7 +57,7 @@ export function EventTypeRow({ eventType, bookingUrl }: { eventType: EventType; 
           <button
             onClick={handleToggle}
             disabled={isPending}
-            className="rounded-[6px] border border-ink/15 px-3 py-1.5 text-sm text-ink/70 transition hover:border-terracotta hover:text-ink disabled:opacity-60"
+            className="rounded-[6px] border border-ink/15 px-3 py-1.5 text-base text-ink/70 transition hover:border-terracotta hover:text-ink disabled:opacity-60"
           >
             Turn On
           </button>
@@ -77,21 +77,21 @@ export function EventTypeRow({ eventType, bookingUrl }: { eventType: EventType; 
             >
               <Link
                 href={`/scheduling/${eventType.id}/edit`}
-                className="flex items-center gap-2 px-3 py-2 text-sm text-ink/70 hover:bg-ink/5"
+                className="flex items-center gap-2 px-3 py-2 text-base text-ink/70 hover:bg-ink/5"
               >
                 <Pencil size={14} /> Edit
               </Link>
               {isActive && (
                 <button
                   onClick={handleToggle}
-                  className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm text-ink/70 hover:bg-ink/5"
+                  className="flex w-full items-center gap-2 px-3 py-2 text-left text-base text-ink/70 hover:bg-ink/5"
                 >
                   Turn Off
                 </button>
               )}
               <button
                 onClick={() => startTransition(() => deleteEventType(eventType.id))}
-                className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm text-red-600 hover:bg-ink/5"
+                className="flex w-full items-center gap-2 px-3 py-2 text-left text-base text-red-600 hover:bg-ink/5"
               >
                 <Trash2 size={14} /> Delete
               </button>

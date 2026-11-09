@@ -24,7 +24,7 @@ export default async function CalendarPage() {
 
   return (
     <div>
-      <p className="mb-6 text-sm text-ink/60">Upcoming confirmed sessions.</p>
+      <p className="mb-6 text-base text-ink/60">Upcoming confirmed sessions.</p>
       {!bookings?.length ? (
         <div className="rounded-xl border border-dashed border-ink/20 py-16 text-center text-ink/60">
           No upcoming bookings yet.

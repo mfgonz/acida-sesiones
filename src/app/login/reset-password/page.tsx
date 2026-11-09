@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { redirect } from "next/navigation";
 import { getAuthUser } from "@/lib/supabase/server-auth";
 import { updatePassword } from "./actions";
@@ -17,11 +18,8 @@ export default async function ResetPasswordPage({ searchParams }: { searchParams
   return (
     <div className="flex min-h-screen items-center justify-center px-4">
       <div className="w-full max-w-sm rounded-2xl border border-ink/10 bg-white/80 p-8 shadow-lg backdrop-blur">
-        <div className="mb-6 flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-ink text-sm font-semibold text-cream">
-            A
-          </div>
-          <span className="font-display text-lg font-bold text-ink">ACIDA</span>
+        <div className="mb-6">
+          <Image src="/logo-acida-ink.webp" alt="ÁCIDA" width={1426} height={474} priority className="h-8 w-auto" />
         </div>
         <h1 className="mb-1 text-xl font-semibold text-ink">Define una contraseña nueva</h1>
         <p className="mb-6 text-sm text-ink/60">Ingresa tu nueva contraseña para esta cuenta.</p>

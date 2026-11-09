@@ -40,35 +40,35 @@ export function EventTypeForm({
   return (
     <form action={action} className="max-w-xl space-y-5">
       <div>
-        <label className="mb-1 block text-sm text-ink/70">Name</label>
+        <label className="mb-1 block text-base text-ink/70">Name</label>
         <input
           name="name"
           required
           defaultValue={eventType?.name}
           placeholder="e.g. Client Brainstorming Session"
-          className="w-full rounded-lg border border-ink/15 bg-cream/40 px-3 py-2 text-sm text-ink outline-none focus:border-terracotta"
+          className="w-full rounded-lg border border-ink/15 bg-cream/40 px-3 py-2 text-base text-ink outline-none focus:border-terracotta"
         />
       </div>
 
       <div>
-        <label className="mb-1 block text-sm text-ink/70">Description</label>
+        <label className="mb-1 block text-base text-ink/70">Description</label>
         <textarea
           name="description"
           rows={3}
           defaultValue={eventType?.description}
-          className="w-full rounded-lg border border-ink/15 bg-cream/40 px-3 py-2 text-sm text-ink outline-none focus:border-terracotta"
+          className="w-full rounded-lg border border-ink/15 bg-cream/40 px-3 py-2 text-base text-ink outline-none focus:border-terracotta"
         />
       </div>
 
       <div>
-        <label className="mb-1 block text-sm text-ink/70">Duration</label>
+        <label className="mb-1 block text-base text-ink/70">Duration</label>
         <div className="mb-2 flex flex-wrap gap-2">
           {DURATION_PRESETS.map((d) => (
             <button
               key={d}
               type="button"
               onClick={() => setDuration(d)}
-              className={`rounded-[6px] border px-3 py-1.5 text-sm transition ${
+              className={`rounded-[6px] border px-3 py-1.5 text-base transition ${
                 duration === d
                   ? "border-terracotta bg-terracotta/10 text-ink"
                   : "border-ink/15 text-ink/70 hover:border-terracotta"
@@ -86,19 +86,19 @@ export function EventTypeForm({
             name="duration_minutes"
             value={duration}
             onChange={(e) => setDuration(Number(e.target.value) || 0)}
-            className="w-32 rounded-lg border border-ink/15 bg-cream/40 px-3 py-2 text-sm text-ink outline-none focus:border-terracotta"
+            className="w-32 rounded-lg border border-ink/15 bg-cream/40 px-3 py-2 text-base text-ink outline-none focus:border-terracotta"
           />
-          <span className="text-sm text-ink/50">minutes ({formatDuration(duration)})</span>
+          <span className="text-base text-ink/50">minutes ({formatDuration(duration)})</span>
         </div>
       </div>
 
       <div>
-        <label className="mb-1 block text-sm text-ink/70">Location</label>
+        <label className="mb-1 block text-base text-ink/70">Location</label>
         <select
           name="location_type"
           value={locationType}
           onChange={(e) => setLocationType(e.target.value as typeof locationType)}
-          className="w-full rounded-lg border border-ink/15 bg-cream/40 px-3 py-2 text-sm text-ink outline-none focus:border-terracotta"
+          className="w-full rounded-lg border border-ink/15 bg-cream/40 px-3 py-2 text-base text-ink outline-none focus:border-terracotta"
         >
           <option value="google_meet">Google Meet</option>
           <option value="in_person">In person</option>
@@ -108,7 +108,7 @@ export function EventTypeForm({
       </div>
 
       <div>
-        <label className="mb-1 block text-sm text-ink/70">Color</label>
+        <label className="mb-1 block text-base text-ink/70">Color</label>
         <div className="flex items-center gap-2">
           {["#DD7130", "#4E628D", "#403F0E", "#F5EFA7", "#EAC5E6", "#AED2D3"].map((swatch) => (
             <button
@@ -134,7 +134,7 @@ export function EventTypeForm({
       </div>
 
       <div>
-        <label className="flex items-center gap-2 text-sm text-ink/70">
+        <label className="flex items-center gap-2 text-base text-ink/70">
           <input
             type="checkbox"
             name="collect_project_details"
@@ -143,17 +143,17 @@ export function EventTypeForm({
           />
           Ask for project/business name + summary
         </label>
-        <p className="ml-6 mt-1 text-xs text-ink/50">
+        <p className="ml-6 mt-1 text-sm text-ink/50">
           Adds two extra fields to this booking form — good for a first exploratory call with new clients.
         </p>
       </div>
 
       <div>
-        <label className="mb-1 block text-sm text-ink/70">Shown on landing page under</label>
+        <label className="mb-1 block text-base text-ink/70">Shown on landing page under</label>
         <select
           name="audience"
           defaultValue={eventType?.audience ?? "new"}
-          className="w-full rounded-lg border border-ink/15 bg-cream/40 px-3 py-2 text-sm text-ink outline-none focus:border-terracotta"
+          className="w-full rounded-lg border border-ink/15 bg-cream/40 px-3 py-2 text-base text-ink outline-none focus:border-terracotta"
         >
           <option value="new">&quot;Si quieres trabajar con nosotras&quot; (new/potential clients)</option>
           <option value="existing">&quot;Si ya trabajas con nosotras&quot; (existing clients)</option>
@@ -162,51 +162,51 @@ export function EventTypeForm({
 
       {locationType !== "google_meet" && (
         <div>
-          <label className="mb-1 block text-sm text-ink/70">Location details</label>
+          <label className="mb-1 block text-base text-ink/70">Location details</label>
           <input
             name="location_details"
             defaultValue={eventType?.location_details}
             placeholder={locationType === "phone" ? "Who calls whom?" : "Address or details"}
-            className="w-full rounded-lg border border-ink/15 bg-cream/40 px-3 py-2 text-sm text-ink outline-none focus:border-terracotta"
+            className="w-full rounded-lg border border-ink/15 bg-cream/40 px-3 py-2 text-base text-ink outline-none focus:border-terracotta"
           />
         </div>
       )}
 
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label className="mb-1 block text-sm text-ink/70">Buffer before (min)</label>
+          <label className="mb-1 block text-base text-ink/70">Buffer before (min)</label>
           <input
             type="number"
             min={0}
             name="buffer_before_minutes"
             defaultValue={eventType?.buffer_before_minutes ?? 0}
-            className="w-full rounded-lg border border-ink/15 bg-cream/40 px-3 py-2 text-sm text-ink outline-none focus:border-terracotta"
+            className="w-full rounded-lg border border-ink/15 bg-cream/40 px-3 py-2 text-base text-ink outline-none focus:border-terracotta"
           />
         </div>
         <div>
-          <label className="mb-1 block text-sm text-ink/70">Buffer after (min)</label>
+          <label className="mb-1 block text-base text-ink/70">Buffer after (min)</label>
           <input
             type="number"
             min={0}
             name="buffer_after_minutes"
             defaultValue={eventType?.buffer_after_minutes ?? 0}
-            className="w-full rounded-lg border border-ink/15 bg-cream/40 px-3 py-2 text-sm text-ink outline-none focus:border-terracotta"
+            className="w-full rounded-lg border border-ink/15 bg-cream/40 px-3 py-2 text-base text-ink outline-none focus:border-terracotta"
           />
         </div>
         <div>
-          <label className="mb-1 block text-sm text-ink/70">Minimum notice</label>
+          <label className="mb-1 block text-base text-ink/70">Minimum notice</label>
           <div className="flex items-center gap-2">
             <input
               type="number"
               min={0}
               value={noticeValue}
               onChange={(e) => setNoticeValue(Number(e.target.value) || 0)}
-              className="w-full rounded-lg border border-ink/15 bg-cream/40 px-3 py-2 text-sm text-ink outline-none focus:border-terracotta"
+              className="w-full rounded-lg border border-ink/15 bg-cream/40 px-3 py-2 text-base text-ink outline-none focus:border-terracotta"
             />
             <select
               value={noticeUnit}
               onChange={(e) => setNoticeUnit(e.target.value as NoticeUnit)}
-              className="rounded-lg border border-ink/15 bg-cream/40 px-2 py-2 text-sm text-ink outline-none focus:border-terracotta"
+              className="rounded-lg border border-ink/15 bg-cream/40 px-2 py-2 text-base text-ink outline-none focus:border-terracotta"
             >
               <option value="minutes">min</option>
               <option value="hours">hr</option>
@@ -216,20 +216,20 @@ export function EventTypeForm({
           <input type="hidden" name="min_notice_minutes" value={noticeMinutes} />
         </div>
         <div>
-          <label className="mb-1 block text-sm text-ink/70">Booking horizon (days)</label>
+          <label className="mb-1 block text-base text-ink/70">Booking horizon (days)</label>
           <input
             type="number"
             min={1}
             name="booking_horizon_days"
             defaultValue={eventType?.booking_horizon_days ?? 60}
-            className="w-full rounded-lg border border-ink/15 bg-cream/40 px-3 py-2 text-sm text-ink outline-none focus:border-terracotta"
+            className="w-full rounded-lg border border-ink/15 bg-cream/40 px-3 py-2 text-base text-ink outline-none focus:border-terracotta"
           />
         </div>
       </div>
 
       <button
         type="submit"
-        className="rounded-[6px] bg-ink px-5 py-2.5 text-sm font-medium text-cream transition hover:bg-terracotta"
+        className="rounded-[6px] bg-ink px-5 py-2.5 text-base font-medium text-cream transition hover:bg-terracotta"
       >
         {eventType ? "Save changes" : "Create event type"}
       </button>

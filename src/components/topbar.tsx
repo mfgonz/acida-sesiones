@@ -12,7 +12,7 @@ export function Topbar({ profile }: { profile: Profile }) {
       <div className="flex items-center gap-3">
         <Link
           href="/availability"
-          className="flex items-center gap-2 rounded-[6px] border border-ink/15 px-3 py-2 text-sm text-ink/70 transition hover:border-terracotta hover:text-ink"
+          className="flex items-center gap-2 rounded-[6px] border border-ink/15 px-3 py-2 text-base text-ink/70 transition hover:border-terracotta hover:text-ink"
         >
           <CalendarCog size={16} />
           Manage availability
@@ -20,7 +20,7 @@ export function Topbar({ profile }: { profile: Profile }) {
         <Link
           href={`/${profile.username}`}
           target="_blank"
-          className="flex items-center gap-2 rounded-[6px] border border-ink/15 px-3 py-2 text-sm text-ink/70 transition hover:border-terracotta hover:text-ink"
+          className="flex items-center gap-2 rounded-[6px] border border-ink/15 px-3 py-2 text-base text-ink/70 transition hover:border-terracotta hover:text-ink"
         >
           View landing page
           <ExternalLink size={14} />
@@ -28,7 +28,7 @@ export function Topbar({ profile }: { profile: Profile }) {
         <form action={signOut}>
           <button
             type="submit"
-            className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-ink/60 transition hover:text-ink"
+            className="flex items-center gap-2 rounded-lg px-3 py-2 text-base text-ink/60 transition hover:text-ink"
             title="Sign out"
           >
             <LogOut size={16} />

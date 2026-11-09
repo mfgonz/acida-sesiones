@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { CalendarClock, CalendarDays } from "lucide-react";
@@ -14,11 +15,8 @@ export function Sidebar() {
 
   return (
     <aside className="flex w-56 shrink-0 flex-col gap-1 border-r border-ink/10 bg-white/60 px-3 py-4">
-      <div className="mb-4 flex items-center gap-2 px-2">
-        <div className="flex h-7 w-7 items-center justify-center rounded-full bg-ink text-xs font-semibold text-cream">
-          A
-        </div>
-        <span className="font-display font-bold text-ink">ACIDA</span>
+      <div className="mb-4 px-2">
+        <Image src="/logo-acida-ink.webp" alt="ÁCIDA" width={1426} height={474} priority className="h-7 w-auto" />
       </div>
 
       {NAV_ITEMS.map(({ href, label, icon: Icon }) => {
@@ -27,7 +25,7 @@ export function Sidebar() {
           <Link
             key={href}
             href={href}
-            className={`flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm transition ${
+            className={`flex items-center gap-2.5 rounded-lg px-3 py-2 text-base transition ${
               active
                 ? "bg-terracotta/10 font-medium text-terracotta"
                 : "text-ink/60 hover:bg-ink/5 hover:text-ink"
