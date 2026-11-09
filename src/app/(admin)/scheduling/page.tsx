@@ -3,7 +3,7 @@ import { Plus } from "lucide-react";
 import { getAuthUser } from "@/lib/supabase/server-auth";
 import { getOrCreateProfile } from "@/lib/profile";
 import { supabaseAdmin } from "@/lib/supabase/admin";
-import { EventTypeRow } from "./event-type-row";
+import { EventTypeCard } from "./event-type-card";
 import type { EventType } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
@@ -40,9 +40,9 @@ export default async function SchedulingPage() {
           No event types yet. Create your first one to start accepting bookings.
         </div>
       ) : (
-        <div className="space-y-3">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
           {(eventTypes as EventType[]).map((eventType) => (
-            <EventTypeRow
+            <EventTypeCard
               key={eventType.id}
               eventType={eventType}
               bookingUrl={`${appUrl}/${profile.username}/${eventType.slug}`}

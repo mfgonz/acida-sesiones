@@ -17,7 +17,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
       <Sidebar />
       <div className="flex-1">
         <Topbar profile={profile} />
-        <main className="mx-auto max-w-5xl px-8 py-8">{children}</main>
+        <main className="mx-auto max-w-7xl px-8 py-8">{children}</main>
       </div>
     </div>
   );
