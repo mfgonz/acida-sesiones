@@ -4,6 +4,7 @@ interface BookingNotification {
   eventTypeName: string;
   inviteeName: string;
   inviteeEmail: string;
+  inviteePhone: string;
   inviteeNotes: string;
   inviteeTimezone: string;
   projectName: string | null;
@@ -49,6 +50,7 @@ export async function sendBookingNotification(booking: BookingNotification) {
     ["Tipo de sesión", booking.eventTypeName],
     ["Nombre", booking.inviteeName],
     ["Email", booking.inviteeEmail],
+    ["WhatsApp", booking.inviteePhone],
     ["Fecha y hora", `${when} (${booking.inviteeTimezone})`],
     ...(booking.projectName ? ([["Proyecto/negocio", booking.projectName]] as [string, string][]) : []),
     ...(booking.projectSummary ? ([["Qué buscan trabajar", booking.projectSummary]] as [string, string][]) : []),

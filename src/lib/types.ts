@@ -63,6 +63,7 @@ export interface Booking {
   user_id: string;
   invitee_name: string;
   invitee_email: string;
+  invitee_phone: string | null;
   invitee_notes: string;
   invitee_timezone: string;
   project_name: string | null;

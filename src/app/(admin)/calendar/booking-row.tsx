@@ -24,9 +24,19 @@ export function BookingRow({ booking, eventType, timezone }: { booking: Booking;
         <p className="mt-0.5 text-base text-ink/60">{formatted}</p>
         <p className="mt-0.5 text-sm text-ink/50">
           {booking.invitee_name} · {booking.invitee_email}
+          {booking.invitee_phone && <> · {booking.invitee_phone}</>}
         </p>
       </div>
       <div className="flex items-center gap-3">
+        {booking.invitee_phone && (
+          <a
+            href={`https://wa.me/${booking.invitee_phone.replace(/[^0-9]/g, "")}`}
+            target="_blank"
+            className="text-base text-terracotta hover:underline"
+          >
+            WhatsApp
+          </a>
+        )}
         {booking.meet_link && (
           <a href={booking.meet_link} target="_blank" className="text-base text-terracotta hover:underline">
             Join

@@ -76,6 +76,7 @@ export function BookingWidget({ username, slug, durationMinutes, collectProjectD
         startTime: selectedSlot,
         inviteeName: formData.get("name"),
         inviteeEmail: formData.get("email"),
+        inviteePhone: formData.get("phone"),
         inviteeNotes: formData.get("notes") ?? "",
         inviteeTimezone: timezone,
         projectName: formData.get("projectName") ?? "",
@@ -174,6 +175,16 @@ export function BookingWidget({ username, slug, durationMinutes, collectProjectD
               name="email"
               type="email"
               required
+              className="w-full rounded-lg border border-ink/15 bg-cream/40 px-3 py-2 text-sm text-ink outline-none focus:border-terracotta"
+            />
+          </div>
+          <div>
+            <label className="mb-1 block text-sm text-ink/70">WhatsApp</label>
+            <input
+              name="phone"
+              type="tel"
+              required
+              placeholder="+507 6123 4567"
               className="w-full rounded-lg border border-ink/15 bg-cream/40 px-3 py-2 text-sm text-ink outline-none focus:border-terracotta"
             />
           </div>
