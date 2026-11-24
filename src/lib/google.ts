@@ -117,6 +117,28 @@ export async function createCalendarEvent(params: CreateEventParams): Promise<Cr
   };
 }
 
+/** Moves an existing event to a new time in place — keeps the same Meet link and notifies attendees. */
+export async function updateCalendarEventTime(
+  userId: string,
+  googleEventId: string,
+  startTime: string,
+  endTime: string
+) {
+  const client = await getClientForUser(userId);
+  if (!client) return;
+
+  const calendar = google.calendar({ version: "v3", auth: client });
+  await calendar.events.patch({
+    calendarId: "primary",
+    eventId: googleEventId,
+    sendUpdates: "all",
+    requestBody: {
+      start: { dateTime: startTime },
+      end: { dateTime: endTime },
+    },
+  });
+}
+
 export async function deleteCalendarEvent(userId: string, googleEventId: string) {
   const client = await getClientForUser(userId);
   if (!client) return;

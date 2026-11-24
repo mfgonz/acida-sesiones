@@ -1,11 +1,24 @@
 "use client";
 
-import { useTransition } from "react";
+import { useState, useTransition } from "react";
+import { CalendarClock } from "lucide-react";
 import { cancelBooking } from "./actions";
+import { RescheduleModal } from "./reschedule-modal";
 import type { Booking, EventType } from "@/lib/types";
 
-export function BookingRow({ booking, eventType, timezone }: { booking: Booking; eventType: EventType | undefined; timezone: string }) {
+export function BookingRow({
+  booking,
+  eventType,
+  timezone,
+  username,
+}: {
+  booking: Booking;
+  eventType: EventType | undefined;
+  timezone: string;
+  username: string;
+}) {
   const [isPending, startTransition] = useTransition();
+  const [rescheduling, setRescheduling] = useState(false);
 
   const start = new Date(booking.start_time);
   const formatted = new Intl.DateTimeFormat("en-US", {
@@ -42,6 +55,14 @@ export function BookingRow({ booking, eventType, timezone }: { booking: Booking;
             Join
           </a>
         )}
+        {eventType && (
+          <button
+            onClick={() => setRescheduling(true)}
+            className="flex items-center gap-1.5 rounded-[6px] border border-ink/15 px-3 py-1.5 text-base text-ink/70 transition hover:border-terracotta hover:text-ink"
+          >
+            <CalendarClock size={14} /> Reschedule
+          </button>
+        )}
         <button
           onClick={() => startTransition(() => cancelBooking(booking.id))}
           disabled={isPending}
@@ -50,6 +71,15 @@ export function BookingRow({ booking, eventType, timezone }: { booking: Booking;
           Cancel
         </button>
       </div>
+
+      {rescheduling && eventType && (
+        <RescheduleModal
+          bookingId={booking.id}
+          username={username}
+          slug={eventType.slug}
+          onClose={() => setRescheduling(false)}
+        />
+      )}
     </div>
   );
 }

@@ -37,6 +37,7 @@ export default async function CalendarPage() {
               booking={booking}
               eventType={eventTypeMap.get(booking.event_type_id)}
               timezone={profile.timezone}
+              username={profile.username}
             />
           ))}
         </div>
