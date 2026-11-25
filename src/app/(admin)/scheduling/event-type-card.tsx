@@ -2,19 +2,20 @@
 
 import { useState, useTransition } from "react";
 import Link from "next/link";
-import { Copy, MoreVertical, Trash2, Pencil, Check, Power } from "lucide-react";
-import { LocationIcon } from "@/components/location-icon";
+import { Trash2 } from "lucide-react";
 import { toggleEventTypeActive, deleteEventType } from "./actions";
 import { LOCATION_LABELS, type EventType } from "@/lib/types";
 
-const AUDIENCE_LABELS: Record<EventType["audience"], string> = {
-  new: "Nuevos clientes",
-  existing: "Clientes actuales",
-};
-
-export function EventTypeCard({ eventType, bookingUrl }: { eventType: EventType; bookingUrl: string }) {
+export function EventTypeCard({
+  eventType,
+  bookingUrl,
+  bookingPath,
+}: {
+  eventType: EventType;
+  bookingUrl: string;
+  bookingPath: string;
+}) {
   const [isActive, setIsActive] = useState(eventType.is_active);
-  const [menuOpen, setMenuOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   const [isPending, startTransition] = useTransition();
 
@@ -30,84 +31,66 @@ export function EventTypeCard({ eventType, bookingUrl }: { eventType: EventType;
     setTimeout(() => setCopied(false), 1500);
   }
 
+  function handleDelete() {
+    if (!confirm(`¿Eliminar "${eventType.name}"? Esta acción no se puede deshacer.`)) return;
+    startTransition(() => deleteEventType(eventType.id));
+  }
+
   return (
-    <div
-      className={`group relative flex flex-col border bg-white/60 p-5 transition ${
-        isActive ? "border-ink/10 hover:border-terracotta hover:bg-white" : "border-ink/10 opacity-60"
-      }`}
-      style={{ borderTopWidth: 4, borderTopColor: isActive ? eventType.color : undefined }}
-    >
-      <div className="mb-4 flex items-start justify-between">
-        <LocationIcon locationType={eventType.location_type} color={eventType.color} size={16} />
-
-        <div className="relative">
+    <article className={`flex flex-col border border-ink bg-cream transition-opacity ${isActive ? "" : "opacity-60"}`}>
+      <div className="h-2.5" style={{ background: eventType.color }} aria-hidden="true" />
+      <div className="flex flex-1 flex-col gap-3.5 p-6">
+        <div className="flex items-start justify-between gap-3">
+          <span className="lbl">
+            {eventType.duration_minutes} min · {LOCATION_LABELS[eventType.location_type]}
+          </span>
           <button
-            onClick={() => setMenuOpen((v) => !v)}
-            className="rounded-[6px] p-1.5 text-ink/50 transition hover:bg-ink/5 hover:text-ink"
-            aria-label="Más acciones"
-          >
-            <MoreVertical size={16} />
-          </button>
-          {menuOpen && (
-            <div
-              className="absolute right-0 z-10 mt-1 w-40 border border-ink/10 bg-white py-1 shadow-lg"
-              onMouseLeave={() => setMenuOpen(false)}
-            >
-              <Link
-                href={`/scheduling/${eventType.id}/edit`}
-                className="flex items-center gap-2 px-3 py-2 text-sm text-ink/70 hover:bg-ink/5"
-              >
-                <Pencil size={14} /> Editar
-              </Link>
-              <button
-                onClick={handleToggle}
-                className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm text-ink/70 hover:bg-ink/5"
-              >
-                <Power size={14} /> {isActive ? "Desactivar" : "Activar"}
-              </button>
-              <button
-                onClick={() => startTransition(() => deleteEventType(eventType.id))}
-                className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm text-red-600 hover:bg-ink/5"
-              >
-                <Trash2 size={14} /> Eliminar
-              </button>
-            </div>
-          )}
-        </div>
-      </div>
-
-      <p className="font-display text-lg text-ink">{eventType.name}</p>
-      <p className="mt-1 font-label text-xs uppercase tracking-wide text-ink/50">
-        {eventType.duration_minutes} min · {LOCATION_LABELS[eventType.location_type]}
-      </p>
-
-      {eventType.description && (
-        <p className="mt-3 line-clamp-3 flex-1 text-sm text-ink/70">{eventType.description}</p>
-      )}
-
-      <div className="mt-4 flex items-center justify-between border-t border-ink/10 pt-4">
-        <span className="font-label text-xs uppercase tracking-wide text-ink/40">
-          {AUDIENCE_LABELS[eventType.audience]}
-        </span>
-
-        {isActive ? (
-          <button
-            onClick={handleCopy}
-            className="flex items-center gap-1.5 rounded-[6px] border border-ink/15 px-3 py-1.5 text-sm text-ink/70 transition hover:border-terracotta hover:text-ink"
-          >
-            {copied ? <Check size={14} /> : <Copy size={14} />}
-            {copied ? "Copiado" : "Copiar link"}
-          </button>
-        ) : (
-          <button
+            type="button"
+            role="switch"
+            aria-checked={isActive}
+            aria-label={`${isActive ? "Desactivar" : "Activar"} ${eventType.name}`}
             onClick={handleToggle}
             disabled={isPending}
-            className="rounded-[6px] border border-ink/15 px-3 py-1.5 text-sm text-ink/70 transition hover:border-terracotta hover:text-ink disabled:opacity-60"
+            className={`relative h-7 w-12 shrink-0 rounded-full border border-ink p-0 transition-colors ${
+              isActive ? "bg-ink" : "bg-bone"
+            }`}
           >
-            Activar
+            <span
+              className={`absolute top-[3px] h-5 w-5 rounded-full transition-all ${
+                isActive ? "left-[23px] bg-mustard" : "left-[3px] bg-ink"
+              }`}
+            />
           </button>
-        )}
+        </div>
+        <h3 className="font-display text-[28px] font-normal leading-[34px] sm:text-[32px] sm:leading-[38px]">{eventType.name}</h3>
+        <span className="lbl break-all text-indigo">{bookingPath}</span>
+        {eventType.description && <p className="line-clamp-3 text-[13px] leading-[17px]">{eventType.description}</p>}
+        <span className="mt-auto text-[13px] leading-[17px]">
+          {isActive ? "Visible en la página pública" : "Oculta: no recibe reservas"}
+        </span>
       </div>
-    </div>
+      <div className="flex border-t border-ink">
+        <button
+          type="button"
+          onClick={handleCopy}
+          disabled={!isActive}
+          className="btn flex-1 rounded-none border-0 border-r border-ink"
+        >
+          {copied ? "Copiado" : "Copiar enlace"}
+        </button>
+        <Link href={`/scheduling/${eventType.id}/edit`} className="btn flex-1 rounded-none border-0 border-r border-ink">
+          Editar
+        </Link>
+        <button
+          type="button"
+          onClick={handleDelete}
+          disabled={isPending}
+          aria-label={`Eliminar ${eventType.name}`}
+          className="btn w-12 rounded-none border-0 !px-0 hover:text-terracotta"
+        >
+          <Trash2 size={15} strokeWidth={1.5} />
+        </button>
+      </div>
+    </article>
   );
 }

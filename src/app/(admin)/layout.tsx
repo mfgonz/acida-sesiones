@@ -2,7 +2,6 @@ import { redirect } from "next/navigation";
 import { getAuthUser } from "@/lib/supabase/server-auth";
 import { getOrCreateProfile } from "@/lib/profile";
 import { Sidebar } from "@/components/sidebar";
-import { Topbar } from "@/components/topbar";
 
 export const dynamic = "force-dynamic";
 
@@ -13,12 +12,9 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   const profile = await getOrCreateProfile(user);
 
   return (
-    <div className="flex min-h-screen">
-      <Sidebar />
-      <div className="flex-1">
-        <Topbar profile={profile} />
-        <main className="mx-auto max-w-7xl px-8 py-8">{children}</main>
-      </div>
+    <div className="flex min-h-screen flex-col font-body text-ink md:flex-row">
+      <Sidebar username={profile.username} googleConnected={profile.google_connected} />
+      <main className="flex min-w-0 flex-1 flex-col gap-9 px-4 pb-[72px] pt-9 sm:px-[clamp(16px,4vw,72px)]">{children}</main>
     </div>
   );
 }

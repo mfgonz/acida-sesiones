@@ -1,26 +1,23 @@
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
-import { LocationIcon } from "@/components/location-icon";
+import { ArrowRight } from "lucide-react";
 import { LOCATION_LABELS, type EventType } from "@/lib/types";
 
+/** One bookable session, drawn as a full-width row between ink rules. */
 export function EventCard({ eventType, href }: { eventType: EventType; href: string }) {
   return (
     <Link
       href={href}
-      className="group flex items-start gap-4 rounded-xl border border-ink/10 bg-white/60 px-6 py-5 transition hover:border-terracotta hover:bg-white"
+      className="group grid items-center gap-[18px] border-b border-ink py-7 text-ink transition-colors hover:bg-bone md:grid-cols-[1fr_1fr_auto]"
     >
-      <LocationIcon locationType={eventType.location_type} color={eventType.color} />
-      <div className="flex-1">
-        <p className="font-display font-normal text-ink">{eventType.name}</p>
-        <p className="mt-1 font-label text-xs uppercase tracking-wide text-ink/50">
+      <div className="flex flex-col gap-2">
+        <span className="lbl">
           {eventType.duration_minutes} min · {LOCATION_LABELS[eventType.location_type]}
-        </p>
-        {eventType.description && (
-          <p className="mt-2 font-body text-sm text-ink/70">{eventType.description}</p>
-        )}
+        </span>
+        <span className="text-[28px] leading-[34px] sm:text-[32px] sm:leading-[38px]">{eventType.name}</span>
       </div>
-      <span className="mt-1 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-ink/15 text-ink/40 transition duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:border-terracotta group-hover:bg-terracotta group-hover:text-cream">
-        <ArrowUpRight size={16} />
+      <p className="max-w-[460px] text-lg leading-[25px]">{eventType.description}</p>
+      <span className="btn btn-ink btn-lg justify-self-start md:justify-self-end">
+        Agendar <ArrowRight size={14} strokeWidth={1.5} className="transition-transform group-hover:translate-x-0.5" />
       </span>
     </Link>
   );

@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Clock3, ArrowRight } from "lucide-react";
-import { BRAND_NAME } from "@/lib/brand";
 import { isLand } from "@/lib/land-mask";
 import type { PanamaWeather } from "@/lib/weather";
 
@@ -200,7 +199,7 @@ function PanamaClock() {
   }, []);
 
   return (
-    <span className="flex items-center gap-1 rounded-[6px] border border-ink/10 bg-white px-2.5 py-1 font-label text-xs uppercase tracking-wide text-ink/70">
+    <span className="tag !py-1">
       <Clock3 size={12} />
       {time ?? "--:--"}
     </span>
@@ -211,24 +210,22 @@ export function PanamaWidget({ weather }: { weather: PanamaWeather | null }) {
   const vibe = weather ? thermalMessage(weather.feelsLike) : null;
 
   return (
-    <div className="fixed right-32 top-1/2 z-10 hidden w-64 -translate-y-1/2 rounded-2xl border border-ink/10 bg-white/80 p-4 shadow-lg backdrop-blur xl:block">
+    <div className="absolute -left-6 bottom-14 z-10 hidden w-64 border border-ink bg-cream p-4 xl:block">
       <div className="mb-3 flex items-center justify-between">
-        <span className="flex h-6 w-6 items-center justify-center rounded-full bg-ink text-xs font-bold text-cream">
-          {BRAND_NAME.slice(0, 1)}
-        </span>
+        <span className="lbl">En vivo</span>
         <PanamaClock />
       </div>
 
       <GlobeCanvas />
 
-      <p className="mt-3 font-display text-sm font-normal text-ink">En vivo desde Panamá</p>
-      <p className="mt-1 font-label text-xs text-ink/60">
+      <p className="mt-3 border-t border-ink pt-3 font-display text-lg leading-6 text-ink">Desde Panamá</p>
+      <p className="lbl mt-1 !normal-case !tracking-normal text-ink/70">
         {weather
           ? `${weather.temperature}°C · Se siente ${weather.feelsLike}° · ${weather.description}`
           : "Ciudad de Panamá"}
       </p>
       {vibe && (
-        <p className="mt-1.5 flex items-center gap-1 font-label text-xs font-medium text-terracotta">
+        <p className="lbl mt-2 flex items-center gap-1 !normal-case !tracking-normal text-terracotta">
           <span>{vibe}</span>
           <ArrowRight size={12} className="animate-arrow-nudge shrink-0" />
         </p>

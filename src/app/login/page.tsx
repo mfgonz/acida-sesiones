@@ -1,49 +1,29 @@
-import Image from "next/image";
 import Link from "next/link";
+import { AuthShell } from "@/components/auth-shell";
 import { signIn } from "./actions";
 
 export default function LoginPage({ searchParams }: { searchParams: { error?: string } }) {
   return (
-    <div className="flex min-h-screen items-center justify-center px-4">
-      <div className="w-full max-w-sm rounded-2xl border border-ink/10 bg-white/80 p-8 shadow-lg backdrop-blur">
-        <div className="mb-6">
-          <Image src="/logo-acida-ink.webp" alt="ÁCIDA" width={1426} height={474} priority className="h-12 w-auto" />
-        </div>
-        <h1 className="mb-1 text-xl font-semibold text-ink">Iniciar sesión</h1>
-        <p className="mb-6 text-sm text-ink/60">Gestiona tus sesiones y disponibilidad.</p>
-        <form action={signIn} className="space-y-4">
-          <div>
-            <label className="mb-1 block text-sm text-ink/70">Correo</label>
-            <input
-              name="email"
-              type="email"
-              required
-              className="w-full rounded-lg border border-ink/15 bg-cream/40 px-3 py-2 text-sm text-ink outline-none focus:border-terracotta"
-            />
-          </div>
-          <div>
-            <div className="mb-1 flex items-center justify-between">
-              <label className="block text-sm text-ink/70">Contraseña</label>
-              <Link href="/login/forgot-password" className="text-xs text-ink/50 hover:text-terracotta">
-                ¿Olvidaste tu contraseña?
-              </Link>
-            </div>
-            <input
-              name="password"
-              type="password"
-              required
-              className="w-full rounded-lg border border-ink/15 bg-cream/40 px-3 py-2 text-sm text-ink outline-none focus:border-terracotta"
-            />
-          </div>
-          {searchParams.error && <p className="text-sm text-red-600">Correo o contraseña incorrectos.</p>}
-          <button
-            type="submit"
-            className="w-full rounded-[6px] bg-ink px-4 py-2.5 font-medium text-cream transition hover:bg-terracotta"
-          >
-            Entrar
-          </button>
-        </form>
-      </div>
-    </div>
+    <AuthShell title="Iniciar sesión" subtitle="Gestiona tus sesiones y disponibilidad.">
+      <form action={signIn} className="flex flex-col gap-[18px]">
+        <label className="flex flex-col gap-2">
+          <span className="lbl">Correo</span>
+          <input name="email" type="email" required autoComplete="email" className="fld" />
+        </label>
+        <label className="flex flex-col gap-2">
+          <span className="flex items-center justify-between gap-3">
+            <span className="lbl">Contraseña</span>
+            <Link href="/login/forgot-password" className="lbl text-olive underline-offset-4 hover:underline">
+              ¿Olvidaste tu contraseña?
+            </Link>
+          </span>
+          <input name="password" type="password" required autoComplete="current-password" className="fld" />
+        </label>
+        {searchParams.error && <p className="text-base text-terracotta">Correo o contraseña incorrectos.</p>}
+        <button type="submit" className="btn btn-ink btn-lg w-full">
+          Entrar
+        </button>
+      </form>
+    </AuthShell>
   );
 }

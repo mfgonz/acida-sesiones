@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
+import { BRAND_USERNAME } from "@/lib/brand";
 
 export function CancelButton({ token }: { token: string }) {
   const [state, setState] = useState<"idle" | "loading" | "done" | "error">("idle");
@@ -16,19 +18,23 @@ export function CancelButton({ token }: { token: string }) {
   }
 
   if (state === "done") {
-    return <p className="mt-4 text-sm text-green-600">Tu sesión fue cancelada.</p>;
+    return (
+      <div className="flex flex-col items-start gap-6">
+        <p className="text-lg">Tu sesión fue cancelada. Te enviamos la confirmación a tu correo.</p>
+        <Link href={`/${BRAND_USERNAME}`} className="btn btn-ink btn-lg">
+          Agendar una nueva sesión
+        </Link>
+      </div>
+    );
   }
 
   return (
-    <div className="mt-6">
-      <button
-        onClick={handleCancel}
-        disabled={state === "loading"}
-        className="rounded-[6px] border border-red-500/40 px-4 py-2 text-sm text-red-600 hover:bg-red-500/10 disabled:opacity-60"
-      >
+    <div className="flex flex-col items-start gap-3">
+      <p className="text-lg">Si cancelas, la sesión se eliminará de ambos calendarios.</p>
+      <button type="button" onClick={handleCancel} disabled={state === "loading"} className="btn btn-ink btn-lg">
         {state === "loading" ? "Cancelando…" : "Cancelar esta sesión"}
       </button>
-      {state === "error" && <p className="mt-2 text-sm text-red-600">Algo salió mal. Por favor intenta de nuevo.</p>}
+      {state === "error" && <p className="text-base text-terracotta">Algo salió mal. Por favor intenta de nuevo.</p>}
     </div>
   );
 }

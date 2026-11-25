@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Copy } from "lucide-react";
+import type { ReactNode } from "react";
 import { WEEKDAY_LABELS } from "@/lib/types";
 import type { AvailabilityRule } from "@/lib/types";
 
@@ -29,10 +30,13 @@ export function WeeklyHoursEditor({
   action,
   rules,
   timezone,
+  children,
 }: {
   action: (formData: FormData) => void;
   rules: AvailabilityRule[];
   timezone: string;
+  /** Extra panels for the right-hand column (e.g. the Google Calendar card). */
+  children?: ReactNode;
 }) {
   const initial = Object.fromEntries(
     Array.from({ length: 7 }, (_, day) => {
@@ -74,98 +78,99 @@ export function WeeklyHoursEditor({
   }
 
   return (
-    <form action={action} className="max-w-xl space-y-5">
-      <div>
-        <label className="mb-1 block text-base text-ink/70">Zona horaria</label>
-        <select
-          name="timezone"
-          defaultValue={timezone}
-          className="w-full rounded-lg border border-ink/15 bg-cream/40 px-3 py-2 text-base text-ink outline-none focus:border-terracotta"
-        >
-          {COMMON_TIMEZONES.map((tz) => (
-            <option key={tz} value={tz}>
-              {tz}
-            </option>
-          ))}
-        </select>
-      </div>
+    <div className="flex flex-wrap gap-9">
+      <form id="hours-form" action={action} aria-labelledby="h-semana" className="flex min-w-0 flex-[3_1_480px] flex-col">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-ink pb-3">
+          <h2 id="h-semana" className="font-display text-[32px] font-normal leading-[38px]">
+            Horario semanal
+          </h2>
+          <label className="flex items-center gap-2">
+            <span className="lbl">Zona</span>
+            <select name="timezone" defaultValue={timezone} className="fld fld-sm !text-base">
+              {COMMON_TIMEZONES.map((tz) => (
+                <option key={tz} value={tz}>
+                  {tz}
+                </option>
+              ))}
+            </select>
+          </label>
+        </div>
 
-      <div className="flex flex-wrap gap-2 text-sm">
-        <button
-          type="button"
-          onClick={setWeekdaysOnly}
-          className="rounded-[6px] border border-ink/15 px-3 py-1.5 text-ink/70 transition hover:border-terracotta hover:text-ink"
-        >
-          Solo lunes a viernes
-        </button>
-        <button
-          type="button"
-          onClick={() => setAll({ enabled: true })}
-          className="rounded-[6px] border border-ink/15 px-3 py-1.5 text-ink/70 transition hover:border-terracotta hover:text-ink"
-        >
-          Marcar todos disponibles
-        </button>
-        <button
-          type="button"
-          onClick={() => setAll({ enabled: false })}
-          className="rounded-[6px] border border-ink/15 px-3 py-1.5 text-ink/70 transition hover:border-terracotta hover:text-ink"
-        >
-          Marcar todos no disponibles
-        </button>
-      </div>
-
-      <div className="space-y-2">
         {DISPLAY_ORDER.map((day) => (
-          <div key={day} className="flex items-center gap-3 rounded-lg border border-ink/10 px-3 py-2">
-            <label className="flex w-32 items-center gap-2 text-base text-ink/80">
+          <div key={day} className="flex flex-wrap items-center gap-[18px] border-b border-ink py-3.5">
+            <label className="flex min-h-[44px] w-40 items-center gap-3">
               <input
                 type="checkbox"
                 name={`day_${day}_enabled`}
                 checked={days[day].enabled}
                 onChange={(e) => update(day, { enabled: e.target.checked })}
-                className="h-4 w-4 rounded border-ink/20 bg-cream/40"
+                className="m-0 h-5 w-5 accent-ink"
               />
-              {WEEKDAY_LABELS[day]}
+              <span className="text-lg leading-[25px]">{WEEKDAY_LABELS[day]}</span>
             </label>
             {days[day].enabled ? (
-              <div className="flex flex-1 items-center gap-2">
+              <div className="flex flex-[1_1_280px] flex-wrap items-center gap-2">
                 <input
                   type="time"
                   name={`day_${day}_start`}
                   value={days[day].start}
                   onChange={(e) => update(day, { start: e.target.value })}
-                  className="rounded-lg border border-ink/15 bg-cream/40 px-2 py-1 text-base text-ink outline-none focus:border-terracotta"
+                  aria-label={`${WEEKDAY_LABELS[day]}: desde`}
+                  className="fld fld-sm"
                 />
-                <span className="text-ink/50">–</span>
+                <span className="lbl">a</span>
                 <input
                   type="time"
                   name={`day_${day}_end`}
                   value={days[day].end}
                   onChange={(e) => update(day, { end: e.target.value })}
-                  className="rounded-lg border border-ink/15 bg-cream/40 px-2 py-1 text-base text-ink outline-none focus:border-terracotta"
+                  aria-label={`${WEEKDAY_LABELS[day]}: hasta`}
+                  className="fld fld-sm"
                 />
                 <button
                   type="button"
                   onClick={() => applyToAllEnabled(day)}
                   title="Copiar este horario a todos los días disponibles"
-                  className="ml-auto rounded-lg p-1.5 text-ink/50 transition hover:bg-ink/5 hover:text-ink"
+                  aria-label="Copiar este horario a todos los días disponibles"
+                  className="btn w-11 !px-0"
                 >
-                  <Copy size={14} />
+                  <Copy size={14} strokeWidth={1.5} />
                 </button>
               </div>
             ) : (
-              <span className="text-base text-ink/50">No disponible</span>
+              <span className="lbl flex-[1_1_280px]">No disponible</span>
             )}
           </div>
         ))}
-      </div>
 
-      <button
-        type="submit"
-        className="rounded-[6px] bg-ink px-5 py-2.5 text-base font-medium text-cream transition hover:bg-terracotta"
-      >
-        Guardar horario
-      </button>
-    </form>
+        <div className="pt-6">
+          <button type="submit" className="btn btn-ink btn-lg">
+            Guardar horario
+          </button>
+        </div>
+      </form>
+
+      <div className="flex flex-[2_1_320px] flex-col gap-[18px]">
+        <section aria-labelledby="h-atajos" className="flex flex-col gap-3.5 bg-blush p-6">
+          <span className="lbl">[ Atajos ]</span>
+          <h2 id="h-atajos" className="font-display text-[32px] font-normal leading-[38px]">
+            Aplicar rápido
+          </h2>
+          <div className="flex flex-col gap-2 border-t border-ink pt-3.5">
+            <button type="button" onClick={setWeekdaysOnly} className="btn justify-start">
+              Solo lunes a viernes
+            </button>
+            <button type="button" onClick={() => setAll({ enabled: true })} className="btn justify-start">
+              Marcar todos disponibles
+            </button>
+            <button type="button" onClick={() => setAll({ enabled: false })} className="btn justify-start">
+              Marcar todos no disponibles
+            </button>
+          </div>
+          <p className="text-[13px] leading-[17px]">Recuerda guardar el horario después de aplicar un atajo.</p>
+        </section>
+        {children}
+      </div>
+    </div>
   );
 }

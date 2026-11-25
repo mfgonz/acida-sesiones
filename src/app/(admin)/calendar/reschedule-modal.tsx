@@ -71,139 +71,129 @@ export function RescheduleModal({
   }
 
   const selectedDaySlots = selectedDate ? slotsByDate.get(selectedDate) ?? [] : [];
+  const fmtTime = (iso: string) =>
+    new Intl.DateTimeFormat("es", { hour: "2-digit", minute: "2-digit", hour12: false, timeZone: timezone }).format(new Date(iso));
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-ink/40 p-4" onClick={onClose}>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-ink/50 p-4" onClick={onClose}>
       <div
-        className="max-h-[90vh] w-full max-w-2xl overflow-y-auto bg-white p-6 shadow-lg"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="reschedule-title"
+        className="max-h-[90vh] w-full max-w-3xl overflow-y-auto border border-ink bg-cream p-6 text-ink sm:p-8"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="mb-4 flex items-center justify-between">
-          <p className="font-display text-lg text-ink">Reprogramar sesión</p>
-          <button onClick={onClose} className="rounded-[6px] p-1.5 text-ink/50 hover:bg-ink/5 hover:text-ink">
-            <X size={18} />
+        <div className="mb-6 flex items-start justify-between gap-4 border-b border-ink pb-[18px]">
+          <div className="flex flex-col gap-2">
+            <span className="lbl">[ Reprogramar ]</span>
+            <h2 id="reschedule-title" className="font-display text-[32px] font-normal leading-[38px]">
+              Reprogramar sesión
+            </h2>
+          </div>
+          <button type="button" onClick={onClose} aria-label="Cerrar" className="btn w-11 !px-0">
+            <X size={16} strokeWidth={1.5} />
           </button>
         </div>
 
-        <div className="grid gap-6 sm:grid-cols-2">
-          <div>
-            <div className="mb-3 flex items-center justify-between">
-              <p className="font-display capitalize text-ink">{format(month, "MMMM yyyy", { locale: es })}</p>
-              <div className="flex gap-1">
-                <button
-                  onClick={() => setMonth((m) => addMonths(m, -1))}
-                  className="rounded-lg p-1.5 text-ink/50 hover:bg-cream hover:text-ink"
-                >
-                  <ChevronLeft size={16} />
+        <div className="grid gap-6 sm:grid-cols-[3fr_2fr]">
+          <div className="flex flex-col gap-3">
+            <div className="flex items-center justify-between">
+              <p className="font-display text-2xl capitalize">{format(month, "MMMM yyyy", { locale: es })}</p>
+              <div className="flex gap-1.5">
+                <button type="button" aria-label="Mes anterior" onClick={() => setMonth((m) => addMonths(m, -1))} className="btn w-11 !px-0">
+                  <ChevronLeft size={16} strokeWidth={1.5} />
                 </button>
-                <button
-                  onClick={() => setMonth((m) => addMonths(m, 1))}
-                  className="rounded-lg p-1.5 text-ink/50 hover:bg-cream hover:text-ink"
-                >
-                  <ChevronRight size={16} />
+                <button type="button" aria-label="Mes siguiente" onClick={() => setMonth((m) => addMonths(m, 1))} className="btn w-11 !px-0">
+                  <ChevronRight size={16} strokeWidth={1.5} />
                 </button>
               </div>
             </div>
-            <div className="grid grid-cols-7 gap-1 text-center font-label text-xs text-ink/40">
-              {["L", "M", "M", "J", "V", "S", "D"].map((d, i) => (
-                <div key={i}>{d}</div>
+            <div className="grid grid-cols-7 gap-1">
+              {["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"].map((d) => (
+                <span key={d} className="lbl py-1 text-center">
+                  {d}
+                </span>
               ))}
-            </div>
-            <div className="mt-1 grid grid-cols-7 gap-1">
               {daysInMonth.map((dateKey, i) => {
-                if (!dateKey) return <div key={i} />;
+                if (!dateKey) return <span key={i} />;
                 const hasSlots = (slotsByDate.get(dateKey)?.length ?? 0) > 0;
                 const isSelected = selectedDate === dateKey;
                 const dayNum = Number(dateKey.slice(-2));
+                if (!hasSlots) {
+                  return (
+                    <span key={dateKey} className="flex h-11 items-center justify-center text-base text-[#6b6a5c]">
+                      {dayNum}
+                    </span>
+                  );
+                }
                 return (
                   <button
                     key={dateKey}
-                    disabled={!hasSlots}
-                    onClick={() => setSelectedDate(dateKey)}
-                    className={`group flex aspect-square flex-col items-center justify-center gap-1 text-sm transition ${
-                      hasSlots ? "text-ink" : "text-ink/25"
+                    type="button"
+                    aria-pressed={isSelected}
+                    onClick={() => {
+                      setSelectedDate(dateKey);
+                      setSelectedSlot(null);
+                    }}
+                    className={`h-11 rounded-[4px] text-base transition-colors ${
+                      isSelected ? "bg-ink text-cream" : "bg-celeste hover:bg-ink/80 hover:text-cream"
                     }`}
                   >
-                    <span
-                      className={`flex h-8 w-8 items-center justify-center rounded-full transition ${
-                        isSelected ? "bg-terracotta text-cream" : hasSlots ? "group-hover:bg-cream" : ""
-                      }`}
-                    >
-                      {dayNum}
-                    </span>
-                    {hasSlots && <span className="h-1.5 w-1.5 rounded-full bg-terracotta" aria-hidden="true" />}
+                    {dayNum}
                   </button>
                 );
               })}
             </div>
-            {loading && <p className="mt-3 text-xs text-ink/40">Cargando disponibilidad…</p>}
+            {loading && <p className="lbl text-ink/60">Cargando disponibilidad…</p>}
           </div>
 
-          <div>
-            <p className="mb-3 text-sm text-ink/60">
+          <div className="flex flex-col gap-2 sm:border-l sm:border-ink sm:pl-[18px]">
+            <span className="lbl">
               {selectedDate
-                ? new Intl.DateTimeFormat("es", {
-                    weekday: "long",
-                    month: "long",
-                    day: "numeric",
-                    timeZone: timezone,
-                  }).format(new Date(`${selectedDate}T12:00:00`))
+                ? new Intl.DateTimeFormat("es", { weekday: "long", month: "long", day: "numeric" }).format(
+                    new Date(`${selectedDate}T12:00:00`)
+                  )
                 : "Elige un día"}
-            </p>
-            <div className="max-h-64 space-y-2 overflow-y-auto pr-1">
+            </span>
+            <div className="flex max-h-64 flex-col gap-2 overflow-y-auto pr-1">
               {selectedDaySlots.map((iso) => (
                 <button
                   key={iso}
+                  type="button"
                   onClick={() => setSelectedSlot(iso)}
-                  className={`block w-full rounded-[6px] border py-2 text-sm transition ${
-                    selectedSlot === iso
-                      ? "border-terracotta bg-terracotta/10 text-ink"
-                      : "border-ink/15 text-ink hover:border-terracotta hover:bg-terracotta/10"
+                  className={`h-11 shrink-0 rounded-[4px] border border-ink text-base transition-colors ${
+                    selectedSlot === iso ? "bg-ink text-cream" : "hover:bg-bone"
                   }`}
                 >
-                  {new Intl.DateTimeFormat("es", { hour: "numeric", minute: "2-digit", timeZone: timezone }).format(
-                    new Date(iso)
-                  )}
+                  {fmtTime(iso)}
                 </button>
               ))}
-              {selectedDate && !selectedDaySlots.length && (
-                <p className="text-sm text-ink/40">No hay horarios disponibles este día.</p>
-              )}
+              {selectedDate && !selectedDaySlots.length && <p className="text-base">No hay horarios disponibles este día.</p>}
             </div>
-            <p className="mt-3 text-xs text-ink/40">Horarios en {timezone}</p>
+            <span className="lbl mt-auto pt-2 text-ink/60">Horarios en {timezone}</span>
           </div>
         </div>
 
-        <div className="mt-6">
-          <label htmlFor="reschedule-reason" className="mb-1.5 block text-sm font-medium text-ink/70">
-            Motivo del cambio (opcional)
-          </label>
+        <label className="mt-6 flex flex-col gap-2 border-t border-ink pt-6">
+          <span className="lbl">Motivo del cambio (opcional)</span>
           <textarea
-            id="reschedule-reason"
             value={reason}
             onChange={(e) => setReason(e.target.value)}
             maxLength={500}
             rows={3}
             placeholder="Ej. Surgió un conflicto con otra producción; ¡gracias por la flexibilidad!"
-            className="w-full resize-none border border-ink/15 bg-cream/40 px-3 py-2 text-sm text-ink outline-none transition focus:border-terracotta"
+            className="fld !text-base"
           />
-          <p className="mt-1 text-xs text-ink/50">El cliente lo verá en el email de reprogramación.</p>
-        </div>
+          <span className="lbl text-olive">El cliente lo verá en el email de reprogramación</span>
+        </label>
 
-        {errorMsg && <p className="mt-4 text-sm text-red-600">{errorMsg}</p>}
+        {errorMsg && <p className="mt-4 text-base text-terracotta">{errorMsg}</p>}
 
-        <div className="mt-6 flex justify-end gap-2 border-t border-ink/10 pt-4">
-          <button
-            onClick={onClose}
-            className="rounded-[6px] border border-ink/15 px-4 py-2 text-sm text-ink/70 hover:border-terracotta hover:text-ink"
-          >
+        <div className="mt-6 flex flex-wrap justify-end gap-2 border-t border-ink pt-[18px]">
+          <button type="button" onClick={onClose} className="btn">
             Cancelar
           </button>
-          <button
-            onClick={handleConfirm}
-            disabled={!selectedSlot || isPending}
-            className="flex items-center gap-2 rounded-[6px] bg-ink px-4 py-2 text-sm font-medium text-cream transition hover:bg-terracotta disabled:opacity-60"
-          >
+          <button type="button" onClick={handleConfirm} disabled={!selectedSlot || isPending} className="btn btn-ink">
             {isPending && <Loader2 size={16} className="animate-spin" />}
             Confirmar nuevo horario
           </button>

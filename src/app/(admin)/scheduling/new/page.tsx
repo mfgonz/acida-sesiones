@@ -1,11 +1,17 @@
+import Link from "next/link";
+import { AdminPageHeader } from "@/components/admin-page-header";
 import { createEventType } from "../actions";
 import { EventTypeForm } from "../event-type-form";
 
 export default function NewEventTypePage() {
   return (
-    <div>
-      <h2 className="mb-6 text-lg font-semibold text-ink">Nuevo tipo de sesión</h2>
+    <>
+      <AdminPageHeader n="02" title="Nuevo tipo de sesión">
+        <Link href="/scheduling" className="btn">
+          Volver
+        </Link>
+      </AdminPageHeader>
       <EventTypeForm action={createEventType} />
-    </div>
+    </>
   );
 }

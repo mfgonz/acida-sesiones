@@ -1,3 +1,5 @@
+import Link from "next/link";
+import { AdminPageHeader } from "@/components/admin-page-header";
 import { notFound } from "next/navigation";
 import { getAuthUser } from "@/lib/supabase/server-auth";
 import { supabaseAdmin } from "@/lib/supabase/admin";
@@ -23,9 +25,13 @@ export default async function EditEventTypePage({ params }: { params: { id: stri
   const updateWithId = updateEventType.bind(null, params.id);
 
   return (
-    <div>
-      <h2 className="mb-6 text-lg font-semibold text-ink">Editar tipo de sesión</h2>
+    <>
+      <AdminPageHeader n="02" title="Editar tipo de sesión">
+        <Link href="/scheduling" className="btn">
+          Volver
+        </Link>
+      </AdminPageHeader>
       <EventTypeForm action={updateWithId} eventType={eventType as EventType} />
-    </div>
+    </>
   );
 }

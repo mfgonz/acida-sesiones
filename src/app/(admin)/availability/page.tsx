@@ -1,7 +1,7 @@
-import { CalendarCheck2, Unplug } from "lucide-react";
 import { getAuthUser } from "@/lib/supabase/server-auth";
 import { getOrCreateProfile } from "@/lib/profile";
 import { supabaseAdmin } from "@/lib/supabase/admin";
+import { AdminPageHeader } from "@/components/admin-page-header";
 import { saveWeeklyHours, disconnectGoogle } from "./actions";
 import { WeeklyHoursEditor } from "./weekly-hours-editor";
 import type { AvailabilityRule } from "@/lib/types";
@@ -26,62 +26,55 @@ export default async function AvailabilityPage() {
 
   const saveWithId = schedule ? saveWeeklyHours.bind(null, schedule.id) : async () => {};
 
+  const googleCard = (
+    <section aria-labelledby="h-google" className="flex flex-col gap-3.5 border border-ink p-6">
+      <span className={`tag tag-fill self-start ${profile.google_connected ? "bg-celeste" : "bg-bone"}`}>
+        {profile.google_connected ? "Conectado" : "No conectado"}
+      </span>
+      <h2 id="h-google" className="font-display text-[32px] font-normal leading-[38px]">
+        Google Calendar
+      </h2>
+      <p className="text-[13px] leading-[17px]">
+        Los eventos ocupados de tu calendario bloquean horarios, y cada reserva confirmada se crea como evento con la
+        persona invitada.
+      </p>
+      {profile.google_connected && profile.google_email && (
+        <span className="lbl break-all text-indigo">{profile.google_email}</span>
+      )}
+      {profile.google_connected ? (
+        <form action={disconnectGoogle}>
+          <button type="submit" className="btn">
+            Desconectar
+          </button>
+        </form>
+      ) : (
+        <a href="/api/google/connect" className="btn btn-ink self-start">
+          Conectar Google Calendar
+        </a>
+      )}
+    </section>
+  );
+
   return (
-    <div className="space-y-10">
-      <section>
-        <h2 className="mb-1 text-lg font-semibold text-ink">Google Calendar</h2>
-        <p className="mb-4 text-base text-ink/60">
-          Conecta tu calendario para bloquear los horarios ocupados y agregar las nuevas reservas automáticamente.
-        </p>
-
-        <div className="flex max-w-xl items-center justify-between rounded-lg border border-ink/10 bg-white/60 px-5 py-4">
-          <div className="flex items-center gap-3">
-            <CalendarCheck2 size={20} className={profile.google_connected ? "text-green-600" : "text-ink/40"} />
-            <div>
-              <p className="text-base font-medium text-ink">
-                {profile.google_connected ? "Conectado" : "No conectado"}
-              </p>
-              {profile.google_connected && profile.google_email && (
-                <p className="text-sm text-ink/60">{profile.google_email}</p>
-              )}
-            </div>
-          </div>
-
-          {profile.google_connected ? (
-            <form action={disconnectGoogle}>
-              <button
-                type="submit"
-                className="flex items-center gap-2 rounded-[6px] border border-ink/15 px-3 py-1.5 text-base text-ink/70 transition hover:border-terracotta hover:text-ink"
-              >
-                <Unplug size={14} /> Desconectar
-              </button>
-            </form>
-          ) : (
-            <a
-              href="/api/google/connect"
-              className="rounded-[6px] bg-ink px-4 py-2 text-base font-medium text-cream transition hover:bg-terracotta"
-            >
-              Conectar Google Calendar
-            </a>
-          )}
-        </div>
-      </section>
-
-      <section>
-        <h2 className="mb-1 text-lg font-semibold text-ink">Horario de trabajo</h2>
-        <p className="mb-4 text-base text-ink/60">
-          Aplica a todos los tipos de sesión que usan tu horario por defecto.
-        </p>
-        {schedule ? (
-          <WeeklyHoursEditor
-            action={saveWithId}
-            rules={(rules ?? []) as AvailabilityRule[]}
-            timezone={schedule.timezone}
-          />
-        ) : (
-          <p className="text-base text-ink/50">Configurando tu horario…</p>
+    <>
+      <AdminPageHeader n="03" title="Disponibilidad">
+        {schedule && (
+          <button type="submit" form="hours-form" className="btn btn-ink btn-lg">
+            Guardar cambios
+          </button>
         )}
-      </section>
-    </div>
+      </AdminPageHeader>
+
+      {schedule ? (
+        <WeeklyHoursEditor action={saveWithId} rules={(rules ?? []) as AvailabilityRule[]} timezone={schedule.timezone}>
+          {googleCard}
+        </WeeklyHoursEditor>
+      ) : (
+        <>
+          <p className="text-lg">Configurando tu horario…</p>
+          <div className="max-w-md">{googleCard}</div>
+        </>
+      )}
+    </>
   );
 }

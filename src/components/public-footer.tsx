@@ -1,39 +1,31 @@
-import { Globe, Instagram } from "lucide-react";
+import Image from "next/image";
 
 const WEBSITE_URL = "https://www.somosacida.com";
 const INSTAGRAM_URL = "https://instagram.com/somos.acida";
 
-export function PublicFooter() {
+export function PublicFooter({ tone = "light" }: { tone?: "light" | "dark" }) {
+  const dark = tone === "dark";
   return (
-    <footer className="flex items-center justify-center gap-4 px-4 pb-10 pt-4">
-      {WEBSITE_URL ? (
-        <a
-          href={WEBSITE_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Sitio web"
-          className="flex h-9 w-9 items-center justify-center rounded-full border border-ink/15 text-ink/60 transition hover:border-terracotta hover:text-terracotta"
-        >
-          <Globe size={16} />
+    <footer
+      className={`flex flex-wrap items-end justify-between gap-[18px] border-t pb-12 pt-9 ${
+        dark ? "border-mustard text-mustard" : "border-ink text-ink"
+      }`}
+    >
+      <Image
+        src={dark ? "/brand/logo-acida-mustard.png" : "/brand/logo-acida-ink.png"}
+        alt="ÁCIDA"
+        width={600}
+        height={199}
+        className="block h-8 w-auto"
+      />
+      <div className="flex flex-wrap gap-6">
+        <a className="lbl underline-offset-4 hover:underline" href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer">
+          @somos.acida
         </a>
-      ) : (
-        <span
-          aria-hidden="true"
-          title="Sitio web próximamente"
-          className="flex h-9 w-9 items-center justify-center rounded-full border border-ink/10 text-ink/25"
-        >
-          <Globe size={16} />
-        </span>
-      )}
-      <a
-        href={INSTAGRAM_URL}
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="Instagram @somos.acida"
-        className="flex h-9 w-9 items-center justify-center rounded-full border border-ink/15 text-ink/60 transition hover:border-terracotta hover:text-terracotta"
-      >
-        <Instagram size={16} />
-      </a>
+        <a className="lbl underline-offset-4 hover:underline" href={WEBSITE_URL} target="_blank" rel="noopener noreferrer">
+          www.somosacida.com
+        </a>
+      </div>
     </footer>
   );
 }
