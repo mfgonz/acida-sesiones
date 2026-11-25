@@ -51,7 +51,8 @@ export async function cancelBooking(bookingId: string) {
   revalidatePath("/calendar");
 }
 
-export async function rescheduleBooking(bookingId: string, newStartTimeIso: string) {
+export async function rescheduleBooking(bookingId: string, newStartTimeIso: string, reasonInput?: string) {
+  const reason = reasonInput?.trim().slice(0, 500) || null;
   const user = await getAuthUser();
   if (!user) throw new Error("Not authenticated");
 
@@ -95,6 +96,7 @@ export async function rescheduleBooking(bookingId: string, newStartTimeIso: stri
       meetLink: booking.meet_link,
       locationDetails: eventType.location_type !== "google_meet" ? eventType.location_details : null,
       cancelUrl: `${appUrl}/cancel/${booking.cancel_token}`,
+      reason,
     }),
     sendAdminBookingUpdate({
       action: "rescheduled",
@@ -106,6 +108,7 @@ export async function rescheduleBooking(bookingId: string, newStartTimeIso: stri
       timezone: booking.invitee_timezone,
       startTime: newStart,
       previousStartTime: previousStart,
+      reason,
     }),
   ]);
 

@@ -25,6 +25,7 @@ export function RescheduleModal({
   const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [reason, setReason] = useState("");
 
   useEffect(() => {
     setLoading(true);
@@ -61,7 +62,7 @@ export function RescheduleModal({
     setErrorMsg(null);
     startTransition(async () => {
       try {
-        await rescheduleBooking(bookingId, selectedSlot);
+        await rescheduleBooking(bookingId, selectedSlot, reason);
         onClose();
       } catch (err) {
         setErrorMsg("No se pudo reprogramar. Por favor intenta de nuevo.");
@@ -74,7 +75,7 @@ export function RescheduleModal({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-ink/40 p-4" onClick={onClose}>
       <div
-        className="w-full max-w-2xl bg-white p-6 shadow-lg"
+        className="max-h-[90vh] w-full max-w-2xl overflow-y-auto bg-white p-6 shadow-lg"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="mb-4 flex items-center justify-between">
@@ -171,6 +172,22 @@ export function RescheduleModal({
             </div>
             <p className="mt-3 text-xs text-ink/40">Horarios en {timezone}</p>
           </div>
+        </div>
+
+        <div className="mt-6">
+          <label htmlFor="reschedule-reason" className="mb-1.5 block text-sm font-medium text-ink/70">
+            Motivo del cambio (opcional)
+          </label>
+          <textarea
+            id="reschedule-reason"
+            value={reason}
+            onChange={(e) => setReason(e.target.value)}
+            maxLength={500}
+            rows={3}
+            placeholder="Ej. Surgió un conflicto con otra producción; ¡gracias por la flexibilidad!"
+            className="w-full resize-none border border-ink/15 bg-cream/40 px-3 py-2 text-sm text-ink outline-none transition focus:border-terracotta"
+          />
+          <p className="mt-1 text-xs text-ink/50">El cliente lo verá en el email de reprogramación.</p>
         </div>
 
         {errorMsg && <p className="mt-4 text-sm text-red-600">{errorMsg}</p>}
