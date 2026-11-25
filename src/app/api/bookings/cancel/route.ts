@@ -12,10 +12,10 @@ const schema = z.object({ token: z.string().uuid() });
 export async function POST(request: NextRequest) {
   const body = await request.json().catch(() => null);
   const parsed = schema.safeParse(body);
-  if (!parsed.success) return NextResponse.json({ error: "Invalid request" }, { status: 400 });
+  if (!parsed.success) return NextResponse.json({ error: "Solicitud inválida" }, { status: 400 });
 
   if (await isRateLimited("cancel:ip", clientIp(request), 15, 10)) {
-    return NextResponse.json({ error: "Too many attempts. Please try again later." }, { status: 429 });
+    return NextResponse.json({ error: "Demasiados intentos. Por favor intenta más tarde." }, { status: 429 });
   }
 
   const admin = supabaseAdmin();
@@ -25,7 +25,7 @@ export async function POST(request: NextRequest) {
     .eq("cancel_token", parsed.data.token)
     .maybeSingle();
 
-  if (!booking) return NextResponse.json({ error: "Not found" }, { status: 404 });
+  if (!booking) return NextResponse.json({ error: "No encontrado" }, { status: 404 });
   if (booking.status === "canceled") return NextResponse.json({ ok: true });
 
   if (booking.google_event_id) {

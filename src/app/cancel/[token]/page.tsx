@@ -16,7 +16,7 @@ export default async function CancelPage({ params }: { params: { token: string }
   if (!booking) notFound();
 
   const start = new Date(booking.start_time);
-  const formatted = new Intl.DateTimeFormat("en-US", {
+  const formatted = new Intl.DateTimeFormat("es", {
     weekday: "long",
     month: "long",
     day: "numeric",
@@ -30,7 +30,7 @@ export default async function CancelPage({ params }: { params: { token: string }
       <div className="mx-auto flex min-h-screen max-w-md flex-col justify-center px-4 py-16">
         <div className="rounded-xl border border-ink/10 bg-white p-8 text-center">
           <h1 className="font-display text-lg font-normal text-ink">
-            {booking.status === "canceled" ? "Booking canceled" : "Cancel booking?"}
+            {booking.status === "canceled" ? "Sesión cancelada" : "¿Cancelar sesión?"}
           </h1>
           <p className="mt-2 text-sm text-ink/60">
             {(booking as any).event_types?.name} — {formatted}

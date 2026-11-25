@@ -40,7 +40,7 @@ export default function ForgotPasswordPage({
             )}
             <form action={requestPasswordReset} className="space-y-4">
               <div>
-                <label className="mb-1 block text-sm text-ink/70">Email</label>
+                <label className="mb-1 block text-sm text-ink/70">Correo</label>
                 <input
                   name="email"
                   type="email"

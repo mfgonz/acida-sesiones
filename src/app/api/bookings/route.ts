@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
   const body = await request.json().catch(() => null);
   const parsed = bookingSchema.safeParse(body);
   if (!parsed.success) {
-    return NextResponse.json({ error: "Invalid request", details: parsed.error.flatten() }, { status: 400 });
+    return NextResponse.json({ error: "Solicitud inválida", details: parsed.error.flatten() }, { status: 400 });
   }
   const {
     username,
@@ -52,7 +52,7 @@ export async function POST(request: NextRequest) {
   // Silently accept-looking-but-drop honeypot/instant-submit hits instead of
   // telling the bot what tripped it.
   if (formShownAt && Date.now() - formShownAt < 1500) {
-    return NextResponse.json({ error: "Please try again" }, { status: 400 });
+    return NextResponse.json({ error: "Por favor intenta de nuevo" }, { status: 400 });
   }
 
   const ip = clientIp(request);
@@ -60,7 +60,7 @@ export async function POST(request: NextRequest) {
     (await isRateLimited("booking:ip", ip, 8, 10)) ||
     (await isRateLimited("booking:email", inviteeEmail.toLowerCase(), 5, 60))
   ) {
-    return NextResponse.json({ error: "Too many booking attempts. Please try again later." }, { status: 429 });
+    return NextResponse.json({ error: "Demasiados intentos. Por favor intenta más tarde." }, { status: 429 });
   }
 
   const admin = supabaseAdmin();
@@ -70,7 +70,7 @@ export async function POST(request: NextRequest) {
     .select("id, timezone")
     .eq("username", username)
     .maybeSingle();
-  if (!profile) return NextResponse.json({ error: "Not found" }, { status: 404 });
+  if (!profile) return NextResponse.json({ error: "No encontrado" }, { status: 404 });
 
   const { data: eventType } = await admin
     .from("event_types")
@@ -79,16 +79,16 @@ export async function POST(request: NextRequest) {
     .eq("slug", slug)
     .eq("is_active", true)
     .maybeSingle();
-  if (!eventType) return NextResponse.json({ error: "Not found" }, { status: 404 });
+  if (!eventType) return NextResponse.json({ error: "No encontrado" }, { status: 404 });
 
   if (eventType.collect_project_details && (!projectName.trim() || !projectSummary.trim())) {
-    return NextResponse.json({ error: "Project name and summary are required" }, { status: 400 });
+    return NextResponse.json({ error: "El nombre y resumen del proyecto son obligatorios" }, { status: 400 });
   }
 
   const { data: schedule } = eventType.schedule_id
     ? await admin.from("availability_schedules").select("*").eq("id", eventType.schedule_id).maybeSingle()
     : { data: null };
-  if (!schedule) return NextResponse.json({ error: "No availability configured" }, { status: 409 });
+  if (!schedule) return NextResponse.json({ error: "No hay disponibilidad configurada" }, { status: 409 });
 
   const requestedStart = new Date(startTime);
   const requestedEnd = addMinutes(requestedStart, eventType.duration_minutes);
@@ -128,7 +128,7 @@ export async function POST(request: NextRequest) {
 
   const stillOpen = validSlots.some((s) => s.start.getTime() === requestedStart.getTime());
   if (!stillOpen) {
-    return NextResponse.json({ error: "That time is no longer available" }, { status: 409 });
+    return NextResponse.json({ error: "Ese horario ya no está disponible. Por favor elige otro." }, { status: 409 });
   }
 
   let googleEventId: string | null = null;
@@ -151,7 +151,7 @@ export async function POST(request: NextRequest) {
     }
   } catch (err) {
     console.error("Failed to create Google Calendar event", err);
-    return NextResponse.json({ error: "Could not create calendar event" }, { status: 502 });
+    return NextResponse.json({ error: "No se pudo crear el evento en el calendario" }, { status: 502 });
   }
 
   const { data: booking, error } = await admin
@@ -176,7 +176,7 @@ export async function POST(request: NextRequest) {
 
   if (error) {
     console.error("Failed to save booking", error);
-    return NextResponse.json({ error: "Could not save booking" }, { status: 500 });
+    return NextResponse.json({ error: "No se pudo guardar la reserva" }, { status: 500 });
   }
 
   const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "";

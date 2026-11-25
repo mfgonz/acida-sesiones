@@ -79,22 +79,22 @@ export interface Booking {
 
 export const LOCATION_LABELS: Record<LocationType, string> = {
   google_meet: "Google Meet",
-  in_person: "In person",
-  phone: "Phone call",
-  custom: "Custom",
+  in_person: "Presencial",
+  phone: "Llamada telefónica",
+  custom: "Personalizado",
 };
 
 export const AUDIENCE_LABELS: Record<AudienceGroup, string> = {
-  new: "New / potential clients",
-  existing: "Existing clients",
+  new: "Clientes nuevos o potenciales",
+  existing: "Clientes actuales",
 };
 
 export const WEEKDAY_LABELS = [
-  "Sunday",
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
+  "Domingo",
+  "Lunes",
+  "Martes",
+  "Miércoles",
+  "Jueves",
+  "Viernes",
+  "Sábado",
 ];

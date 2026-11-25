@@ -46,7 +46,7 @@ export async function getOrCreateProfile(user: User): Promise<Profile> {
 
   await admin.from("availability_schedules").insert({
     user_id: user.id,
-    name: "Working hours",
+    name: "Horario de trabajo",
     is_default: true,
   });
 

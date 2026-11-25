@@ -44,7 +44,7 @@ export function EventTypeCard({ eventType, bookingUrl }: { eventType: EventType;
           <button
             onClick={() => setMenuOpen((v) => !v)}
             className="rounded-[6px] p-1.5 text-ink/50 transition hover:bg-ink/5 hover:text-ink"
-            aria-label="More actions"
+            aria-label="Más acciones"
           >
             <MoreVertical size={16} />
           </button>
@@ -57,19 +57,19 @@ export function EventTypeCard({ eventType, bookingUrl }: { eventType: EventType;
                 href={`/scheduling/${eventType.id}/edit`}
                 className="flex items-center gap-2 px-3 py-2 text-sm text-ink/70 hover:bg-ink/5"
               >
-                <Pencil size={14} /> Edit
+                <Pencil size={14} /> Editar
               </Link>
               <button
                 onClick={handleToggle}
                 className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm text-ink/70 hover:bg-ink/5"
               >
-                <Power size={14} /> {isActive ? "Turn Off" : "Turn On"}
+                <Power size={14} /> {isActive ? "Desactivar" : "Activar"}
               </button>
               <button
                 onClick={() => startTransition(() => deleteEventType(eventType.id))}
                 className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm text-red-600 hover:bg-ink/5"
               >
-                <Trash2 size={14} /> Delete
+                <Trash2 size={14} /> Eliminar
               </button>
             </div>
           )}
@@ -96,7 +96,7 @@ export function EventTypeCard({ eventType, bookingUrl }: { eventType: EventType;
             className="flex items-center gap-1.5 rounded-[6px] border border-ink/15 px-3 py-1.5 text-sm text-ink/70 transition hover:border-terracotta hover:text-ink"
           >
             {copied ? <Check size={14} /> : <Copy size={14} />}
-            {copied ? "Copied" : "Copy link"}
+            {copied ? "Copiado" : "Copiar link"}
           </button>
         ) : (
           <button
@@ -104,7 +104,7 @@ export function EventTypeCard({ eventType, bookingUrl }: { eventType: EventType;
             disabled={isPending}
             className="rounded-[6px] border border-ink/15 px-3 py-1.5 text-sm text-ink/70 transition hover:border-terracotta hover:text-ink disabled:opacity-60"
           >
-            Turn On
+            Activar
           </button>
         )}
       </div>

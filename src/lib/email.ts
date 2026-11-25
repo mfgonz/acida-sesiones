@@ -150,7 +150,7 @@ export async function sendBookingNotification(booking: BookingNotification) {
   const rows: [string, string][] = [
     ["Tipo de sesión", booking.eventTypeName],
     ["Nombre", booking.inviteeName],
-    ["Email", booking.inviteeEmail],
+    ["Correo", booking.inviteeEmail],
     ["WhatsApp", booking.inviteePhone],
     ["Fecha y hora", `${when} (${booking.inviteeTimezone})`],
     ...(booking.projectName ? ([["Proyecto/negocio", booking.projectName]] as [string, string][]) : []),
@@ -365,7 +365,7 @@ export async function sendAdminBookingUpdate(update: {
   const rows: [string, string][] = [
     ["Tipo de sesión", update.eventTypeName],
     ["Nombre", update.inviteeName],
-    ["Email", update.inviteeEmail],
+    ["Correo", update.inviteeEmail],
     ["WhatsApp", update.inviteePhone || "—"],
     ...(update.previousStartTime ? ([["Horario anterior", fmt(update.previousStartTime)]] as [string, string][]) : []),
     [update.action === "canceled" ? "Horario" : "Nuevo horario", `${fmt(update.startTime)} (${update.timezone})`],

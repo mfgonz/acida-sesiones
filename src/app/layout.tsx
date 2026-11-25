@@ -22,7 +22,7 @@ const ibmPlexMono = localFont({
 
 export const metadata: Metadata = {
   title: "ACIDA Sesiones",
-  description: "Schedule sessions with ACIDA",
+  description: "Agenda una sesión con ÁCIDA",
   manifest: "/site.webmanifest",
   icons: {
     icon: [
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${apfelGrotezk.variable} ${ibmPlexMono.variable}`}>
+    <html lang="es" className={`${apfelGrotezk.variable} ${ibmPlexMono.variable}`}>
       <body className="min-h-screen font-body antialiased">{children}</body>
     </html>
   );

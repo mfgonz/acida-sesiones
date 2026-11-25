@@ -6,8 +6,8 @@ import { usePathname } from "next/navigation";
 import { CalendarClock, CalendarDays } from "lucide-react";
 
 const NAV_ITEMS = [
-  { href: "/scheduling", label: "Scheduling", icon: CalendarClock },
-  { href: "/calendar", label: "Calendar", icon: CalendarDays },
+  { href: "/scheduling", label: "Tipos de sesión", icon: CalendarClock },
+  { href: "/calendar", label: "Calendario", icon: CalendarDays },
 ];
 
 export function Sidebar() {

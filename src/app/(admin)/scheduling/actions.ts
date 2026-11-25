@@ -25,7 +25,7 @@ export async function createEventType(formData: FormData) {
   const admin = supabaseAdmin();
 
   const name = String(formData.get("name") ?? "").trim();
-  if (!name) throw new Error("Name is required");
+  if (!name) throw new Error("El nombre es obligatorio");
 
   const { data: schedule } = await admin
     .from("availability_schedules")

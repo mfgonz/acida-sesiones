@@ -25,19 +25,19 @@ export default async function SchedulingPage() {
     <div>
       <div className="mb-6 flex items-center justify-between">
         <div>
-          <p className="text-base text-ink/60">Event types</p>
+          <p className="text-base text-ink/60">Tipos de sesión</p>
         </div>
         <Link
           href="/scheduling/new"
           className="flex items-center gap-2 rounded-[6px] bg-ink px-4 py-2 text-base font-medium text-cream transition hover:bg-terracotta"
         >
-          <Plus size={16} /> Create
+          <Plus size={16} /> Crear
         </Link>
       </div>
 
       {!eventTypes?.length ? (
         <div className="rounded-xl border border-dashed border-ink/20 py-16 text-center text-ink/60">
-          No event types yet. Create your first one to start accepting bookings.
+          Aún no hay tipos de sesión. Crea el primero para empezar a recibir reservas.
         </div>
       ) : (
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">

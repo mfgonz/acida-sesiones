@@ -21,7 +21,7 @@ export function BookingRow({
   const [rescheduling, setRescheduling] = useState(false);
 
   const start = new Date(booking.start_time);
-  const formatted = new Intl.DateTimeFormat("en-US", {
+  const formatted = new Intl.DateTimeFormat("es", {
     weekday: "short",
     month: "short",
     day: "numeric",
@@ -33,7 +33,7 @@ export function BookingRow({
   return (
     <div className="flex items-center justify-between rounded-lg border border-ink/10 bg-white/60 px-5 py-4">
       <div>
-        <p className="text-base font-medium text-ink">{eventType?.name ?? "Session"}</p>
+        <p className="text-base font-medium text-ink">{eventType?.name ?? "Sesión"}</p>
         <p className="mt-0.5 text-base text-ink/60">{formatted}</p>
         <p className="mt-0.5 text-sm text-ink/50">
           {booking.invitee_name} · {booking.invitee_email}
@@ -52,7 +52,7 @@ export function BookingRow({
         )}
         {booking.meet_link && (
           <a href={booking.meet_link} target="_blank" className="text-base text-terracotta hover:underline">
-            Join
+            Unirse
           </a>
         )}
         {eventType && (
@@ -60,7 +60,7 @@ export function BookingRow({
             onClick={() => setRescheduling(true)}
             className="flex items-center gap-1.5 rounded-[6px] border border-ink/15 px-3 py-1.5 text-base text-ink/70 transition hover:border-terracotta hover:text-ink"
           >
-            <CalendarClock size={14} /> Reschedule
+            <CalendarClock size={14} /> Reprogramar
           </button>
         )}
         <button
@@ -68,7 +68,7 @@ export function BookingRow({
           disabled={isPending}
           className="rounded-[6px] border border-ink/15 px-3 py-1.5 text-base text-ink/70 transition hover:border-red-500 hover:text-red-600 disabled:opacity-60"
         >
-          Cancel
+          Cancelar
         </button>
       </div>
 

@@ -38,7 +38,7 @@ export default async function BookingPage({ params }: { params: { username: stri
           href={`/${profile.username}`}
           className="mb-6 inline-flex items-center gap-1.5 font-label text-xs uppercase tracking-wide text-ink/60 transition hover:text-terracotta"
         >
-          <ArrowLeft size={15} /> All session types
+          <ArrowLeft size={15} /> Todas las sesiones
         </Link>
 
         <div className="mb-8">

@@ -17,11 +17,11 @@ export async function GET(request: NextRequest) {
   const month = searchParams.get("month"); // YYYY-MM
 
   if (!username || !slug || !month) {
-    return NextResponse.json({ error: "Missing username, slug, or month" }, { status: 400 });
+    return NextResponse.json({ error: "Faltan datos en la solicitud" }, { status: 400 });
   }
 
   if (await isRateLimited("availability:ip", clientIp(request), 60, 10)) {
-    return NextResponse.json({ error: "Too many requests" }, { status: 429 });
+    return NextResponse.json({ error: "Demasiadas solicitudes. Intenta más tarde." }, { status: 429 });
   }
 
   const admin = supabaseAdmin();
@@ -31,7 +31,7 @@ export async function GET(request: NextRequest) {
     .select("id, timezone")
     .eq("username", username)
     .maybeSingle();
-  if (!profile) return NextResponse.json({ error: "Not found" }, { status: 404 });
+  if (!profile) return NextResponse.json({ error: "No encontrado" }, { status: 404 });
 
   const { data: eventType } = await admin
     .from("event_types")
@@ -40,7 +40,7 @@ export async function GET(request: NextRequest) {
     .eq("slug", slug)
     .eq("is_active", true)
     .maybeSingle();
-  if (!eventType) return NextResponse.json({ error: "Not found" }, { status: 404 });
+  if (!eventType) return NextResponse.json({ error: "No encontrado" }, { status: 404 });
 
   const { data: schedule } = eventType.schedule_id
     ? await admin.from("availability_schedules").select("*").eq("id", eventType.schedule_id).maybeSingle()

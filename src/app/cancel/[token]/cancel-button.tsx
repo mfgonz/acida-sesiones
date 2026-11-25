@@ -16,7 +16,7 @@ export function CancelButton({ token }: { token: string }) {
   }
 
   if (state === "done") {
-    return <p className="mt-4 text-sm text-green-600">Your booking has been canceled.</p>;
+    return <p className="mt-4 text-sm text-green-600">Tu sesión fue cancelada.</p>;
   }
 
   return (
@@ -26,9 +26,9 @@ export function CancelButton({ token }: { token: string }) {
         disabled={state === "loading"}
         className="rounded-[6px] border border-red-500/40 px-4 py-2 text-sm text-red-600 hover:bg-red-500/10 disabled:opacity-60"
       >
-        {state === "loading" ? "Canceling…" : "Cancel this booking"}
+        {state === "loading" ? "Cancelando…" : "Cancelar esta sesión"}
       </button>
-      {state === "error" && <p className="mt-2 text-sm text-red-600">Something went wrong. Please try again.</p>}
+      {state === "error" && <p className="mt-2 text-sm text-red-600">Algo salió mal. Por favor intenta de nuevo.</p>}
     </div>
   );
 }

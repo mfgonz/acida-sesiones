@@ -9,11 +9,11 @@ export default function LoginPage({ searchParams }: { searchParams: { error?: st
         <div className="mb-6">
           <Image src="/logo-acida-ink.webp" alt="ÁCIDA" width={1426} height={474} priority className="h-12 w-auto" />
         </div>
-        <h1 className="mb-1 text-xl font-semibold text-ink">Sign in</h1>
-        <p className="mb-6 text-sm text-ink/60">Manage your sessions and availability.</p>
+        <h1 className="mb-1 text-xl font-semibold text-ink">Iniciar sesión</h1>
+        <p className="mb-6 text-sm text-ink/60">Gestiona tus sesiones y disponibilidad.</p>
         <form action={signIn} className="space-y-4">
           <div>
-            <label className="mb-1 block text-sm text-ink/70">Email</label>
+            <label className="mb-1 block text-sm text-ink/70">Correo</label>
             <input
               name="email"
               type="email"
@@ -23,7 +23,7 @@ export default function LoginPage({ searchParams }: { searchParams: { error?: st
           </div>
           <div>
             <div className="mb-1 flex items-center justify-between">
-              <label className="block text-sm text-ink/70">Password</label>
+              <label className="block text-sm text-ink/70">Contraseña</label>
               <Link href="/login/forgot-password" className="text-xs text-ink/50 hover:text-terracotta">
                 ¿Olvidaste tu contraseña?
               </Link>
@@ -35,12 +35,12 @@ export default function LoginPage({ searchParams }: { searchParams: { error?: st
               className="w-full rounded-lg border border-ink/15 bg-cream/40 px-3 py-2 text-sm text-ink outline-none focus:border-terracotta"
             />
           </div>
-          {searchParams.error && <p className="text-sm text-red-600">Invalid email or password.</p>}
+          {searchParams.error && <p className="text-sm text-red-600">Correo o contraseña incorrectos.</p>}
           <button
             type="submit"
             className="w-full rounded-[6px] bg-ink px-4 py-2.5 font-medium text-cream transition hover:bg-terracotta"
           >
-            Sign in
+            Entrar
           </button>
         </form>
       </div>

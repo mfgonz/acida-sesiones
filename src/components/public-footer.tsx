@@ -11,7 +11,7 @@ export function PublicFooter() {
           href={WEBSITE_URL}
           target="_blank"
           rel="noopener noreferrer"
-          aria-label="Website"
+          aria-label="Sitio web"
           className="flex h-9 w-9 items-center justify-center rounded-full border border-ink/15 text-ink/60 transition hover:border-terracotta hover:text-terracotta"
         >
           <Globe size={16} />
@@ -19,7 +19,7 @@ export function PublicFooter() {
       ) : (
         <span
           aria-hidden="true"
-          title="Website link coming soon"
+          title="Sitio web próximamente"
           className="flex h-9 w-9 items-center justify-center rounded-full border border-ink/10 text-ink/25"
         >
           <Globe size={16} />

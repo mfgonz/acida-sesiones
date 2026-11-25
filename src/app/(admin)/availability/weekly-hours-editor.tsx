@@ -76,7 +76,7 @@ export function WeeklyHoursEditor({
   return (
     <form action={action} className="max-w-xl space-y-5">
       <div>
-        <label className="mb-1 block text-base text-ink/70">Timezone</label>
+        <label className="mb-1 block text-base text-ink/70">Zona horaria</label>
         <select
           name="timezone"
           defaultValue={timezone}
@@ -96,21 +96,21 @@ export function WeeklyHoursEditor({
           onClick={setWeekdaysOnly}
           className="rounded-[6px] border border-ink/15 px-3 py-1.5 text-ink/70 transition hover:border-terracotta hover:text-ink"
         >
-          Weekdays only
+          Solo lunes a viernes
         </button>
         <button
           type="button"
           onClick={() => setAll({ enabled: true })}
           className="rounded-[6px] border border-ink/15 px-3 py-1.5 text-ink/70 transition hover:border-terracotta hover:text-ink"
         >
-          Mark all available
+          Marcar todos disponibles
         </button>
         <button
           type="button"
           onClick={() => setAll({ enabled: false })}
           className="rounded-[6px] border border-ink/15 px-3 py-1.5 text-ink/70 transition hover:border-terracotta hover:text-ink"
         >
-          Mark all unavailable
+          Marcar todos no disponibles
         </button>
       </div>
 
@@ -147,14 +147,14 @@ export function WeeklyHoursEditor({
                 <button
                   type="button"
                   onClick={() => applyToAllEnabled(day)}
-                  title="Copy this time to every available day"
+                  title="Copiar este horario a todos los días disponibles"
                   className="ml-auto rounded-lg p-1.5 text-ink/50 transition hover:bg-ink/5 hover:text-ink"
                 >
                   <Copy size={14} />
                 </button>
               </div>
             ) : (
-              <span className="text-base text-ink/50">Unavailable</span>
+              <span className="text-base text-ink/50">No disponible</span>
             )}
           </div>
         ))}
@@ -164,7 +164,7 @@ export function WeeklyHoursEditor({
         type="submit"
         className="rounded-[6px] bg-ink px-5 py-2.5 text-base font-medium text-cream transition hover:bg-terracotta"
       >
-        Save hours
+        Guardar horario
       </button>
     </form>
   );

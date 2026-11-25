@@ -52,7 +52,7 @@ export async function PublicLandingPage({ username }: { username: string }) {
         </div>
 
         {!all.length ? (
-          <p className="text-ink/60">No sessions are open for booking right now.</p>
+          <p className="text-ink/60">No hay sesiones disponibles para agendar en este momento.</p>
         ) : (
           <div className="space-y-10">
             {newClientTypes.length > 0 && (

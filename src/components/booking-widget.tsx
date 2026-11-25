@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { addMonths, format, startOfMonth } from "date-fns";
+import { es } from "date-fns/locale";
 import { ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
 
 interface Props {
@@ -90,7 +91,7 @@ export function BookingWidget({ username, slug, durationMinutes, collectProjectD
     setSubmitting(false);
 
     if (!res.ok) {
-      setErrorMsg(data.error ?? "Something went wrong. Please try another time.");
+      setErrorMsg(data.error ?? "Algo salió mal. Por favor intenta con otro horario.");
       return;
     }
 
@@ -101,14 +102,14 @@ export function BookingWidget({ username, slug, durationMinutes, collectProjectD
   if (step === "done") {
     return (
       <div className="rounded-xl border border-ink/10 bg-white p-8 text-center">
-        <h2 className="font-display text-lg font-normal text-ink">You&apos;re booked!</h2>
+        <h2 className="font-display text-lg font-normal text-ink">¡Tu sesión está agendada!</h2>
         <p className="mt-2 text-sm text-ink/60">
-          A calendar invite is on its way to your email
+          Te enviamos la invitación de calendario a tu correo
           {selectedSlot && (
             <>
               {" "}
-              for{" "}
-              {new Intl.DateTimeFormat("en-US", {
+              para el{" "}
+              {new Intl.DateTimeFormat("es", {
                 weekday: "long",
                 month: "long",
                 day: "numeric",
@@ -127,11 +128,11 @@ export function BookingWidget({ username, slug, durationMinutes, collectProjectD
         )}
         {confirmation && (
           <a href={`/cancel/${confirmation.cancelToken}`} className="mt-4 block text-xs text-ink/40 hover:text-ink/70">
-            Need to cancel?
+            ¿Necesitas cancelar?
           </a>
         )}
         <Link href={`/${username}`} className="mt-6 inline-block text-sm text-terracotta hover:underline">
-          Book another session
+          Agendar otra sesión
         </Link>
       </div>
     );
@@ -141,11 +142,11 @@ export function BookingWidget({ username, slug, durationMinutes, collectProjectD
     return (
       <div className="rounded-xl border border-ink/10 bg-white p-6">
         <button onClick={() => setStep("pick")} className="mb-4 flex items-center gap-1 text-sm text-ink/60 hover:text-ink">
-          <ChevronLeft size={16} /> Back
+          <ChevronLeft size={16} /> Volver
         </button>
         <p className="mb-1 font-label text-xs uppercase tracking-wide text-ink/50">{durationMinutes} min</p>
         <p className="mb-6 font-display font-normal text-ink">
-          {new Intl.DateTimeFormat("en-US", {
+          {new Intl.DateTimeFormat("es", {
             weekday: "long",
             month: "long",
             day: "numeric",
@@ -158,11 +159,11 @@ export function BookingWidget({ username, slug, durationMinutes, collectProjectD
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Honeypot: hidden from real users, often auto-filled by bots. */}
           <div className="absolute left-[-9999px] top-auto h-px w-px overflow-hidden" aria-hidden="true">
-            <label htmlFor="website">Leave this field empty</label>
+            <label htmlFor="website">Deja este campo vacío</label>
             <input id="website" name="website" type="text" tabIndex={-1} autoComplete="off" />
           </div>
           <div>
-            <label className="mb-1 block text-sm text-ink/70">Name</label>
+            <label className="mb-1 block text-sm text-ink/70">Nombre</label>
             <input
               name="name"
               required
@@ -170,7 +171,7 @@ export function BookingWidget({ username, slug, durationMinutes, collectProjectD
             />
           </div>
           <div>
-            <label className="mb-1 block text-sm text-ink/70">Email</label>
+            <label className="mb-1 block text-sm text-ink/70">Correo</label>
             <input
               name="email"
               type="email"
@@ -212,7 +213,7 @@ export function BookingWidget({ username, slug, durationMinutes, collectProjectD
             </>
           )}
           <div>
-            <label className="mb-1 block text-sm text-ink/70">Notes (optional)</label>
+            <label className="mb-1 block text-sm text-ink/70">Notas (opcional)</label>
             <textarea
               name="notes"
               rows={3}
@@ -226,7 +227,7 @@ export function BookingWidget({ username, slug, durationMinutes, collectProjectD
             className="flex w-full items-center justify-center gap-2 rounded-[6px] bg-ink px-4 py-2.5 text-sm font-medium text-cream transition hover:bg-terracotta disabled:opacity-60"
           >
             {submitting && <Loader2 size={16} className="animate-spin" />}
-            Confirm booking
+            Confirmar reserva
           </button>
         </form>
       </div>
@@ -239,7 +240,7 @@ export function BookingWidget({ username, slug, durationMinutes, collectProjectD
     <div className="grid gap-6 rounded-xl border border-ink/10 bg-white p-6 sm:grid-cols-2">
       <div>
         <div className="mb-3 flex items-center justify-between">
-          <p className="font-display font-normal text-ink">{format(month, "MMMM yyyy")}</p>
+          <p className="font-display font-normal capitalize text-ink">{format(month, "MMMM yyyy", { locale: es })}</p>
           <div className="flex gap-1">
             <button
               onClick={() => setMonth((m) => addMonths(m, -1))}
@@ -256,7 +257,7 @@ export function BookingWidget({ username, slug, durationMinutes, collectProjectD
           </div>
         </div>
         <div className="grid grid-cols-7 gap-1 text-center font-label text-xs text-ink/40">
-          {["M", "T", "W", "T", "F", "S", "S"].map((d, i) => (
+          {["L", "M", "M", "J", "V", "S", "D"].map((d, i) => (
             <div key={i}>{d}</div>
           ))}
         </div>
@@ -293,16 +294,16 @@ export function BookingWidget({ username, slug, durationMinutes, collectProjectD
             );
           })}
         </div>
-        {loading && <p className="mt-3 text-xs text-ink/40">Loading availability…</p>}
+        {loading && <p className="mt-3 text-xs text-ink/40">Cargando disponibilidad…</p>}
       </div>
 
       <div>
         <p className="mb-3 text-sm text-ink/60">
           {selectedDate
-            ? new Intl.DateTimeFormat("en-US", { weekday: "long", month: "long", day: "numeric", timeZone: timezone }).format(
+            ? new Intl.DateTimeFormat("es", { weekday: "long", month: "long", day: "numeric", timeZone: timezone }).format(
                 new Date(`${selectedDate}T12:00:00`)
               )
-            : "Select a day"}
+            : "Elige un día"}
         </p>
         <div className="max-h-80 space-y-2 overflow-y-auto pr-1">
           {selectedDaySlots.map((iso) => (
@@ -315,16 +316,16 @@ export function BookingWidget({ username, slug, durationMinutes, collectProjectD
               }}
               className="block w-full rounded-[6px] border border-ink/15 py-2 text-sm text-ink hover:border-terracotta hover:bg-terracotta/10"
             >
-              {new Intl.DateTimeFormat("en-US", { hour: "numeric", minute: "2-digit", timeZone: timezone }).format(
+              {new Intl.DateTimeFormat("es", { hour: "numeric", minute: "2-digit", timeZone: timezone }).format(
                 new Date(iso)
               )}
             </button>
           ))}
           {selectedDate && !selectedDaySlots.length && (
-            <p className="text-sm text-ink/40">No times available this day.</p>
+            <p className="text-sm text-ink/40">No hay horarios disponibles este día.</p>
           )}
         </div>
-        <p className="mt-3 text-xs text-ink/40">Times shown in {timezone}</p>
+        <p className="mt-3 text-xs text-ink/40">Horarios en {timezone}</p>
       </div>
     </div>
   );

@@ -8,7 +8,7 @@ const DURATION_PRESETS = [15, 30, 45, 60, 90, 120, 240];
 function formatDuration(minutes: number) {
   if (minutes < 60) return `${minutes} min`;
   const hours = minutes / 60;
-  return Number.isInteger(hours) ? `${hours} hr` : `${Math.floor(hours)}h${minutes % 60}`;
+  return Number.isInteger(hours) ? `${hours} h` : `${Math.floor(hours)}h${minutes % 60}`;
 }
 
 const NOTICE_UNIT_MINUTES = { minutes: 1, hours: 60, days: 1440 } as const;
@@ -40,18 +40,18 @@ export function EventTypeForm({
   return (
     <form action={action} className="max-w-xl space-y-5">
       <div>
-        <label className="mb-1 block text-base text-ink/70">Name</label>
+        <label className="mb-1 block text-base text-ink/70">Nombre</label>
         <input
           name="name"
           required
           defaultValue={eventType?.name}
-          placeholder="e.g. Client Brainstorming Session"
+          placeholder="ej. Sesión de lluvia de ideas"
           className="w-full rounded-lg border border-ink/15 bg-cream/40 px-3 py-2 text-base text-ink outline-none focus:border-terracotta"
         />
       </div>
 
       <div>
-        <label className="mb-1 block text-base text-ink/70">Description</label>
+        <label className="mb-1 block text-base text-ink/70">Descripción</label>
         <textarea
           name="description"
           rows={3}
@@ -61,7 +61,7 @@ export function EventTypeForm({
       </div>
 
       <div>
-        <label className="mb-1 block text-base text-ink/70">Duration</label>
+        <label className="mb-1 block text-base text-ink/70">Duración</label>
         <div className="mb-2 flex flex-wrap gap-2">
           {DURATION_PRESETS.map((d) => (
             <button
@@ -88,12 +88,12 @@ export function EventTypeForm({
             onChange={(e) => setDuration(Number(e.target.value) || 0)}
             className="w-32 rounded-lg border border-ink/15 bg-cream/40 px-3 py-2 text-base text-ink outline-none focus:border-terracotta"
           />
-          <span className="text-base text-ink/50">minutes ({formatDuration(duration)})</span>
+          <span className="text-base text-ink/50">minutos ({formatDuration(duration)})</span>
         </div>
       </div>
 
       <div>
-        <label className="mb-1 block text-base text-ink/70">Location</label>
+        <label className="mb-1 block text-base text-ink/70">Ubicación</label>
         <select
           name="location_type"
           value={locationType}
@@ -101,9 +101,9 @@ export function EventTypeForm({
           className="w-full rounded-lg border border-ink/15 bg-cream/40 px-3 py-2 text-base text-ink outline-none focus:border-terracotta"
         >
           <option value="google_meet">Google Meet</option>
-          <option value="in_person">In person</option>
-          <option value="phone">Phone call</option>
-          <option value="custom">Custom</option>
+          <option value="in_person">Presencial</option>
+          <option value="phone">Llamada telefónica</option>
+          <option value="custom">Personalizado</option>
         </select>
       </div>
 
@@ -119,7 +119,7 @@ export function EventTypeForm({
               className={`h-7 w-7 rounded-full transition ${
                 color === swatch ? "ring-2 ring-ink ring-offset-2 ring-offset-cream" : ""
               }`}
-              aria-label={`Use color ${swatch}`}
+              aria-label={`Usar color ${swatch}`}
             />
           ))}
           <input
@@ -127,7 +127,7 @@ export function EventTypeForm({
             value={color}
             onChange={(e) => setColor(e.target.value)}
             className="h-7 w-9 cursor-pointer rounded border border-ink/15 bg-cream/40 p-0.5"
-            aria-label="Custom color"
+            aria-label="Color personalizado"
           />
         </div>
         <input type="hidden" name="color" value={color} />
@@ -141,32 +141,32 @@ export function EventTypeForm({
             defaultChecked={eventType?.collect_project_details ?? false}
             className="h-4 w-4 rounded border-ink/20 bg-cream/40"
           />
-          Ask for project/business name + summary
+          Pedir nombre del proyecto/negocio + resumen
         </label>
         <p className="ml-6 mt-1 text-sm text-ink/50">
-          Adds two extra fields to this booking form — good for a first exploratory call with new clients.
+          Agrega dos campos extra al formulario de reserva — ideal para una primera llamada exploratoria con clientes nuevos.
         </p>
       </div>
 
       <div>
-        <label className="mb-1 block text-base text-ink/70">Shown on landing page under</label>
+        <label className="mb-1 block text-base text-ink/70">Se muestra en la página pública bajo</label>
         <select
           name="audience"
           defaultValue={eventType?.audience ?? "new"}
           className="w-full rounded-lg border border-ink/15 bg-cream/40 px-3 py-2 text-base text-ink outline-none focus:border-terracotta"
         >
-          <option value="new">&quot;Si quieres trabajar con nosotras&quot; (new/potential clients)</option>
-          <option value="existing">&quot;Si ya trabajas con nosotras&quot; (existing clients)</option>
+          <option value="new">&quot;Si quieres trabajar con nosotras&quot; (clientes nuevos o potenciales)</option>
+          <option value="existing">&quot;Si ya trabajas con nosotras&quot; (clientes actuales)</option>
         </select>
       </div>
 
       {locationType !== "google_meet" && (
         <div>
-          <label className="mb-1 block text-base text-ink/70">Location details</label>
+          <label className="mb-1 block text-base text-ink/70">Detalles de ubicación</label>
           <input
             name="location_details"
             defaultValue={eventType?.location_details}
-            placeholder={locationType === "phone" ? "Who calls whom?" : "Address or details"}
+            placeholder={locationType === "phone" ? "¿Quién llama a quién?" : "Dirección o detalles"}
             className="w-full rounded-lg border border-ink/15 bg-cream/40 px-3 py-2 text-base text-ink outline-none focus:border-terracotta"
           />
         </div>
@@ -174,7 +174,7 @@ export function EventTypeForm({
 
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label className="mb-1 block text-base text-ink/70">Buffer before (min)</label>
+          <label className="mb-1 block text-base text-ink/70">Margen antes (min)</label>
           <input
             type="number"
             min={0}
@@ -184,7 +184,7 @@ export function EventTypeForm({
           />
         </div>
         <div>
-          <label className="mb-1 block text-base text-ink/70">Buffer after (min)</label>
+          <label className="mb-1 block text-base text-ink/70">Margen después (min)</label>
           <input
             type="number"
             min={0}
@@ -194,7 +194,7 @@ export function EventTypeForm({
           />
         </div>
         <div>
-          <label className="mb-1 block text-base text-ink/70">Minimum notice</label>
+          <label className="mb-1 block text-base text-ink/70">Aviso mínimo</label>
           <div className="flex items-center gap-2">
             <input
               type="number"
@@ -209,14 +209,14 @@ export function EventTypeForm({
               className="rounded-lg border border-ink/15 bg-cream/40 px-2 py-2 text-base text-ink outline-none focus:border-terracotta"
             >
               <option value="minutes">min</option>
-              <option value="hours">hr</option>
-              <option value="days">days</option>
+              <option value="hours">h</option>
+              <option value="days">días</option>
             </select>
           </div>
           <input type="hidden" name="min_notice_minutes" value={noticeMinutes} />
         </div>
         <div>
-          <label className="mb-1 block text-base text-ink/70">Booking horizon (days)</label>
+          <label className="mb-1 block text-base text-ink/70">Horizonte de reserva (días)</label>
           <input
             type="number"
             min={1}
@@ -231,7 +231,7 @@ export function EventTypeForm({
         type="submit"
         className="rounded-[6px] bg-ink px-5 py-2.5 text-base font-medium text-cream transition hover:bg-terracotta"
       >
-        {eventType ? "Save changes" : "Create event type"}
+        {eventType ? "Guardar cambios" : "Crear tipo de sesión"}
       </button>
     </form>
   );

@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState, useTransition } from "react";
 import { addMonths, format, startOfMonth } from "date-fns";
+import { es } from "date-fns/locale";
 import { ChevronLeft, ChevronRight, Loader2, X } from "lucide-react";
 import { rescheduleBooking } from "./actions";
 
@@ -63,7 +64,7 @@ export function RescheduleModal({
         await rescheduleBooking(bookingId, selectedSlot);
         onClose();
       } catch (err) {
-        setErrorMsg("Could not reschedule. Please try again.");
+        setErrorMsg("No se pudo reprogramar. Por favor intenta de nuevo.");
       }
     });
   }
@@ -77,7 +78,7 @@ export function RescheduleModal({
         onClick={(e) => e.stopPropagation()}
       >
         <div className="mb-4 flex items-center justify-between">
-          <p className="font-display text-lg text-ink">Reschedule session</p>
+          <p className="font-display text-lg text-ink">Reprogramar sesión</p>
           <button onClick={onClose} className="rounded-[6px] p-1.5 text-ink/50 hover:bg-ink/5 hover:text-ink">
             <X size={18} />
           </button>
@@ -86,7 +87,7 @@ export function RescheduleModal({
         <div className="grid gap-6 sm:grid-cols-2">
           <div>
             <div className="mb-3 flex items-center justify-between">
-              <p className="font-display text-ink">{format(month, "MMMM yyyy")}</p>
+              <p className="font-display capitalize text-ink">{format(month, "MMMM yyyy", { locale: es })}</p>
               <div className="flex gap-1">
                 <button
                   onClick={() => setMonth((m) => addMonths(m, -1))}
@@ -103,7 +104,7 @@ export function RescheduleModal({
               </div>
             </div>
             <div className="grid grid-cols-7 gap-1 text-center font-label text-xs text-ink/40">
-              {["M", "T", "W", "T", "F", "S", "S"].map((d, i) => (
+              {["L", "M", "M", "J", "V", "S", "D"].map((d, i) => (
                 <div key={i}>{d}</div>
               ))}
             </div>
@@ -134,19 +135,19 @@ export function RescheduleModal({
                 );
               })}
             </div>
-            {loading && <p className="mt-3 text-xs text-ink/40">Loading availability…</p>}
+            {loading && <p className="mt-3 text-xs text-ink/40">Cargando disponibilidad…</p>}
           </div>
 
           <div>
             <p className="mb-3 text-sm text-ink/60">
               {selectedDate
-                ? new Intl.DateTimeFormat("en-US", {
+                ? new Intl.DateTimeFormat("es", {
                     weekday: "long",
                     month: "long",
                     day: "numeric",
                     timeZone: timezone,
                   }).format(new Date(`${selectedDate}T12:00:00`))
-                : "Select a day"}
+                : "Elige un día"}
             </p>
             <div className="max-h-64 space-y-2 overflow-y-auto pr-1">
               {selectedDaySlots.map((iso) => (
@@ -159,16 +160,16 @@ export function RescheduleModal({
                       : "border-ink/15 text-ink hover:border-terracotta hover:bg-terracotta/10"
                   }`}
                 >
-                  {new Intl.DateTimeFormat("en-US", { hour: "numeric", minute: "2-digit", timeZone: timezone }).format(
+                  {new Intl.DateTimeFormat("es", { hour: "numeric", minute: "2-digit", timeZone: timezone }).format(
                     new Date(iso)
                   )}
                 </button>
               ))}
               {selectedDate && !selectedDaySlots.length && (
-                <p className="text-sm text-ink/40">No times available this day.</p>
+                <p className="text-sm text-ink/40">No hay horarios disponibles este día.</p>
               )}
             </div>
-            <p className="mt-3 text-xs text-ink/40">Times shown in {timezone}</p>
+            <p className="mt-3 text-xs text-ink/40">Horarios en {timezone}</p>
           </div>
         </div>
 
@@ -179,7 +180,7 @@ export function RescheduleModal({
             onClick={onClose}
             className="rounded-[6px] border border-ink/15 px-4 py-2 text-sm text-ink/70 hover:border-terracotta hover:text-ink"
           >
-            Cancel
+            Cancelar
           </button>
           <button
             onClick={handleConfirm}
@@ -187,7 +188,7 @@ export function RescheduleModal({
             className="flex items-center gap-2 rounded-[6px] bg-ink px-4 py-2 text-sm font-medium text-cream transition hover:bg-terracotta disabled:opacity-60"
           >
             {isPending && <Loader2 size={16} className="animate-spin" />}
-            Confirm new time
+            Confirmar nuevo horario
           </button>
         </div>
       </div>

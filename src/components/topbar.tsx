@@ -7,7 +7,7 @@ export function Topbar({ profile }: { profile: Profile }) {
   return (
     <header className="flex items-center justify-between border-b border-ink/10 px-8 py-4">
       <div>
-        <h1 className="font-display text-lg font-bold text-ink">Scheduling</h1>
+        <h1 className="font-display text-lg font-bold text-ink">Panel de sesiones</h1>
       </div>
       <div className="flex items-center gap-3">
         <Link
@@ -15,21 +15,21 @@ export function Topbar({ profile }: { profile: Profile }) {
           className="flex items-center gap-2 rounded-[6px] border border-ink/15 px-3 py-2 text-base text-ink/70 transition hover:border-terracotta hover:text-ink"
         >
           <CalendarCog size={16} />
-          Manage availability
+          Gestionar disponibilidad
         </Link>
         <Link
           href={`/${profile.username}`}
           target="_blank"
           className="flex items-center gap-2 rounded-[6px] border border-ink/15 px-3 py-2 text-base text-ink/70 transition hover:border-terracotta hover:text-ink"
         >
-          View landing page
+          Ver página pública
           <ExternalLink size={14} />
         </Link>
         <form action={signOut}>
           <button
             type="submit"
             className="flex items-center gap-2 rounded-lg px-3 py-2 text-base text-ink/60 transition hover:text-ink"
-            title="Sign out"
+            title="Cerrar sesión"
           >
             <LogOut size={16} />
           </button>
