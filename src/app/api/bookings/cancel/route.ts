@@ -3,6 +3,7 @@ import { z } from "zod";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { deleteCalendarEvent } from "@/lib/google";
 import { clientIp, isRateLimited } from "@/lib/rate-limit";
+import { sendAdminBookingUpdate, sendBookingCancellation } from "@/lib/email";
 
 export const dynamic = "force-dynamic";
 
@@ -20,7 +21,7 @@ export async function POST(request: NextRequest) {
   const admin = supabaseAdmin();
   const { data: booking } = await admin
     .from("bookings")
-    .select("*")
+    .select("*, event_types(name)")
     .eq("cancel_token", parsed.data.token)
     .maybeSingle();
 
@@ -32,5 +33,27 @@ export async function POST(request: NextRequest) {
   }
 
   await admin.from("bookings").update({ status: "canceled" }).eq("id", booking.id);
+
+  const eventTypeName = booking.event_types?.name ?? "Sesión";
+  const startTime = new Date(booking.start_time);
+  await Promise.all([
+    sendBookingCancellation({
+      eventTypeName,
+      inviteeEmail: booking.invitee_email,
+      inviteeTimezone: booking.invitee_timezone,
+      startTime,
+    }),
+    sendAdminBookingUpdate({
+      action: "canceled",
+      actor: "client",
+      eventTypeName,
+      inviteeName: booking.invitee_name,
+      inviteeEmail: booking.invitee_email,
+      inviteePhone: booking.invitee_phone,
+      timezone: booking.invitee_timezone,
+      startTime,
+    }),
+  ]);
+
   return NextResponse.json({ ok: true });
 }

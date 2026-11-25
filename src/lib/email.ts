@@ -53,7 +53,7 @@ function buildSessionEmailHtml(params: {
   inviteeTimezone: string;
   meetLink: string | null;
   locationDetails: string | null;
-  cancelUrl: string;
+  footerLink: { href: string; label: string };
 }) {
   const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "";
   // PNG, not the site's webp — some email clients (notably Outlook desktop) don't render webp.
@@ -115,7 +115,7 @@ function buildSessionEmailHtml(params: {
       <tr>
         <td style="padding: 20px 40px 32px;">
           <p style="margin: 0 0 8px; font: 400 13px/1.5 'Helvetica Neue', Arial, sans-serif; color: ${MUTED};">
-            <a href="${escapeHtml(params.cancelUrl)}" style="color: ${MUTED};">¿Necesitas cancelar o reprogramar?</a>
+            <a href="${escapeHtml(params.footerLink.href)}" style="color: ${MUTED};">${escapeHtml(params.footerLink.label)}</a>
           </p>
           <p style="margin: 0; font: 600 10px/1 'Helvetica Neue', Arial, sans-serif; letter-spacing: 0.08em; text-transform: uppercase; color: ${MUTED};">
             ÁCIDA // Casa productora y creadora de proyectos con propósito
@@ -221,7 +221,7 @@ export async function sendBookingConfirmation(booking: BookingConfirmation) {
     inviteeTimezone: booking.inviteeTimezone,
     meetLink: booking.meetLink,
     locationDetails: booking.locationDetails,
-    cancelUrl: booking.cancelUrl,
+    footerLink: { href: booking.cancelUrl, label: "¿Necesitas cancelar o reprogramar?" },
   });
 
   try {
@@ -261,7 +261,7 @@ export async function sendBookingReschedule(booking: BookingReschedule) {
     inviteeTimezone: booking.inviteeTimezone,
     meetLink: booking.meetLink,
     locationDetails: booking.locationDetails,
-    cancelUrl: booking.cancelUrl,
+    footerLink: { href: booking.cancelUrl, label: "¿Necesitas cancelar o reprogramar?" },
   });
 
   try {
@@ -284,4 +284,121 @@ function escapeHtml(value: string) {
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;");
+}
+
+/** Emails the invitee when their session is canceled (by them or by the admin). */
+export async function sendBookingCancellation(booking: {
+  eventTypeName: string;
+  inviteeEmail: string;
+  inviteeTimezone: string;
+  startTime: Date;
+}) {
+  const apiKey = process.env.RESEND_API_KEY;
+  const from = process.env.RESEND_FROM_EMAIL;
+  if (!apiKey || !from) {
+    console.error("Booking cancellation email skipped: RESEND_API_KEY or RESEND_FROM_EMAIL not set");
+    return;
+  }
+
+  const when = new Intl.DateTimeFormat("es", {
+    dateStyle: "full",
+    timeStyle: "short",
+    timeZone: booking.inviteeTimezone,
+  }).format(booking.startTime);
+
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "";
+  const html = buildSessionEmailHtml({
+    heading: "Tu sesión fue cancelada",
+    subtext: "Esta llamada ya no está en el calendario.",
+    eventTypeName: booking.eventTypeName,
+    when,
+    inviteeTimezone: booking.inviteeTimezone,
+    meetLink: null,
+    locationDetails: null,
+    footerLink: { href: appUrl, label: "Agendar una nueva sesión" },
+  });
+
+  try {
+    const resend = new Resend(apiKey);
+    const { error } = await resend.emails.send({
+      from,
+      to: booking.inviteeEmail,
+      subject: `Cancelada: ${booking.eventTypeName}`,
+      html,
+    });
+    if (error) console.error("Failed to send booking cancellation email", error);
+  } catch (err) {
+    console.error("Failed to send booking cancellation email", err);
+  }
+}
+
+/** Tells the admin a booking was canceled or rescheduled — new bookings use sendBookingNotification. */
+export async function sendAdminBookingUpdate(update: {
+  action: "canceled" | "rescheduled";
+  actor: "admin" | "client";
+  eventTypeName: string;
+  inviteeName: string;
+  inviteeEmail: string;
+  inviteePhone: string | null;
+  timezone: string;
+  startTime: Date;
+  previousStartTime?: Date;
+}) {
+  const apiKey = process.env.RESEND_API_KEY;
+  const from = process.env.RESEND_FROM_EMAIL;
+  const to = process.env.ADMIN_EMAIL;
+  if (!apiKey || !from || !to) {
+    console.error("Admin booking update skipped: RESEND_API_KEY, RESEND_FROM_EMAIL, or ADMIN_EMAIL not set");
+    return;
+  }
+
+  const fmt = (d: Date) =>
+    new Intl.DateTimeFormat("es", { dateStyle: "full", timeStyle: "short", timeZone: update.timezone }).format(d);
+
+  const title = update.action === "canceled" ? "Reserva cancelada" : "Reserva reprogramada";
+  const byWhom = update.actor === "client" ? "El cliente" : "Tú";
+  const lead =
+    update.action === "canceled"
+      ? `${byWhom} canceló esta sesión. Ya se eliminó del calendario.`
+      : `${byWhom} movió esta sesión a un nuevo horario.`;
+
+  const rows: [string, string][] = [
+    ["Tipo de sesión", update.eventTypeName],
+    ["Nombre", update.inviteeName],
+    ["Email", update.inviteeEmail],
+    ["WhatsApp", update.inviteePhone || "—"],
+    ...(update.previousStartTime ? ([["Horario anterior", fmt(update.previousStartTime)]] as [string, string][]) : []),
+    [update.action === "canceled" ? "Horario" : "Nuevo horario", `${fmt(update.startTime)} (${update.timezone})`],
+  ];
+
+  const html = `
+    <div style="font-family: sans-serif; max-width: 480px;">
+      <h2 style="margin-bottom: 4px;">${title}</h2>
+      <p style="color: #666; margin-top: 0;">${lead}</p>
+      <table style="border-collapse: collapse; width: 100%;">
+        ${rows
+          .map(
+            ([label, value]) => `
+          <tr>
+            <td style="padding: 6px 12px 6px 0; color: #666; vertical-align: top; white-space: nowrap;">${label}</td>
+            <td style="padding: 6px 0;">${escapeHtml(value)}</td>
+          </tr>`
+          )
+          .join("")}
+      </table>
+    </div>
+  `.trim();
+
+  try {
+    const resend = new Resend(apiKey);
+    const { error } = await resend.emails.send({
+      from,
+      to,
+      subject: `${title}: ${update.eventTypeName} con ${update.inviteeName}`,
+      html,
+    });
+    if (error) console.error("Failed to send admin booking update email", error);
+  } catch (err) {
+    console.error("Failed to send admin booking update email", err);
+  }
 }
